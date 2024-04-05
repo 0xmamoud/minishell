@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/05 14:59:14 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/05 15:35:30 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,16 +256,17 @@ char **ft_get_double_quotes(char *str)
 
 int main(void)
 {
-	// char *str = "Bonjour \"$USER\"\"$USER\"\", 'comment vas-tu ?'\", \"$HOME\", '$USER'   $USER";
+	// char *str = "Bonjour \"$USER\" \"$USER\"\", 'comment vas-tu ?'\", \"$HOME\", '$USER'   $USER";
 	// char *parse = ft_double_quotes_replace(str);
 	
 	// printf("%s\n", parse);
 	// free(parse);
-	char **result = ft_get_double_quotes("Bonjour \"$USER\" \"$USER\"\", 'comment vas-tu ?'\", \"$HOME\", '$USER'   $USER");
-	for (int i = 0; result[i]; i++)
-	{
-		printf("%s\n", result[i]);
-		free(result[i]);
-	}
+	// char **result = ft_get_double_quotes("Bonjour \"$USER\" \"$USER\"\", 'comment vas-tu ?'\", \"$HOME\", '$USER'   $USER");
+	// for (int i = 0; result[i]; i++)
+	// {
+	// 	printf("%s\n", result[i]);
+	// 	free(result[i]);
+	// }
+	//BREF j'ai cassé mon code MDRRRR, je vais devoir tout refaire, je vais faire un truc plus simple
 	return 0;
 }
