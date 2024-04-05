@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/03 19:14:27 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/04 12:39:24 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <string.h>
+# include "libft/libft.h"
 
 typedef enum e_token_type
 {
