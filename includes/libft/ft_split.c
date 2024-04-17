@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 21:50:53 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/05 13:52:22 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/16 14:06:24 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,28 @@ static void	ft_copy(const char *s, char *dst, char set)
 	*(dst + i) = '\0';
 }
 
+static	void	ft_free(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}
+
 char	**ft_split(char const *s, char c)
 {
 	char	**str;
-	size_t	next;
 	size_t	wordsize;
 
 	str = ft_calloc(countword(s, c) + 1, sizeof(char *));
 	if (!str)
 		return (NULL);
-	next = 0;
+	size_t (next) = 0;
 	while (*s)
 	{
 		while (*s == c)
@@ -71,7 +83,7 @@ char	**ft_split(char const *s, char c)
 		{
 			*(str + next) = ft_calloc(wordsize + 1, sizeof(char));
 			if (!*(str + next))
-				return (NULL);
+				return (ft_free(str), NULL);
 			ft_copy(s, *(str + next), c);
 			s += wordsize;
 			next++;

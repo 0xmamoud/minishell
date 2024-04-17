@@ -6,7 +6,7 @@
 #    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/09 23:50:10 by kane              #+#    #+#              #
-#    Updated: 2024/03/20 16:55:59 by mkane            ###   ########.fr        #
+#    Updated: 2024/04/16 14:09:03 by mkane            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,18 +90,18 @@ HEADERS = libft.h\
 all: $(NAME)
 
 $(NAME): $(OBJ) $(BONUS_OBJ) $(GNL_OBJ) $(PRINTF_OBJ)
-	ar rcs $(NAME) $(OBJ) $(BONUS_OBJ) $(GNL_OBJ) $(PRINTF_OBJ)
+	@ar rcs $(NAME) $(OBJ) $(BONUS_OBJ) $(GNL_OBJ) $(PRINTF_OBJ)
 
 %.o : %.c
-	$(CC) $(CFLAGS) -include$(HEADERS) -o $@ -c $<
+	@$(CC) $(CFLAGS) -include$(HEADERS) -o $@ -c $<
 
 clean:
-	-rm -f $(OBJ) $(BONUS_OBJ) $(GNL_OBJ) $(PRINTF_OBJ)
+	@rm -rf $(OBJ) $(BONUS_OBJ) $(GNL_OBJ) $(PRINTF_OBJ)
 
 fclean: clean
-	-rm -f $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all
 
 bonus: $(OBJ) $(BONUS_OBJ)
-	ar rcs $(NAME) $(OBJ) $(BONUS_OBJ)
+	@ar rcs $(NAME) $(OBJ) $(BONUS_OBJ)

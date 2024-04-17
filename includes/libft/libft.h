@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:12:28 by mkane             #+#    #+#             */
-/*   Updated: 2023/12/20 23:20:42 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/16 14:58:20 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }	t_list;
-
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -40,7 +39,7 @@ char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);

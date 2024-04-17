@@ -3,36 +3,51 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+         #
+#    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/04/04 13:45:09 by tbarret          ###   ########.fr        #
+#    Updated: 2024/04/16 20:15:07 by mkane            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = src/parsing/main.c
-OBJ = ${SRC:.c=.o}
 NAME = minishell
-HEADER  = include
+
+SRC_DIR = src
+PARSING_DIR = src/parsing
+UTILS_DIR = utils
+OBJ_DIR = obj
+HEADER = includes
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-RM = rm -f
+RM = rm -rf
+
+SRC=\
+	${SRC_DIR}/main.c\
+	${PARSING_DIR}/washer.c\
+	${UTILS_DIR}/clear.c\
+	${UTILS_DIR}/env.c\
+	${UTILS_DIR}/lst_env.c\
+
+OBJ = $(addprefix ${OBJ_DIR}/,$(notdir ${SRC:.c=.o}))
+
+vpath %.c $(SRC_DIR) $(PARSING_DIR) $(UTILS_DIR)
 
 all: ${NAME}
 
-%.o: %.c
+${OBJ_DIR}/%.o: %.c
+	@mkdir -p ${OBJ_DIR}
 	$(CC) ${CFLAGS} -c $< -o $@
 
 ${NAME}: ${OBJ}
-	@make -C include/libft
-	${CC} ${CFLAGS} ${OBJ} -I ${HEADER} -o ${NAME}  -L include/libft -lft
+	@make -C includes/libft
+	${CC} ${CFLAGS} ${OBJ} -I ${HEADER} -o ${NAME} -L includes/libft -lft
 
 clean:
-	@make -C include/libft clean
-	${RM} ${OBJ}
+	@make -C includes/libft clean
+	${RM} ${OBJ_DIR}
 
 fclean: clean
-	@make -C include/libft fclean
+	@make -C includes/libft fclean
 	${RM} ${NAME}
 
 bonus: all
