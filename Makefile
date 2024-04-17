@@ -6,7 +6,7 @@
 #    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/04/17 14:32:59 by mkane            ###   ########.fr        #
+#    Updated: 2024/04/17 19:09:34 by mkane            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,13 @@ NAME = minishell
 
 SRC_DIR = src
 PARSING_DIR = src/parsing
+
 UTILS_DIR = utils
 OBJ_DIR = obj
 HEADER = includes
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+RLFLAGS = -lreadline
 RM = rm -rf
 
 VAL_HIDE    := readline.hide
@@ -27,9 +29,13 @@ VAL_FLAGS    := --leak-check=full --show-leak-kinds=all -s --suppressions=$(VAL_
 SRC=\
 	${SRC_DIR}/main.c\
 	${PARSING_DIR}/washer.c\
+	${PARSING_DIR}/tokenizer.c\
 	${UTILS_DIR}/clear.c\
 	${UTILS_DIR}/env.c\
 	${UTILS_DIR}/lst_env.c\
+	${UTILS_DIR}/lst_token.c\
+	${UTILS_DIR}/token_utils.c\
+	${UTILS_DIR}/token_utils2.c\
 
 OBJ = $(addprefix ${OBJ_DIR}/,$(notdir ${SRC:.c=.o}))
 
@@ -43,7 +49,7 @@ ${OBJ_DIR}/%.o: %.c
 
 ${NAME}: ${OBJ}
 	@make -C includes/libft
-	${CC} ${CFLAGS} ${OBJ} -I ${HEADER} -o ${NAME} -L includes/libft -lft
+	${CC} ${CFLAGS} ${RLFLAGS} ${OBJ} -I ${HEADER} -o ${NAME} -L includes/libft -lft
 
 val: $(NAME)
 	valgrind $(VAL_FLAGS) ./$(NAME)

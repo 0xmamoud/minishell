@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/17 14:24:16 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/17 16:01:36 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ char	*washer(char *str, t_minishell *minishell)
 	free(tmp1);
 	if (!tmp2)
 		return (NULL);
+	if (quote_count(tmp2, '\'') == 0)
+		return (tmp2);
 	new = remove_single_quote(tmp2);
 	free(tmp2);
 	return (new);
