@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/17 13:35:40 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/17 14:24:16 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,12 @@ static char	*process_split_strings(char **tmp, char *new,
 		if (tmp[i][0] == '$')
 		{
 			content = find_env(minishell->env, tmp[i] + 1);
+			if (!content)
+				return (free(new), NULL);
 			free(tmp[i]);
 			tmp[i] = ft_strdup(content);
 			if (!tmp[i])
-			{
-				free(new);
-				return (NULL);
-			}
+				return (free(new), NULL);
 		}
 		new = ft_strjoin(new, " ");
 		if (!new)

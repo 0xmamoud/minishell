@@ -6,35 +6,32 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/16 22:02:34 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/17 14:27:06 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
+	t_minishell	minishell;
+	char		*str;
+	char		*test;
+
 	(void)ac;
 	(void)av;
-	t_minishell minishell;
-	
 	minishell.env = NULL;
-	char *str = "Bonjour \"$USER\" \"$USER\"\", 'comment vas-tu ?'\", \"$HOME\", '$USER'   $USER \'\'";
+	str = "Bonjour \"$USER\" \"$USER\"\", 'comment vas-tu ?'\", \"$HOME\" '$USER'   $USER \'\'";
 	ft_printf("str = %s\n", str);
-
 	ft_printf("====================\n");
-
 	if (!create_env(envp, &minishell))
 	{
 		printf("Error\n");
 		return (1);
 	}
-	char *test = washer(str, &minishell);
+	test = washer(str, &minishell);
 	if (!test)
-	{
-		printf("Error\n");
-		return (1);
-	}
+		return (printf("Error: env variable not found\n"), 1);
 	printf("%s\n", test);
 	printf("====================\n");
 	free(test);
