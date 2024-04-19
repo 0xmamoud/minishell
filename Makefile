@@ -6,7 +6,7 @@
 #    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/04/17 19:09:34 by mkane            ###   ########.fr        #
+#    Updated: 2024/04/19 18:34:26 by mkane            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,6 @@ SRC=\
 	${UTILS_DIR}/lst_env.c\
 	${UTILS_DIR}/lst_token.c\
 	${UTILS_DIR}/token_utils.c\
-	${UTILS_DIR}/token_utils2.c\
 
 OBJ = $(addprefix ${OBJ_DIR}/,$(notdir ${SRC:.c=.o}))
 

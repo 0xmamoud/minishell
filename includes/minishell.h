@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/19 16:53:22 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/19 18:47:56 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,26 @@ typedef enum e_token_type
 	REDIRECTION,
 	TOKEN_COUNT
 }					t_token_type;
+
+typedef enum e_redirection
+{
+	REDIR_OUT,
+	REDIR_OUT_APPEND,
+	REDIR_IN,
+	HEREDOC
+}					t_redirection;
+
+typedef enum e_builtin
+{
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT,
+	BUILTIN_COUNT
+}					t_builtin;
 
 typedef struct s_env
 {
@@ -75,6 +95,7 @@ typedef struct s_minishell
 
 // parsing
 int					washer(char *cmd);
+int					create_token(t_minishell *minishell, char *str);
 
 // utils
 void				clear_tab(char **tab);
@@ -90,13 +111,7 @@ t_token				*token_lstnew(char *cmd, t_token_type type);
 t_token				*token_lstlast(t_token *token);
 void				token_lstadd_back(t_token **token, t_token *new);
 void				token_lstclear(t_token **token);
-
 int					is_pipe(char *str);
-int					is_redirin(char *str);
-int					is_redirout(char *str);
-int					is_heredoc(char *str);
-int					is_redirappend(char *str);
-int					is_subcommand(char *str);
-int					is_command(char *str);
+int					is_redirection(char *str);
 
 #endif

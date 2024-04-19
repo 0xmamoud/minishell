@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/19 17:01:28 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/19 21:32:39 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ int	washer(char *cmd)
 	parse(cmd, count_quotes(cmd, '\"') / 2, '\"');
 	parse(cmd, count_quotes(cmd, '\'') / 2, '\'');
 	redirection(cmd);
+
 	return (1);
 }
