@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/17 21:12:54 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/19 16:53:55 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	init(int ac, char **av, t_minishell *minishell, char **envp)
 int	main(int ac, char **av, char **envp)
 {
 	char		*line;
-	char		*cmd;
+	// char		*cmd;
 	t_minishell	minishell;
 	t_token		*tmp;
 
@@ -46,22 +46,28 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		}
 		add_history(line);
-		cmd = washer(line, &minishell);
-		if (!cmd)
+		// cmd = washer(line, &minishell);
+		// if (!cmd)
+		// {
+		// 	printf("var not found\n");
+		// 	free(line);
+		// 	continue ;
+		// }
+		if (!washer(line))
 		{
-			printf("var not found\n");
+			printf("Error: failed to create token\n");
 			free(line);
 			continue ;
 		}
-		create_token(&minishell, cmd);
-		tmp = minishell.token;
-		while (tmp)
-		{
-			printf("cmd = %s, token = %d\n", tmp->cmd, tmp->type);
-			tmp = tmp->next;
-		}
-		token_lstclear(&minishell.token);
-		free(cmd);
+		printf("cmd = %s\n", line);
+		// tmp = minishell.token;
+		// while (tmp)
+		// {
+		// 	printf("cmd = %s, token = %d\n", tmp->cmd, tmp->type);
+		// 	tmp = tmp->next;
+		// }
+		// token_lstclear(&minishell.token);
+		// free(cmd);
 		free(line);
 	}
 	env_lstclear(&minishell.env);
