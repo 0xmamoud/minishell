@@ -6,11 +6,28 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/19 21:32:39 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/20 21:27:03 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int	checker(char *cmd);
+static int	count_quotes(char *cmd, char c);
+static void	parse(char *cmd, int ret, char c);
+static void	redirection(char *cmd);
+
+int	washer(char *cmd)
+{
+	if (!checker(cmd))
+		return (0);
+	if (count_quotes(cmd, '\'') % 2 != 0 || count_quotes(cmd, '\"') % 2 != 0)
+		return (0);
+	parse(cmd, count_quotes(cmd, '\"') / 2, '\"');
+	parse(cmd, count_quotes(cmd, '\'') / 2, '\'');
+	redirection(cmd);
+	return (1);
+}
 
 static int	checker(char *cmd)
 {
@@ -94,17 +111,4 @@ static void	redirection(char *cmd)
 			cmd[i + 1] = ';';
 		i++;
 	}
-}
-
-int	washer(char *cmd)
-{
-	if (!checker(cmd))
-		return (0);
-	if (count_quotes(cmd, '\'') % 2 != 0 || count_quotes(cmd, '\"') % 2 != 0)
-		return (0);
-	parse(cmd, count_quotes(cmd, '\"') / 2, '\"');
-	parse(cmd, count_quotes(cmd, '\'') / 2, '\'');
-	redirection(cmd);
-
-	return (1);
 }

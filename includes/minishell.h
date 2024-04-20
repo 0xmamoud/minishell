@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/19 18:47:56 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/20 20:36:46 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ typedef enum e_token_type
 	TOKEN_COUNT
 }					t_token_type;
 
-typedef enum e_redirection
+typedef enum e_type_redirection
 {
 	REDIR_OUT,
 	REDIR_OUT_APPEND,
 	REDIR_IN,
 	HEREDOC
-}					t_redirection;
+}					t_type_redirection;
 
 typedef enum e_builtin
 {
@@ -64,12 +64,27 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
+typedef struct s_redirection
+{
+	int					fd;
+	t_type_redirection	type;
+	char				*file;
+}					t_redirection;
 typedef struct s_cmd
 {
-	char			**cmd;
-	char			*path;
+	char			*cmd;
+	t_redirection	*in;
+	t_redirection	*out;
 	struct s_cmd	*next;
 }					t_cmd;
+
+typedef struct s_echo
+{
+	int				option;
+	char			*str;
+	t_redirection	in;
+	t_redirection	out;
+}					t_echo;
 
 typedef struct s_pipe
 {
@@ -88,14 +103,21 @@ typedef struct s_minishell
 {
 	int				env_ignore;
 	t_token			*token;
+	t_builtin		builtin;
 	t_env			*env;
 	t_pipe			pipe;
 	t_cmd			*cmd;
+	t_echo			echo;
 }					t_minishell;
 
 // parsing
 int					washer(char *cmd);
 int					create_token(t_minishell *minishell, char *str);
+void				expender(t_minishell *minishell);
+
+// redirection
+void				echo(t_minishell *minishell);
+int					echo_redirection(t_minishell *minishell);
 
 // utils
 void				clear_tab(char **tab);
@@ -113,5 +135,10 @@ void				token_lstadd_back(t_token **token, t_token *new);
 void				token_lstclear(t_token **token);
 int					is_pipe(char *str);
 int					is_redirection(char *str);
+
+int					infile_case(t_minishell *minishell, char *file);
+int					outfile_case(t_minishell *minishell, char *file);
+int					outfile_append_case(t_minishell *minishell, char *file);
+int					heredoc_case(t_minishell *minishell, char *file);
 
 #endif

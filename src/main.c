@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/19 18:32:08 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/20 17:19:01 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ int	main(int ac, char **av, char **envp)
 {
 	char		*line;
 	t_minishell	minishell;
-	t_token		*tmp;
 
-	tmp = NULL;
 	init(ac, av, &minishell, envp);
 	while (1)
 	{
@@ -57,12 +55,7 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			continue ;
 		}
-		tmp = minishell.token;
-		while (tmp)
-		{
-			printf("cmd = %s, token = %d\n", tmp->cmd, tmp->type);
-			tmp = tmp->next;
-		}
+		expender(&minishell);
 		token_lstclear(&minishell.token);
 		free(line);
 	}

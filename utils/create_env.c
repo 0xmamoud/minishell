@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   create_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:43:45 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/17 13:46:18 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/20 23:00:46 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,18 @@ int	create_env(char **envp, t_minishell *minishell)
 char	*find_env(t_env *env, char *name)
 {
 	t_env	*tmp;
+	char	*content;
 
 	tmp = env;
 	while (tmp)
 	{
 		if (!ft_strncmp(tmp->name, name, ft_strlen(name)))
-			return (tmp->content);
+		{
+			content = ft_strdup(tmp->content);
+			if (!content)
+				return (NULL);
+			return (content);
+		}
 		tmp = tmp->next;
 	}
 	return (NULL);
