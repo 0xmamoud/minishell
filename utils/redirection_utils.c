@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:49:23 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/20 21:50:29 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/21 22:09:06 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	infile_case(t_minishell *minishell, char *file)
 	int	i;
 
 	i = 1;
+	if ((int) minishell->echo.in.type != -1)
+		free(minishell->echo.in.file);
 	if (file[i] == ' ')
 		i++;
 	minishell->echo.in.file = strdup(&file[i]);
@@ -31,6 +33,8 @@ int	outfile_case(t_minishell *minishell, char *file)
 	int	i;
 
 	i = 1;
+	if ((int)minishell->echo.out.type != -1)
+		free(minishell->echo.out.file);
 	if (file[i] == ' ')
 		i++;
 	minishell->echo.out.file = strdup(&file[i]);
@@ -45,6 +49,8 @@ int	outfile_append_case(t_minishell *minishell, char *file)
 	int	i;
 
 	i = 2;
+	if ((int)minishell->echo.out.type != -1)
+		free(minishell->echo.out.file);
 	if (file[i] == ' ')
 		i++;
 	minishell->echo.out.file = strdup(&file[i]);
@@ -52,7 +58,6 @@ int	outfile_append_case(t_minishell *minishell, char *file)
 		return (0);
 	minishell->echo.out.type = REDIR_OUT_APPEND;
 	return (1);
-
 }
 
 int	heredoc_case(t_minishell *minishell, char *file)
@@ -60,6 +65,8 @@ int	heredoc_case(t_minishell *minishell, char *file)
 	int	i;
 
 	i = 2;
+	if ((int)minishell->echo.in.type != -1)
+		free(minishell->echo.in.file);
 	if (file[i] == ' ')
 		i++;
 	minishell->echo.in.file = strdup(&file[i]);
