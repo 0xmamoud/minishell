@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 18:15:19 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/22 19:08:50 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/22 22:00:46 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,7 @@ static t_token	*get_token(t_minishell *minishell)
 		token = token->next;
 	if (token)
 		token = token->next;
+	if (token && token->type != COMMAND)
+		return (NULL);
 	return (token);
 }
