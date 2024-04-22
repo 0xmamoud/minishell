@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/22 18:03:02 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/22 18:30:12 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void					echo(t_minishell *minishell);
 void					exit_minishell(t_minishell *minishell);
 void					env(t_minishell *minishell);
 void					unset(t_minishell *minishell);
+void					export(t_minishell *minishell);
 
 // redirection
 int						redirection(t_minishell *minishell);
@@ -149,10 +150,5 @@ void					token_lstadd_back(t_token **token, t_token *new);
 void					token_lstclear(t_token **token);
 int						is_pipe(char *str);
 int						is_redirection(char *str);
-
-int						infile_case(t_minishell *minishell, char *file);
-int						outfile_case(t_minishell *minishell, char *file);
-int						outfile_append_case(t_minishell *minishell, char *file);
-int						heredoc_case(t_minishell *minishell, char *file);
 
 #endif

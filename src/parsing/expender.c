@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:34:06 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/22 17:51:38 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/22 18:29:34 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ void	expender(t_minishell *minishell)
 		return ;
 	}
 	if (find_builtins(minishell) == EXPORT)
-	{
-		printf("export\n");
-		return ;
-	}
+		return (export(minishell));
 	if (find_builtins(minishell) == UNSET)
 		return (unset(minishell));
 	if (find_builtins(minishell) == ENV)
