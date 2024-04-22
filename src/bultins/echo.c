@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:00:32 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/22 16:32:50 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/22 17:03:22 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,21 @@ void	echo(t_minishell *minishell)
 	free(str);
 	free(tmp);
 	free_and_close(minishell);
+}
+
+static void	echo_option(t_minishell *minishell)
+{
+	t_token	*token;
+
+	token = minishell->token;
+	while (token && token->type != COMMAND)
+		token = token->next;
+	if (token)
+		token = token->next;
+	if (token && token->type == COMMAND && ft_strncmp(token->cmd, "-n",
+			ft_strlen(token->cmd)) == 0)
+		minishell->echo.option = 1;
+	return ;
 }
 
 static char	*get_string(t_minishell *minishell)
@@ -77,19 +92,4 @@ static	t_token	*get_sub_string(t_minishell *minishell)
 	if (minishell->echo.option == 1)
 		token = token->next;
 	return (token);
-}
-
-static void	echo_option(t_minishell *minishell)
-{
-	t_token	*token;
-
-	token = minishell->token;
-	while (token && token->type != COMMAND)
-		token = token->next;
-	if (token)
-		token = token->next;
-	if (token && token->type == COMMAND && ft_strncmp(token->cmd, "-n",
-			ft_strlen(token->cmd)) == 0)
-		minishell->echo.option = 1;
-	return ;
 }

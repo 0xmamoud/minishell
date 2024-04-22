@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:34:06 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/20 21:25:37 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/22 17:23:36 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ void	expender(t_minishell *minishell)
 		return ;
 	}
 	if (find_builtins(minishell) == ECHO)
-	{
-		echo(minishell);
-		return ;
-	}
+		return (echo(minishell));
 	if (find_builtins(minishell) == CD)
 	{
 		printf("cd\n");
@@ -53,10 +50,7 @@ void	expender(t_minishell *minishell)
 		return ;
 	}
 	if (find_builtins(minishell) == EXIT)
-	{
-		printf("exit\n");
-		return ;
-	}
+		return (exit_minishell(minishell));
 	printf("exec\n");
 }
 

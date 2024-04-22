@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/22 16:32:36 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/22 17:20:11 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_pipe
 typedef struct s_minishell
 {
 	int					env_ignore;
+	char				*line;
 	t_token				*token;
 	t_builtin			builtin;
 	t_env				*env;
@@ -122,6 +123,7 @@ void					expender(t_minishell *minishell);
 
 // bultins
 void					echo(t_minishell *minishell);
+void					exit_minishell(t_minishell *minishell);
 
 // redirection
 int						redirection(t_minishell *minishell);
