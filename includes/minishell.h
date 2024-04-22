@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/21 23:07:14 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/22 16:32:36 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ typedef struct s_minishell
 	t_env				*env;
 	t_pipe				pipe;
 	t_cmd				*cmd;
+	t_redirection		in;
+	t_redirection		out;
 	t_echo				echo;
 }						t_minishell;
 
@@ -122,8 +124,9 @@ void					expender(t_minishell *minishell);
 void					echo(t_minishell *minishell);
 
 // redirection
-int						echo_redirection(t_minishell *minishell);
+int						redirection(t_minishell *minishell);
 int						init_files(t_minishell *minishell);
+void					free_and_close(t_minishell *minishell);
 
 // utils
 void					clear_tab(char **tab);

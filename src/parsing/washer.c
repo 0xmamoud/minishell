@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/20 21:27:03 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/22 16:36:52 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	checker(char *cmd);
 static int	count_quotes(char *cmd, char c);
 static void	parse(char *cmd, int ret, char c);
-static void	redirection(char *cmd);
+static void	parse_redirection(char *cmd);
 
 int	washer(char *cmd)
 {
@@ -25,7 +25,7 @@ int	washer(char *cmd)
 		return (0);
 	parse(cmd, count_quotes(cmd, '\"') / 2, '\"');
 	parse(cmd, count_quotes(cmd, '\'') / 2, '\'');
-	redirection(cmd);
+	parse_redirection(cmd);
 	return (1);
 }
 
@@ -88,7 +88,7 @@ static void	parse(char *cmd, int ret, char c)
 	}
 }
 
-static void	redirection(char *cmd)
+static void	parse_redirection(char *cmd)
 {
 	int	i;
 

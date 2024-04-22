@@ -6,11 +6,56 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:43:45 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/21 23:32:58 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/22 14:33:02 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	classic_env(t_minishell *minishell, char **envp);
+static int	fake_env(t_minishell *minishell);
+
+int	create_env(char **envp, t_minishell *minishell)
+{
+	if (!envp || !*envp)
+	{
+		minishell->env_ignore = 1;
+		if (!fake_env(minishell))
+			return (0);
+	}
+	else
+	{
+		minishell->env_ignore = 0;
+		if (!classic_env(minishell, envp))
+			return (0);
+	}
+	return (1);
+}
+
+char	*find_env(t_env *env, char *name)
+{
+	t_env	*tmp;
+	char	*content;
+
+	if (!name)
+		return (NULL);
+	tmp = env;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->name, name, ft_strlen(name)))
+		{
+			content = ft_strdup(tmp->content);
+			if (!content)
+				return (free(name), NULL);
+			return (content);
+		}
+		tmp = tmp->next;
+	}
+	content = ft_strdup("");
+	if (!content)
+		return (NULL);
+	return (content);
+}
 
 static int	classic_env(t_minishell *minishell, char **envp)
 {
@@ -66,77 +111,4 @@ static int	fake_env(t_minishell *minishell)
 		return (0);
 	env_lstadd_back(&minishell->env, four);
 	return (1);
-}
-
-int	create_env(char **envp, t_minishell *minishell)
-{
-	if (!envp || !*envp)
-	{
-		minishell->env_ignore = 1;
-		if (!fake_env(minishell))
-			return (0);
-	}
-	else
-	{
-		minishell->env_ignore = 0;
-		if (!classic_env(minishell, envp))
-			return (0);
-	}
-	return (1);
-}
-
-char	*find_env(t_env *env, char *name)
-{
-	t_env	*tmp;
-	char	*content;
-
-	if (!name)
-		return (NULL);
-	tmp = env;
-	while (tmp)
-	{
-		if (!ft_strncmp(tmp->name, name, ft_strlen(name)))
-		{
-			content = ft_strdup(tmp->content);
-			if (!content)
-				return (free(name), NULL);
-			return (content);
-		}
-		tmp = tmp->next;
-	}
-	content = ft_strdup("");
-	if (!content)
-		return (NULL);
-	return (content);
-}
-
-char	*replace(t_minishell *minishell, char *str)
-{
-	int		j;
-	char	*tmp;
-	char	*tmp2;
-
-	int(i) = -1;
-	if (str[0] == '$')
-		return (find_env(minishell->env, &str[1]));
-	if (str[0] == '\'')
-		return (ft_strtrim(str, "\'"));
-	if (str[0] == '\"')
-	{
-		while (str[++i])
-		{
-			if (str[i] == '$')
-			{
-				j = i + 1;
-				while (str[j] && str[j] != '\"' && str[j] != '\'')
-					j++;
-				tmp = ft_substr(str, i + 1, j - i - 1);
-				tmp2 = find_env(minishell->env, tmp);
-				if (tmp)
-					free(tmp);
-				return (tmp2);
-			}
-		}
-	}
-	return (ft_strdup(str));
 }

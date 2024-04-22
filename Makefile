@@ -6,7 +6,7 @@
 #    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/04/20 18:49:41 by mkane            ###   ########.fr        #
+#    Updated: 2024/04/22 16:49:10 by mkane            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,11 +33,8 @@ SRC=\
 	${PARSING_DIR}/washer.c\
 	${PARSING_DIR}/tokenizer.c\
 	${PARSING_DIR}/expender.c\
-	${REDIRECTION_DIR}/r_echo.c\
-	${REDIRECTION_DIR}/r_env.c\
-	${REDIRECTION_DIR}/r_exec.c\
-	${REDIRECTION_DIR}/r_pipe.c\
-	${REDIRECTION_DIR}/r_pwd.c\
+	${PARSING_DIR}/redirection.c\
+	${PARSING_DIR}/replace.c\
 	${BULTINS_DIR}/echo.c\
 	${BULTINS_DIR}/env.c\
 	${BULTINS_DIR}/exit.c\
@@ -51,7 +48,6 @@ SRC=\
 	${UTILS_DIR}/lst_env.c\
 	${UTILS_DIR}/lst_token.c\
 	${UTILS_DIR}/token_utils.c\
-	${UTILS_DIR}/redirection_utils.c\
 
 OBJ = $(addprefix ${OBJ_DIR}/,$(notdir ${SRC:.c=.o}))
 
