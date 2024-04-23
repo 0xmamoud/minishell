@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:34:06 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/22 19:57:15 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/23 21:29:16 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	expender(t_minishell *minishell)
 		return (env(minishell));
 	if (find_builtins(minishell) == EXIT)
 		return (exit_minishell(minishell));
-	printf("exec\n");
+	minishell_execve(minishell);
 }
 
 static int	find_pipe(t_minishell *minishell)

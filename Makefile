@@ -6,7 +6,7 @@
 #    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/04/22 16:49:10 by mkane            ###   ########.fr        #
+#    Updated: 2024/04/23 22:17:51 by mkane            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,8 @@ SRC=\
 	${BULTINS_DIR}/exec.c\
 	${UTILS_DIR}/clear.c\
 	${UTILS_DIR}/create_env.c\
+	${UTILS_DIR}/ft_join.c\
+	${UTILS_DIR}/convert_env.c\
 	${UTILS_DIR}/lst_env.c\
 	${UTILS_DIR}/lst_token.c\
 	${UTILS_DIR}/token_utils.c\

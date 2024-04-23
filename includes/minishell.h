@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/22 19:57:07 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/23 22:18:26 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void					unset(t_minishell *minishell);
 void					export(t_minishell *minishell);
 void					pwd(t_minishell *minishell);
 void					cd(t_minishell *minishell);
+void					minishell_execve(t_minishell *minishell);
 
 // redirection
 int						redirection(t_minishell *minishell);
@@ -152,5 +153,8 @@ void					token_lstadd_back(t_token **token, t_token *new);
 void					token_lstclear(t_token **token);
 int						is_pipe(char *str);
 int						is_redirection(char *str);
+int						cmd_len(t_minishell *minishell);
+char					*ft_join(char *s1, char *s2);
+char					**convert_env(t_env *env);
 
 #endif

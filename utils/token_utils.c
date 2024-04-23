@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/19 21:34:11 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/23 18:21:49 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,20 @@ int	is_redirection(char *str)
 	if (str[0] == '<' && str[1] == '<')
 		return (1);
 	return (0);
+}
+
+int	cmd_len(t_minishell *minishell)
+{
+	int		len;
+	t_token	*token;
+
+	len = 0;
+	token = minishell->token;
+	while (token)
+	{
+		if (token->type == COMMAND)
+			len++;
+		token = token->next;
+	}
+	return (len);
 }
