@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expender.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:34:06 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/23 21:29:16 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/24 16:03:24 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 static int	find_pipe(t_minishell *minishell);
 static int	find_builtins(t_minishell *minishell);
+static int	replace_token(t_minishell *minishell);
+
 
 void	expender(t_minishell *minishell)
 {
+	if (!replace_token(minishell))
+		return ;
 	if (find_pipe(minishell))
 	{
 		printf("pipe\n");
@@ -51,6 +55,27 @@ static int	find_pipe(t_minishell *minishell)
 		token = token->next;
 	}
 	return (0);
+}
+
+static int	replace_token(t_minishell *minishell)
+{
+	t_token	*token;
+	char	*new_str;
+
+	token = minishell->token;
+	while (token)
+	{
+		new_str = replace(minishell, token->cmd);
+		if (!new_str)
+			return (0);
+		free(token->cmd);
+		token->cmd = ft_strdup(new_str);
+		if (!token->cmd)
+			return (0);
+		free(new_str);
+		token = token->next;
+	}
+	return (1);
 }
 
 static int	find_builtins(t_minishell *minishell)

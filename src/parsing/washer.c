@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   washer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/22 16:36:52 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/24 19:22:34 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,24 @@ static void	parse_redirection(char *cmd);
 
 int	washer(char *cmd)
 {
+	int	i;
+
+	i = 0;
 	if (!checker(cmd))
 		return (0);
 	if (count_quotes(cmd, '\'') % 2 != 0 || count_quotes(cmd, '\"') % 2 != 0)
 		return (0);
+	//printf("cmd = %s\n", cmd);
+/* 	while (cmd[i])
+	{
+	 	if ((cmd[i] == '\'' && cmd[i + 1] == '\'') || (cmd[i] == '\"' && cmd[i + 1] == '\"'))
+		{
+			cmd[i] = ' ';
+			cmd[i + 1] = ' ';
+ 		}
+		i++;
+	} */
+	//printf("cmd = %s\n", cmd);
 	parse(cmd, count_quotes(cmd, '\"') / 2, '\"');
 	parse(cmd, count_quotes(cmd, '\'') / 2, '\'');
 	parse_redirection(cmd);
@@ -84,7 +98,7 @@ static void	parse(char *cmd, int ret, char c)
 		}
 		if (j == i)
 			i++;
-		ret--;
+		ret--; 
 	}
 }
 

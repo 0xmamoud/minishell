@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:05:13 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/24 15:03:04 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/24 18:09:56 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@ void	minishell_execve(t_minishell *minishell)
 	pid = fork();
 	if (pid == -1)
 		return (ft_putstr_fd("Fork error\n", 2));
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (pid == 0)
 	{
+		interactive_mode();
 		if (!redirection(minishell))
 			exit(1);
 		if (!init_files(minishell))
@@ -36,11 +39,43 @@ void	minishell_execve(t_minishell *minishell)
 		if (!excecute(minishell))
 		{
 			free_and_close(minishell);
+			token_lstclear(&minishell->token);
+			env_lstclear(&minishell->env);
+			free(minishell->line);
 			exit(1);
 		}
 	}
 	else
 		waitpid(pid, NULL, 0);
+}
+
+static int	excecute(t_minishell *minishell)
+{
+	char	*path;
+	char	**cmd;
+	char	**env;
+
+	env = convert_env(minishell->env);
+	if (!env)
+		return (0);
+	cmd = get_cmd(minishell);
+	if (!cmd)
+		return (clear_tab(env),0);
+	path = get_path(minishell, cmd[0]);
+	if (!path)
+	{
+		clear_tab(cmd);
+		clear_tab(env);
+		return (ft_putstr_fd("Command not found\n", 2), 0);
+	}
+	if (execve(path, cmd, env) == -1)
+	{
+		clear_tab(cmd);
+		free(path);
+		clear_tab(env);
+		return (ft_putstr_fd("Command not found\n", 2), 0);
+	}
+	return (1);
 }
 
 static char	**get_cmd(t_minishell *minishell)
@@ -69,33 +104,6 @@ static char	**get_cmd(t_minishell *minishell)
 	return (cmd);
 }
 
-static char	*get_access(char **env_path, char *cmd)
-{
-	int		i;
-	char	*tmp;
-	char	*path;
-
-	i = 0;
-	while (env_path[i])
-	{
-		tmp = ft_strdup(env_path[i]);
-		if (!tmp)
-			return (NULL);
-		path = ft_strjoin(tmp, cmd);
-		if (!path)
-		{
-			if (tmp)
-				free(tmp);
-			return (NULL);
-		}
-		if (access(path, F_OK) == 0)
-			return (path);
-		free(path);
-		i++;
-	}
-	return (NULL);
-}
-
 static char	*get_path(t_minishell *minishell, char *cmd)
 {
 	char	*env_path;
@@ -122,7 +130,7 @@ static char	*get_path(t_minishell *minishell, char *cmd)
 	i = 0;
 	while (split_env[i])
 	{
-		split_env[i] = ft_join(split_env[i], "/");
+		split_env[i] = ft_strjoin(split_env[i], "/");
 		if (!split_env[i])
 			return (clear_tab(split_env), NULL);
 		i++;
@@ -132,31 +140,29 @@ static char	*get_path(t_minishell *minishell, char *cmd)
 	return (path);
 }
 
-static int	excecute(t_minishell *minishell)
+static char	*get_access(char **env_path, char *cmd)
 {
+	int		i;
+	char	*tmp;
 	char	*path;
-	char	**cmd;
-	char	**env;
 
-	env = convert_env(minishell->env);
-	if (!env)
-		return (0);
-	cmd = get_cmd(minishell);
-	if (!cmd)
-		return (0);
-	path = get_path(minishell, cmd[0]);
-	if (!path)
+	i = 0;
+	while (env_path[i])
 	{
-		clear_tab(cmd);
-		clear_tab(env);
-		return (ft_putstr_fd("Command not found\n", 2), 0);
-	}
-	if (execve(path, cmd, env) == -1)
-	{
-		clear_tab(cmd);
+		tmp = ft_strdup(env_path[i]);
+		if (!tmp)
+			return (NULL);
+		path = ft_strjoin(tmp, cmd);
+		if (!path)
+		{
+			if (tmp)
+				free(tmp);
+			return (NULL);
+		}
+		if (access(path, F_OK) == 0)
+			return (path);
 		free(path);
-		clear_tab(env);
-		return (ft_putstr_fd("Command not found\n", 2), 0);
+		i++;
 	}
-	return (1);
+	return (NULL);
 }

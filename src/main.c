@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/24 14:44:38 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/24 18:40:50 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ int	main(int ac, char **av, char **envp)
 			printf("Error: failed to create token\n");
 			free(minishell.line);
 			continue ;
+		}
+		t_token *tmp = minishell.token;
+		while (tmp)
+		{
+			printf("%s\n",tmp->cmd);
+			tmp = tmp->next;
 		}
 		expender(&minishell);
 		token_lstclear(&minishell.token);

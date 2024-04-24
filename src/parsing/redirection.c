@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:49:23 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/24 15:05:30 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/24 15:48:34 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,15 +116,21 @@ static int	get_file(t_minishell *minishell, char *file,
 		t_type_redirection type)
 {
 	int	i;
+	char	*filename;
 
 	i = 1;
 	while (file[i] && (file[i] == ' ' || file[i] == '>' || file[i] == '<'))
 		i++;
+	filename = replace(minishell, &file[i]);
+	if (!filename)
+		return (0);
+	if (!filename)
+		return (0);
 	if (type == REDIR_IN || type == HEREDOC)
 	{
 		if (minishell->in.file)
 			free(minishell->in.file);
-		minishell->in.file = strdup(&file[i]);
+		minishell->in.file = filename;
 		if (!minishell->in.file)
 			return (0);
 		minishell->in.type = type;
@@ -133,7 +139,7 @@ static int	get_file(t_minishell *minishell, char *file,
 	{
 		if (minishell->out.file)
 			free(minishell->out.file);
-		minishell->out.file = strdup(&file[i]);
+		minishell->out.file = filename;
 		if (!minishell->out.file)
 			return (0);
 		minishell->out.type = type;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:00:32 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/23 18:30:19 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/24 18:17:24 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static void	echo_option(t_minishell *minishell)
 static char	*get_string(t_minishell *minishell)
 {
 	char *(str) = ft_strdup("");
-	char *(tmp) = NULL;
 	if (!str)
 		return (NULL);
 	t_token *(token) = get_sub_string(minishell);
@@ -66,13 +65,9 @@ static char	*get_string(t_minishell *minishell)
 	{
 		if (token->type == COMMAND)
 		{
-			tmp = replace(minishell, token->cmd);
-			if (!tmp)
-				return (free(str), NULL);
-			str = ft_strjoin(str, tmp);
+			str = ft_strjoin(str, token->cmd);
 			if (!str)
-				return (free(tmp), NULL);
-			free(tmp);
+				return (NULL);
 			str = ft_strjoin(str, " ");
 		}
 		token = token->next;
