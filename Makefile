@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
+#    By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/04/23 22:17:51 by mkane            ###   ########.fr        #
+#    Updated: 2024/04/24 14:54:59 by tbarret          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRC=\
 	${BULTINS_DIR}/cd.c\
 	${BULTINS_DIR}/unset.c\
 	${BULTINS_DIR}/exec.c\
+	${BULTINS_DIR}/control.c \
 	${UTILS_DIR}/clear.c\
 	${UTILS_DIR}/create_env.c\
 	${UTILS_DIR}/ft_join.c\

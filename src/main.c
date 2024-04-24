@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/22 18:00:26 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/24 14:44:38 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	init(int ac, char **av, t_minishell *minishell, char **envp)
 	minishell->cmd = NULL;
 	minishell->token = NULL;
 	minishell->line = NULL;
+	minishell->status = 0;
 	if (!create_env(envp, minishell))
 	{
 		ft_putstr_fd("Error: failed to create env\n", 2);
@@ -32,11 +33,22 @@ int	main(int ac, char **av, char **envp)
 	t_minishell	minishell;
 
 	init(ac, av, &minishell, envp);
+	interactive_mode();
 	while (1)
 	{
 		minishell.line = readline("minishell> ");
 		if (!minishell.line)
 			break ;
+		if (minishell.line[0] == EOF)
+		{
+			free(minishell.line);
+			break ;
+		}
+		if (ft_strlen(minishell.line) == 0)
+		{
+			free(minishell.line);
+			continue ;
+		}
 		add_history(minishell.line);
 		if (!washer(minishell.line))
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:05:13 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/23 22:26:33 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/24 15:03:04 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,13 @@ static char	*get_path(t_minishell *minishell, char *cmd)
 	char	**split_env;
 	int		i;
 
+	if (ft_strchr(cmd, '/') != NULL)
+	{
+		path = ft_strdup(cmd);
+		if (!path)
+			return (NULL);
+		return (path);
+	}
 	env_path = find_env(minishell->env, "PATH");
 	if (!env_path)
 		return (NULL);
@@ -141,6 +148,7 @@ static int	excecute(t_minishell *minishell)
 	if (!path)
 	{
 		clear_tab(cmd);
+		clear_tab(env);
 		return (ft_putstr_fd("Command not found\n", 2), 0);
 	}
 	if (execve(path, cmd, env) == -1)

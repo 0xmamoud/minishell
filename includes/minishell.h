@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/23 22:18:26 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/24 14:53:35 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <signal.h>
 
 typedef enum e_token_type
 {
@@ -70,6 +71,7 @@ typedef struct s_redirection
 {
 	int					fd;
 	int					saved_stdout;
+	int					saved_stdin;
 	t_type_redirection	type;
 	char				*file;
 }						t_redirection;
@@ -114,6 +116,7 @@ typedef struct s_minishell
 	t_redirection		in;
 	t_redirection		out;
 	t_echo				echo;
+	int					status;
 }						t_minishell;
 
 // parsing
@@ -156,5 +159,9 @@ int						is_redirection(char *str);
 int						cmd_len(t_minishell *minishell);
 char					*ft_join(char *s1, char *s2);
 char					**convert_env(t_env *env);
+
+// control
+
+void interactive_mode(void);
 
 #endif
