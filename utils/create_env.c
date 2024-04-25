@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:43:45 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/23 22:15:22 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/25 18:18:31 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*find_env(t_env *env, char *name)
 	tmp = env;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->name, name, ft_strlen(tmp->name)))
+		if (!ft_strcmp(tmp->name, name))
 		{
 			content = ft_strdup(tmp->content);
 			if (!content)

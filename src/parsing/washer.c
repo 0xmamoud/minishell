@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   washer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/24 19:22:34 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/25 17:48:36 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,50 @@ static int	count_quotes(char *cmd, char c);
 static void	parse(char *cmd, int ret, char c);
 static void	parse_redirection(char *cmd);
 
-int	washer(char *cmd)
+static handle_dollars(t_minishell *minishell)
 {
 	int	i;
+	int	j;
+	int	k;
+	char	*tmp;
 
 	i = 0;
-	if (!checker(cmd))
-		return (0);
-	if (count_quotes(cmd, '\'') % 2 != 0 || count_quotes(cmd, '\"') % 2 != 0)
-		return (0);
-	//printf("cmd = %s\n", cmd);
-/* 	while (cmd[i])
+	while (minishell->line[i])
 	{
-	 	if ((cmd[i] == '\'' && cmd[i + 1] == '\'') || (cmd[i] == '\"' && cmd[i + 1] == '\"'))
+		if (minishell->line[i] == '$' && minishell->line[i + 1] == '?')
 		{
-			cmd[i] = ' ';
-			cmd[i + 1] = ' ';
- 		}
+			tmp = ft_itoa(minishell->status);
+			j = 0;
+			k = 0;
+			while (tmp[j])
+			{
+				minishell->line[i + k] = tmp[j];
+				j++;
+				k++;
+			}
+			free(tmp);
+		}
 		i++;
-	} */
-	//printf("cmd = %s\n", cmd);
-	parse(cmd, count_quotes(cmd, '\"') / 2, '\"');
-	parse(cmd, count_quotes(cmd, '\'') / 2, '\'');
-	parse_redirection(cmd);
+	}
+}
+
+int	washer(t_minishell *minishell)
+{
+	int		i;
+	char	*str;
+	char	**split;
+
+	if (!checker(minishell->line))
+		return (0);
+	if (count_quotes(minishell->line, '\'') % 2 != 0
+		|| count_quotes(minishell->line, '\"') % 2 != 0)
+		return (0);
+	parse(minishell->line, count_quotes(minishell->line, '\"') / 2, '\"');
+	parse(minishell->line, count_quotes(minishell->line, '\'') / 2, '\'');
+	parse_redirection(minishell->line);
+	i = 0;
+	split = ft_split(minishell->line, ' ');
+	
 	return (1);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:02:34 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 14:29:26 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/25 18:21:14 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	env(t_minishell *minishell)
 	tmp = minishell->env;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->content, "", ft_strlen(tmp->content)) == 0)
+		if (ft_strcmp(tmp->content, ""))
 			ft_printf("%s\n", tmp->name);
 		else
 			ft_printf("%s=%s\n", tmp->name, tmp->content);

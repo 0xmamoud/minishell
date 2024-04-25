@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 16:11:25 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/25 18:10:19 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ typedef struct s_redirection
 typedef struct s_cmd
 {
 	char				*cmd;
-	t_redirection		*in;
-	t_redirection		*out;
 	struct s_cmd		*next;
 }						t_cmd;
 
@@ -120,7 +118,7 @@ typedef struct s_minishell
 }						t_minishell;
 
 // parsing
-int						washer(char *cmd);
+int						washer(t_minishell *minishell);
 int						create_token(t_minishell *minishell, char *str);
 void					expender(t_minishell *minishell);
 

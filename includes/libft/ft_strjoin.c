@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 22:10:09 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/16 13:52:12 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/25 16:53:51 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	lens2 = ft_strlen((const char *)s2);
 	str = (char *) ft_calloc((lens1 + lens2 + 1), sizeof(char));
 	if (!str)
-		return (NULL);
+		return (free(s1), NULL);
 	if (!s1 && !s2)
 	{
 		*str = '\0';
