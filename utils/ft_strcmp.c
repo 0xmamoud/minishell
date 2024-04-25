@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   status.c                                           :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/25 10:19:42 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/25 16:04:57 by mkane            ###   ########.fr       */
+/*   Created: 2024/04/25 16:09:40 by mkane             #+#    #+#             */
+/*   Updated: 2024/04/25 16:12:31 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 
-int	ft_exit(t_minishell *minishell, int status, int r, int e)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	minishell->status = status;
-	if (e)
-		exit(status);
-	return (r);
+	size_t	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

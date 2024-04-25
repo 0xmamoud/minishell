@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 10:25:45 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/25 16:11:25 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ int						is_redirection(char *str);
 int						cmd_len(t_minishell *minishell);
 char					*ft_join(char *s1, char *s2);
 char					**convert_env(t_env *env);
+int						ft_strcmp(const char *s1, const char *s2);
 
 // control
 

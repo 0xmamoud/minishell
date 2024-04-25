@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/25 15:50:36 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/25 16:13:06 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,8 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		minishell.line = readline("minishell> ");
-		ft_exit(&minishell, 0, 0, 0);
 		if (!minishell.line)
 			break ;
-		if (strcmp(minishell.line, "$?") == 0)
-		{
-			printf("%d\n", minishell.status);
-			free(minishell.line);
-			continue ;
-		}
 		if (minishell.line[0] == EOF)
 		{
 			free(minishell.line);
@@ -57,6 +50,13 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		add_history(minishell.line);
+		if (ft_strcmp(minishell.line, "$?") == 0)
+		{
+			printf("%d\n", minishell.status);
+			ft_exit(&minishell, 127, 0, 0);
+			free(minishell.line);
+			continue ;
+		}
 		if (!washer(minishell.line))
 		{
 			printf("Error: failed to create token\n");

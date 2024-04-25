@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+         #
+#    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/04/25 10:24:47 by tbarret          ###   ########.fr        #
+#    Updated: 2024/04/25 16:12:18 by mkane            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRC=\
 	${UTILS_DIR}/clear.c\
 	${UTILS_DIR}/create_env.c\
 	${UTILS_DIR}/ft_join.c\
+	${UTILS_DIR}/ft_strcmp.c\
 	${UTILS_DIR}/convert_env.c\
 	${UTILS_DIR}/lst_env.c\
 	${UTILS_DIR}/lst_token.c\
