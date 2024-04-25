@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/25 16:13:06 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/25 16:20:07 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		add_history(minishell.line);
-		if (ft_strcmp(minishell.line, "$?") == 0)
+		if (strcmp(minishell.line, "$?") == 0)
 		{
 			printf("%d\n", minishell.status);
 			ft_exit(&minishell, 127, 0, 0);
