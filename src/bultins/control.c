@@ -6,28 +6,35 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:50:33 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/25 14:16:21 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/25 19:52:58 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void control_c(int signal)
+void control_c_parent(int signal)
 {
 	(void)signal;
-	ft_putstr_fd("\nminishell> ", 1);
+	ft_putstr_fd("\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", -1);
 	rl_redisplay();
-	
 }
 
-static void control_slash(int signal)
+void control_c_child(int signal)
 {
 	(void)signal;
-	rl_catch_signals = 0;
+	ft_putstr_fd("\n", 1);
 }
 
-void interactive_mode(void)
+void control_back_slash_child(int signal)
 {
-	signal(SIGINT, &control_c);
-	signal(SIGQUIT, &control_slash);
+	(void)signal;
+	ft_putstr_fd("Quit\n", 1);
+}
+
+void control_back_slash_parent(int signal)
+{
+	(void)signal;
+	write(1, "\n", 2);
 }

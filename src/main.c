@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/25 17:29:59 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/25 19:49:53 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	main(int ac, char **av, char **envp)
 	t_minishell	minishell;
 
 	init(ac, av, &minishell, envp);
-	interactive_mode();
+	signal(SIGINT, control_c_parent);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		minishell.line = readline("minishell> ");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   washer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 17:48:36 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/25 18:39:56 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,38 +17,38 @@ static int	count_quotes(char *cmd, char c);
 static void	parse(char *cmd, int ret, char c);
 static void	parse_redirection(char *cmd);
 
-static handle_dollars(t_minishell *minishell)
-{
-	int	i;
-	int	j;
-	int	k;
-	char	*tmp;
+// static handle_dollars(t_minishell *minishell)
+// {
+// 	int	i;
+// 	int	j;
+// 	int	k;
+// 	char	*tmp;
 
-	i = 0;
-	while (minishell->line[i])
-	{
-		if (minishell->line[i] == '$' && minishell->line[i + 1] == '?')
-		{
-			tmp = ft_itoa(minishell->status);
-			j = 0;
-			k = 0;
-			while (tmp[j])
-			{
-				minishell->line[i + k] = tmp[j];
-				j++;
-				k++;
-			}
-			free(tmp);
-		}
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (minishell->line[i])
+// 	{
+// 		if (minishell->line[i] == '$' && minishell->line[i + 1] == '?')
+// 		{
+// 			tmp = ft_itoa(minishell->status);
+// 			j = 0;
+// 			k = 0;
+// 			while (tmp[j])
+// 			{
+// 				minishell->line[i + k] = tmp[j];
+// 				j++;
+// 				k++;
+// 			}
+// 			free(tmp);
+// 		}
+// 		i++;
+// 	}
+// }
 
 int	washer(t_minishell *minishell)
 {
-	int		i;
-	char	*str;
-	char	**split;
+	// int		i;
+	// char	*str;
+	// char	**split;
 
 	if (!checker(minishell->line))
 		return (0);
@@ -58,8 +58,8 @@ int	washer(t_minishell *minishell)
 	parse(minishell->line, count_quotes(minishell->line, '\"') / 2, '\"');
 	parse(minishell->line, count_quotes(minishell->line, '\'') / 2, '\'');
 	parse_redirection(minishell->line);
-	i = 0;
-	split = ft_split(minishell->line, ' ');
+	// i = 0;
+	// split = ft_split(minishell->line, ' ');
 	
 	return (1);
 }
