@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:37:17 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/22 19:37:47 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/25 10:28:44 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	pwd(t_minishell *minishell)
 	if (!pwd)
 		return (free_and_close(minishell));
 	ft_printf("%s\n", pwd);
+	ft_exit(minishell, 0, 0, 0);
 	free(pwd);
 	free_and_close(minishell);
 }

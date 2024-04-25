@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:02:34 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/22 18:37:20 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/25 14:29:26 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ void	env(t_minishell *minishell)
 			ft_printf("%s=%s\n", tmp->name, tmp->content);
 		tmp = tmp->next;
 	}
+	ft_exit(minishell, 0, 0, 0);
 	free_and_close(minishell);
 }

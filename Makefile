@@ -6,7 +6,7 @@
 #    By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/04/24 14:54:59 by tbarret          ###   ########.fr        #
+#    Updated: 2024/04/25 10:24:47 by tbarret          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC=\
 	${BULTINS_DIR}/unset.c\
 	${BULTINS_DIR}/exec.c\
 	${BULTINS_DIR}/control.c \
+	${BULTINS_DIR}/status.c \
 	${UTILS_DIR}/clear.c\
 	${UTILS_DIR}/create_env.c\
 	${UTILS_DIR}/ft_join.c\

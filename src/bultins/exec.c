@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:05:13 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/24 18:09:56 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/25 15:43:49 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void	minishell_execve(t_minishell *minishell)
 	{
 		interactive_mode();
 		if (!redirection(minishell))
-			exit(1);
+			ft_exit(minishell, 1, 1, 1);
 		if (!init_files(minishell))
 		{
 			free_and_close(minishell);
-			exit(127);
+			ft_exit(minishell, 121, 1, 1);
 		}
 		if (!excecute(minishell))
 		{
@@ -42,7 +42,7 @@ void	minishell_execve(t_minishell *minishell)
 			token_lstclear(&minishell->token);
 			env_lstclear(&minishell->env);
 			free(minishell->line);
-			exit(1);
+			ft_exit(minishell, 1, 1, 1);
 		}
 	}
 	else
@@ -66,14 +66,14 @@ static int	excecute(t_minishell *minishell)
 	{
 		clear_tab(cmd);
 		clear_tab(env);
-		return (ft_putstr_fd("Command not found\n", 2), 0);
+		return (ft_putstr_fd("Command not found\n", 2), ft_exit(minishell, 127, 0, 0));
 	}
 	if (execve(path, cmd, env) == -1)
 	{
 		clear_tab(cmd);
 		free(path);
 		clear_tab(env);
-		return (ft_putstr_fd("Command not found\n", 2), 0);
+		return (ft_putstr_fd("Command not found\n", 2), ft_exit(minishell, 127, 0, 0));
 	}
 	return (1);
 }

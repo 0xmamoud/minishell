@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/24 14:53:35 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/25 10:25:45 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,5 +163,6 @@ char					**convert_env(t_env *env);
 // control
 
 void interactive_mode(void);
+int ft_exit(t_minishell *minishell, int status, int r, int e);
 
 #endif

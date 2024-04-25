@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:00:32 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/24 18:17:24 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/25 13:34:33 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	echo(t_minishell *minishell)
 		ft_printf("%s", tmp);
 	else
 		printf("%s\n", tmp);
+	ft_exit(minishell, 0, 0, 0);
 	free(str);
 	free(tmp);
 	free_and_close(minishell);

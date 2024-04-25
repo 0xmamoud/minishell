@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:52:30 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/24 16:04:37 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/25 14:29:05 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,12 @@ void	cd(t_minishell *minishell)
 	if (!path)
 		return (free_and_close(minishell));
 	if (chdir(path) == -1)
+	{
+		ft_exit(minishell, 1, 0, 0);
 		ft_printf("cd: %s: No such file or directory\n", token->cmd);
+		return (free(path), free_and_close(minishell));
+	}
+	ft_exit(minishell, 0, 0, 0);
 	return (free(path), free_and_close(minishell));
 }
 
