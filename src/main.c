@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/25 15:48:57 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/25 15:50:36 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	main(int ac, char **av, char **envp)
 		if (strcmp(minishell.line, "$?") == 0)
 		{
 			printf("%d\n", minishell.status);
-			break ;
+			free(minishell.line);
+			continue ;
 		}
 		if (minishell.line[0] == EOF)
 		{
