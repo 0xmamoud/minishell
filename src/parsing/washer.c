@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 17:48:36 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/25 21:02:49 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,37 +17,70 @@ static int	count_quotes(char *cmd, char c);
 static void	parse(char *cmd, int ret, char c);
 static void	parse_redirection(char *cmd);
 
-static handle_dollars(t_minishell *minishell)
+static char	*find_and_replace(char *str, t_minishell *minishell)
 {
-	int	i;
-	int	j;
-	int	k;
 	char	*tmp;
 
-	i = 0;
-	while (minishell->line[i])
+	if (!ft_strchr(str, '$'))
+		return (ft_strdup(str));
+	char **(split) = ft_split(str, '$');
+	if (!split)
+		return (NULL);
+	char *(new_str) = ft_strdup("");
+	if (!new_str)
+		return (clear_tab(split), NULL);
+	int (i) = -1;
+	while (split[++i])
 	{
-		if (minishell->line[i] == '$' && minishell->line[i + 1] == '?')
-		{
-			tmp = ft_itoa(minishell->status);
-			j = 0;
-			k = 0;
-			while (tmp[j])
-			{
-				minishell->line[i + k] = tmp[j];
-				j++;
-				k++;
-			}
-			free(tmp);
-		}
-		i++;
+		tmp = find_env(minishell->env, split[i]);
+		if (!tmp)
+			return (clear_tab(split), free(new_str), NULL);
+		new_str = ft_strjoin(new_str, tmp);
+		free(tmp);
+		if (!new_str)
+			return (clear_tab(split), NULL);
 	}
+	clear_tab(split);
+	return (new_str);
+}
+
+static char	*handle_dollars(char **split, t_minishell *minishell)
+{
+	char	*tmp;
+
+	int (i) = -1;
+	char *(str) = ft_strdup("");
+	if (!str)
+		return (NULL);
+	while (split[++i])
+	{
+		if (split[i][0] == '\'')
+		{
+			str = ft_strjoin(str, split[i]);
+			if (!str)
+				return (NULL);
+		}
+		else
+		{
+			tmp = find_and_replace(split[i], minishell);
+			str = ft_strjoin(str, tmp);
+			if (tmp)
+				free(tmp);
+			if (!str)
+				return (NULL);
+			if (split[i + 1])
+			{
+				str = ft_strjoin(str, " ");
+				if (!str)
+					return (NULL);
+			}
+		}
+	}
+	return (str);
 }
 
 int	washer(t_minishell *minishell)
 {
-	int		i;
-	char	*str;
 	char	**split;
 
 	if (!checker(minishell->line))
@@ -58,9 +91,15 @@ int	washer(t_minishell *minishell)
 	parse(minishell->line, count_quotes(minishell->line, '\"') / 2, '\"');
 	parse(minishell->line, count_quotes(minishell->line, '\'') / 2, '\'');
 	parse_redirection(minishell->line);
-	i = 0;
 	split = ft_split(minishell->line, ' ');
-	
+	if (!split)
+		return (0);
+	free(minishell->line);
+	minishell->line = handle_dollars(split, minishell);
+	clear_tab(split);
+	if (!minishell->line)
+		return (0);
+	printf("line: %s\n", minishell->line);
 	return (1);
 }
 
