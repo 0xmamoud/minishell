@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:05:13 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 15:43:49 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/25 19:50:13 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ static int		excecute(t_minishell *minishell);
 void	minishell_execve(t_minishell *minishell)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
 		return (ft_putstr_fd("Fork error\n", 2));
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, control_c_child);
+	signal(SIGQUIT, control_back_slash_child);
 	if (pid == 0)
 	{
-		interactive_mode();
 		if (!redirection(minishell))
 			ft_exit(minishell, 1, 1, 1);
 		if (!init_files(minishell))
@@ -45,8 +45,13 @@ void	minishell_execve(t_minishell *minishell)
 			ft_exit(minishell, 1, 1, 1);
 		}
 	}
-	else
-		waitpid(pid, NULL, 0);
+	else {
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			minishell->status = WEXITSTATUS(status);
+		signal(SIGINT, control_c_parent);
+		signal(SIGQUIT, SIG_IGN);
+	}
 }
 
 static int	excecute(t_minishell *minishell)

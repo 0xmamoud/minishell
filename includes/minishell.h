@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 18:10:19 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/25 19:48:43 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,10 @@ int						ft_strcmp(const char *s1, const char *s2);
 
 // control
 
-void interactive_mode(void);
+void control_c_parent(int signal);
+void control_c_child(int signal);
+void control_back_slash_child(int signal);
+void control_back_slash_parent(int signal);
 int ft_exit(t_minishell *minishell, int status, int r, int e);
 
 #endif

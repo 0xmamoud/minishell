@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/25 17:29:59 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/25 21:18:11 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	main(int ac, char **av, char **envp)
 	t_minishell	minishell;
 
 	init(ac, av, &minishell, envp);
-	interactive_mode();
+	signal(SIGINT, control_c_parent);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		minishell.line = readline("minishell> ");
@@ -69,12 +70,12 @@ int	main(int ac, char **av, char **envp)
 			free(minishell.line);
 			continue ;
 		}
-		t_token *tmp = minishell.token;
-		while (tmp)
-		{
-			printf("%s\n",tmp->cmd);
-			tmp = tmp->next;
-		}
+		// t_token *tmp = minishell.token;
+		// while (tmp)
+		// {
+		// 	printf("%s\n",tmp->cmd);
+		// 	tmp = tmp->next;
+		// }
 		expender(&minishell);
 		token_lstclear(&minishell.token);
 		free(minishell.line);

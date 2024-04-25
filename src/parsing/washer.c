@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 21:02:49 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/26 00:45:48 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,39 +17,65 @@ static int	count_quotes(char *cmd, char c);
 static void	parse(char *cmd, int ret, char c);
 static void	parse_redirection(char *cmd);
 
+static int	count_dollars(char *cmd)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] == '$')
+			count++;
+		i++;
+	}
+	if (count == 0)
+		return (1);
+	return (count);
+}
+
 static char	*find_and_replace(char *str, t_minishell *minishell)
 {
 	char	*tmp;
+	char	*new;
+	char	c;
+	int		j;
 
-	if (!ft_strchr(str, '$'))
-		return (ft_strdup(str));
-	char **(split) = ft_split(str, '$');
-	if (!split)
-		return (NULL);
-	char *(new_str) = ft_strdup("");
-	if (!new_str)
-		return (clear_tab(split), NULL);
-	int (i) = -1;
-	while (split[++i])
+	new = malloc(sizeof(char) * 100);
+	new[0] = '\0';
+	int (i) = 0;
+	while (str[i])
 	{
-		tmp = find_env(minishell->env, split[i]);
-		if (!tmp)
-			return (clear_tab(split), free(new_str), NULL);
-		new_str = ft_strjoin(new_str, tmp);
-		free(tmp);
-		if (!new_str)
-			return (clear_tab(split), NULL);
+		if (str[i] == '$')
+		{
+			i++;
+			j = i;
+			while (str[i] && (ft_isalpha(str[i]) || str[i] == '_'))
+				i++;
+			c = str[i];
+			str[i] = '\0';
+			tmp = find_env(minishell->env, str + j);
+			str[i] = c;
+			ft_strlcat(new, tmp, ft_strlen(new) + ft_strlen(tmp) + 1);
+			free(tmp);
+		}
+		else
+		{
+			new[i] = str[i];
+		}
+		i++;
 	}
-	clear_tab(split);
-	return (new_str);
+	return (new);
 }
 
 static char	*handle_dollars(char **split, t_minishell *minishell)
 {
+	char	*str;
 	char	*tmp;
 
 	int (i) = -1;
-	char *(str) = ft_strdup("");
+	str = ft_strdup("");
 	if (!str)
 		return (NULL);
 	while (split[++i])
@@ -62,17 +88,20 @@ static char	*handle_dollars(char **split, t_minishell *minishell)
 		}
 		else
 		{
-			tmp = find_and_replace(split[i], minishell);
-			str = ft_strjoin(str, tmp);
-			if (tmp)
-				free(tmp);
-			if (!str)
-				return (NULL);
-			if (split[i + 1])
+			int ret = count_dollars(split[i]);
+			while (ret > 0)
 			{
-				str = ft_strjoin(str, " ");
-				if (!str)
+				tmp = find_and_replace(split[i], minishell);
+				if (!tmp)
 					return (NULL);
+				str = ft_strjoin(str, tmp);
+				if (split[i + 1])
+				{
+					str = ft_strjoin(str, " ");
+					if (!str)
+						return (NULL);
+				}
+				ret--;
 			}
 		}
 	}
@@ -99,7 +128,6 @@ int	washer(t_minishell *minishell)
 	clear_tab(split);
 	if (!minishell->line)
 		return (0);
-	printf("line: %s\n", minishell->line);
 	return (1);
 }
 
