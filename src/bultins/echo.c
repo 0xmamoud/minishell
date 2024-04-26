@@ -6,82 +6,73 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:00:32 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/26 18:58:42 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/26 23:29:22 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char		*get_string(t_minishell *minishell);
-static t_token	*get_sub_string(t_minishell *minishell);
-static void		echo_option(t_minishell *minishell);
+static char	*get_string(t_cmd *cmd);
+static int	find_option(char *str, t_minishell *minishell);
 
 void	echo(t_minishell *minishell)
 {
 	char	*str;
+	t_cmd	*cmd;
 
-	echo_option(minishell);
-	str = get_string(minishell);
+	cmd = minishell->cmd;
+	cmd = cmd->next;
+	while (cmd && find_option(cmd->cmd, minishell))
+		cmd = cmd->next;
+	str = get_string(cmd);
 	if (!str)
-		return (free_and_close(minishell));
-	char *(tmp) = ft_substr(str, 0, ft_strlen(str) - 1);
-	if (!tmp)
-		return (free(str), free_and_close(minishell));
-	if (minishell->echo.option == 1)
-		ft_printf("%s", tmp);
-	else
-		printf("%s\n", tmp);
+		return (ft_exit(minishell, 0, 1, 0), free_and_close(minishell));
+	printf("%s", str);
+	if (!minishell->echo.option)
+		printf("\n");
 	ft_exit(minishell, 0, 0, 0);
 	free(str);
-	free(tmp);
 	free_and_close(minishell);
 }
 
-static void	echo_option(t_minishell *minishell)
+static int	find_option(char *str, t_minishell *minishell)
 {
-	t_token	*token;
+	int	i;
 
-	token = minishell->token;
-	while (token && token->type != COMMAND)
-		token = token->next;
-	if (token)
-		token = token->next;
-	if (token && token->type == COMMAND && ft_strncmp(token->cmd, "-n",
-			ft_strlen(token->cmd)) == 0)
-		minishell->echo.option = 1;
-	return ;
+	i = 1;
+	if (str[0] != '-')
+		return (0);
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (0);
+		i++;
+	}
+	minishell->echo.option = 1;
+	return (1);
 }
 
-static char	*get_string(t_minishell *minishell)
+static char	*get_string(t_cmd *cmd)
 {
-	char *(str) = ft_strdup("");
+	char	*str;
+	t_cmd	*tmp;
+
+	tmp = cmd;
+	str = ft_strdup("");
 	if (!str)
 		return (NULL);
-	t_token *(token) = get_sub_string(minishell);
-	while (token)
+	while (tmp)
 	{
-		if (token->type == COMMAND)
+		str = ft_strjoin(str, tmp->cmd);
+		if (!str)
+			return (NULL);
+		tmp = tmp->next;
+		if (tmp)
 		{
-			str = ft_strjoin(str, token->cmd);
+			str = ft_strjoin(str, " ");
 			if (!str)
 				return (NULL);
-			str = ft_strjoin(str, " ");
 		}
-		token = token->next;
 	}
 	return (str);
-}
-
-static	t_token	*get_sub_string(t_minishell *minishell)
-{
-	t_token	*token;
-
-	token = minishell->token;
-	while (token && token->type != COMMAND)
-		token = token->next;
-	if (token)
-		token = token->next;
-	if (minishell->echo.option == 1)
-		token = token->next;
-	return (token);
 }

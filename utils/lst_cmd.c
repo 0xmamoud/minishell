@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:54:22 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/25 20:09:27 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:23:36 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 
-t_cmd *cmd_lstnew(char *cmd)
+t_cmd	*cmd_lstnew(char *cmd)
 {
-	t_cmd *new;
+	t_cmd	*new;
 
 	new = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new)
@@ -29,9 +29,9 @@ t_cmd *cmd_lstnew(char *cmd)
 	return (new);
 }
 
-t_cmd *cmd_lstlast(t_cmd *cmd)
+t_cmd	*cmd_lstlast(t_cmd *cmd)
 {
-	t_cmd *tmp;
+	t_cmd	*tmp;
 
 	if (!cmd)
 		return (NULL);
@@ -41,9 +41,9 @@ t_cmd *cmd_lstlast(t_cmd *cmd)
 	return (tmp);
 }
 
-void cmd_lstadd_back(t_cmd **cmd, t_cmd *new)
+void	cmd_lstadd_back(t_cmd **cmd, t_cmd *new)
 {
-	t_cmd *tmp;
+	t_cmd	*tmp;
 
 	tmp = NULL;
 	if (!cmd || !new)
@@ -57,9 +57,9 @@ void cmd_lstadd_back(t_cmd **cmd, t_cmd *new)
 	tmp->next = new;
 }
 
-void cmd_lstclear(t_cmd **cmd)
+void	cmd_lstclear(t_cmd **cmd)
 {
-	t_cmd *tmp;
+	t_cmd	*tmp;
 
 	if (!cmd || !*cmd)
 		return ;

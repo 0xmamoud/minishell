@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/25 21:18:11 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/26 23:26:02 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,9 @@ int	main(int ac, char **av, char **envp)
 			free(minishell.line);
 			continue ;
 		}
-		// t_token *tmp = minishell.token;
-		// while (tmp)
-		// {
-		// 	printf("%s\n",tmp->cmd);
-		// 	tmp = tmp->next;
-		// }
 		expender(&minishell);
 		token_lstclear(&minishell.token);
+		cmd_lstclear(&minishell.cmd);
 		free(minishell.line);
 	}
 	env_lstclear(&minishell.env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/26 18:06:20 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:09:42 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,6 @@ void					env_lstdelnode(t_env **env, char *name);
 void					env_lstclear(t_env **env);
 int						create_env(char **envp, t_minishell *minishell);
 char					*find_env(t_env *env, char *name);
-char					*replace(t_minishell *minishell, char *str);
 
 t_token					*token_lstnew(char *cmd, t_token_type type);
 t_token					*token_lstlast(t_token *token);
@@ -175,12 +174,16 @@ char					*ft_join(char *s1, char *s2);
 char					**convert_env(t_env *env);
 int						ft_strcmp(const char *s1, const char *s2);
 
-// control
+t_cmd					*cmd_lstnew(char *cmd);
+t_cmd					*cmd_lstlast(t_cmd *cmd);
+void					cmd_lstadd_back(t_cmd **cmd, t_cmd *new);
+void					cmd_lstclear(t_cmd **cmd);
 
-void control_c_parent(int signal);
-void control_c_child(int signal);
-void control_back_slash_child(int signal);
-void control_back_slash_parent(int signal);
-int ft_exit(t_minishell *minishell, int status, int r, int e);
+// control
+void					control_c_parent(int signal);
+void					control_c_child(int signal);
+void					control_back_slash_child(int signal);
+void					control_back_slash_parent(int signal);
+int						ft_exit(t_minishell *minishell, int status, int r, int e);
 
 #endif

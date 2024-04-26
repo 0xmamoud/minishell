@@ -6,23 +6,22 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:52:30 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/26 18:54:42 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/26 23:47:01 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static t_token	*get_cd_token(t_minishell *minishell);
-
 void	cd(t_minishell *minishell)
 {
-	t_token	*token;
+	t_cmd	*token;
 	char	*path;
 
 	char *(pwd) = getcwd(NULL, 0);
 	if (!pwd)
 		return (free_and_close(minishell));
-	token = get_cd_token(minishell);
+	token = minishell->cmd;
+	token = token->next;
 	if (!token)
 	{
 		path = find_env(minishell->env, "HOME");
@@ -38,21 +37,9 @@ void	cd(t_minishell *minishell)
 	if (chdir(path) == -1)
 	{
 		ft_exit(minishell, 1, 0, 0);
-		ft_printf("cd: %s: No such file or directory\n", token->cmd);
+		printf("cd: %s: No such file or directory\n", token->cmd);
 		return (free(path), free_and_close(minishell));
 	}
 	ft_exit(minishell, 0, 0, 0);
 	return (free(path), free_and_close(minishell));
-}
-
-static t_token	*get_cd_token(t_minishell *minishell)
-{
-	t_token	*token;
-
-	token = minishell->token;
-	while (token && token->type != COMMAND)
-		token = token->next;
-	if (token)
-		token = token->next;
-	return (token);
 }

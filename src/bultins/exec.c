@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:05:13 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 19:50:13 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:36:16 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	minishell_execve(t_minishell *minishell)
 		{
 			free_and_close(minishell);
 			token_lstclear(&minishell->token);
+			cmd_lstclear(&minishell->cmd);
 			env_lstclear(&minishell->env);
 			free(minishell->line);
 			ft_exit(minishell, 1, 1, 1);

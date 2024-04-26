@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:34:06 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/26 19:19:55 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/26 23:49:28 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,27 @@
 
 static int	find_pipe(t_minishell *minishell);
 static int	find_builtins(t_minishell *minishell);
+
+
+static int	init_cmds(t_minishell *minishell)
+{
+	t_token	*token;
+	t_cmd	*new;
+
+	token = minishell->token;
+	while (token)
+	{
+		if (token->type == COMMAND)
+		{
+			new = cmd_lstnew(token->cmd);
+			if (!new)
+				return (0);
+			cmd_lstadd_back(&minishell->cmd, new);
+		}
+		token = token->next;
+	}
+	return (1);
+}
 
 void	expender(t_minishell *minishell)
 {
@@ -25,6 +46,8 @@ void	expender(t_minishell *minishell)
 	if (!redirection(minishell))
 		return ;
 	if (!init_files(minishell))
+		return (free_and_close(minishell));
+	if (!init_cmds(minishell))
 		return (free_and_close(minishell));
 	if (find_builtins(minishell) == ECHO)
 		return (echo(minishell));
@@ -67,19 +90,19 @@ static int	find_builtins(t_minishell *minishell)
 	{
 		if (token->type == COMMAND)
 		{
-			if (ft_strncmp(token->cmd, "echo", 4) == 0)
+			if (ft_strcmp(token->cmd, "echo") == 0)
 				return (minishell->builtin = ECHO);
-			if (ft_strncmp(token->cmd, "cd", 2) == 0)
+			if (ft_strcmp(token->cmd, "cd") == 0)
 				return (minishell->builtin = CD);
-			if (ft_strncmp(token->cmd, "pwd", 3) == 0)
+			if (ft_strcmp(token->cmd, "pwd") == 0)
 				return (minishell->builtin = PWD);
-			if (ft_strncmp(token->cmd, "export", 6) == 0)
+			if (ft_strcmp(token->cmd, "export") == 0)
 				return (minishell->builtin = EXPORT);
-			if (ft_strncmp(token->cmd, "unset", 5) == 0)
+			if (ft_strcmp(token->cmd, "unset") == 0)
 				return (minishell->builtin = UNSET);
-			if (ft_strncmp(token->cmd, "env", 3) == 0)
+			if (ft_strcmp(token->cmd, "env") == 0)
 				return (minishell->builtin = ENV);
-			if (ft_strncmp(token->cmd, "exit", 4) == 0)
+			if (ft_strcmp(token->cmd, "exit") == 0)
 				return (minishell->builtin = EXIT);
 		}
 		token = token->next;
