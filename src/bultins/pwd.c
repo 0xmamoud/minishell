@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:37:17 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 10:28:44 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/26 19:16:48 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@ void	pwd(t_minishell *minishell)
 {
 	char	*pwd;
 
-	if (!redirection(minishell))
-		return ;
-	if (!init_files(minishell))
-		return (free_and_close(minishell));
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 		return (free_and_close(minishell));

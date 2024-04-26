@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expender.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:34:06 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/26 17:05:58 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/26 19:19:55 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ void	expender(t_minishell *minishell)
 		printf("pipe\n");
 		return ;
 	}
+	if (!redirection(minishell))
+		return ;
+	if (!init_files(minishell))
+		return (free_and_close(minishell));
 	if (find_builtins(minishell) == ECHO)
 		return (echo(minishell));
 	if (find_builtins(minishell) == CD)
@@ -36,6 +40,7 @@ void	expender(t_minishell *minishell)
 		return (env(minishell));
 	if (find_builtins(minishell) == EXIT)
 		return (exit_minishell(minishell));
+	free_and_close(minishell);
 	minishell_execve(minishell);
 }
 

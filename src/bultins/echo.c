@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:00:32 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 18:20:33 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/26 18:58:42 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@ void	echo(t_minishell *minishell)
 {
 	char	*str;
 
-	if (!redirection(minishell))
-		return ;
 	echo_option(minishell);
-	if (!init_files(minishell))
-		return (free_and_close(minishell));
 	str = get_string(minishell);
 	if (!str)
 		return (free_and_close(minishell));

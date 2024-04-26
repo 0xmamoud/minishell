@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:52:30 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 16:00:39 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/26 18:54:42 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@ void	cd(t_minishell *minishell)
 	t_token	*token;
 	char	*path;
 
-	if (!redirection(minishell))
-		return ;
-	if (!init_files(minishell))
-		return (free_and_close(minishell));
 	char *(pwd) = getcwd(NULL, 0);
 	if (!pwd)
 		return (free_and_close(minishell));

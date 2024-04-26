@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:37:33 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 12:33:27 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/26 19:17:06 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@ void	unset(t_minishell *minishell)
 	t_token	*token;
 
 	token = minishell->token;
-	if (!redirection(minishell))
-		return ;
-	if (!init_files(minishell))
-		return (free_and_close(minishell));
 	while (token && token->type != COMMAND)
 		token = token->next;
 	if (token)

@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 18:15:19 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/22 22:00:46 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/26 19:16:42 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@ void	export(t_minishell *minishell)
 {
 	t_env	*new;
 
-	if (!redirection(minishell))
-		return ;
-	if (!init_files(minishell))
-		return (free_and_close(minishell));
 	t_token *(token) = get_token(minishell);
 	if (!token)
 		return (print_export(minishell), free_and_close(minishell));
