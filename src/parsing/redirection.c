@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:49:23 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 11:56:13 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/26 16:34:48 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	init_files(t_minishell *minishell)
 		if (minishell->in.type == HEREDOC)
 			minishell->in.fd = open(minishell->in.file, O_RDONLY);
 		if (minishell->in.fd == -1)
-			return (ft_putstr_fd("No such file or directory\n", 2), ft_exit(minishell, 1, 0, 0));
+			return (ft_putstr_fd("No such file or directory\n", 2),
+				ft_exit(minishell, 1, 0, 0));
 		if (dup2(minishell->in.fd, STDIN_FILENO) < 0)
 			return (0);
 	}
@@ -61,7 +62,8 @@ int	init_files(t_minishell *minishell)
 			minishell->out.fd = open(minishell->out.file,
 					O_WRONLY | O_CREAT | O_APPEND, 0777);
 		if (minishell->out.fd == -1)
-			return (ft_putstr_fd(": No such file or directory\n", 2), ft_exit(minishell, 1, 0, 0));
+			return (ft_putstr_fd(": No such file or directory\n", 2),
+				ft_exit(minishell, 1, 0, 0));
 		if (dup2(minishell->out.fd, STDOUT_FILENO) < 0)
 			return (0);
 	}
@@ -116,21 +118,15 @@ static int	get_file(t_minishell *minishell, char *file,
 		t_type_redirection type)
 {
 	int	i;
-	char	*filename;
 
 	i = 1;
 	while (file[i] && (file[i] == ' ' || file[i] == '>' || file[i] == '<'))
 		i++;
-	filename = replace(minishell, &file[i]);
-	if (!filename)
-		return (0);
-	if (!filename)
-		return (0);
 	if (type == REDIR_IN || type == HEREDOC)
 	{
 		if (minishell->in.file)
 			free(minishell->in.file);
-		minishell->in.file = filename;
+		minishell->in.file = strdup(&file[i]);
 		if (!minishell->in.file)
 			return (0);
 		minishell->in.type = type;
@@ -139,7 +135,7 @@ static int	get_file(t_minishell *minishell, char *file,
 	{
 		if (minishell->out.file)
 			free(minishell->out.file);
-		minishell->out.file = filename;
+		minishell->out.file = strdup(&file[i]);
 		if (!minishell->out.file)
 			return (0);
 		minishell->out.type = type;

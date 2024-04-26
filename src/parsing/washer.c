@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   washer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/26 00:45:48 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/26 16:18:06 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,75 @@ static int	count_quotes(char *cmd, char c);
 static void	parse(char *cmd, int ret, char c);
 static void	parse_redirection(char *cmd);
 
-static int	count_dollars(char *cmd)
+static char *join_tab(char **tab)
 {
-	int	i;
-	int	count;
+	char	*str;
+	int		i;
 
+	str = ft_strdup("");
+	if (!str)
+		return (NULL);
 	i = 0;
-	count = 0;
-	while (cmd[i])
+	while (tab[i])
 	{
-		if (cmd[i] == '$')
-			count++;
+		str = ft_strjoin(str, tab[i]);
+		if (!str)
+			return (NULL);
+		if (tab[i + 1])
+		{
+			str = ft_strjoin(str, " ");
+			if (!str)
+				return (NULL);
+		}
 		i++;
 	}
-	if (count == 0)
-		return (1);
-	return (count);
+	return (str);
 }
+
+static int	count_replace(char *str, t_minishell *minishell)
+{
+	char	*tmp;
+	int		len;
+	char	c;
+	int		j;
+
+	len = 0;
+	int (i) = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'')
+		{
+			len++;
+			i++;
+			while (str[i] && str[i] != '\'')
+			{
+				len++;
+				i++;
+			}
+		}
+		if (str[i] == '$')
+		{
+			i++;
+			j = i;
+			while ((ft_isalpha(str[i]) || str[i] == '_'))
+				i++;
+			c = str[i];
+			str[i] = '\0';
+			tmp = find_env(minishell->env, str + j);
+			str[i] = c;
+			len += ft_strlen(tmp);
+			free(tmp);
+			i--;
+		}
+		else
+		{
+			len++;
+		}
+		i++;
+	}
+	return (len);
+}
+
 
 static char	*find_and_replace(char *str, t_minishell *minishell)
 {
@@ -42,16 +94,29 @@ static char	*find_and_replace(char *str, t_minishell *minishell)
 	char	c;
 	int		j;
 
-	new = malloc(sizeof(char) * 100);
-	new[0] = '\0';
+	int len = count_replace(str, minishell);
+	printf("len = %d\n", len);
+	new = ft_calloc(len + 1, sizeof(char));
 	int (i) = 0;
 	while (str[i])
 	{
+		if (str[i] == '\'')
+		{
+			new[ft_strlen(new)] = str[i];
+			new[ft_strlen(new) + 1] = '\0';
+			i++;
+			while (str[i] && str[i] != '\'')
+			{
+				new[ft_strlen(new)] = str[i];
+				new[ft_strlen(new) + 1] = '\0';
+				i++;
+			}
+		}
 		if (str[i] == '$')
 		{
 			i++;
 			j = i;
-			while (str[i] && (ft_isalpha(str[i]) || str[i] == '_'))
+			while ((ft_isalpha(str[i]) || str[i] == '_'))
 				i++;
 			c = str[i];
 			str[i] = '\0';
@@ -59,53 +124,37 @@ static char	*find_and_replace(char *str, t_minishell *minishell)
 			str[i] = c;
 			ft_strlcat(new, tmp, ft_strlen(new) + ft_strlen(tmp) + 1);
 			free(tmp);
+			i--;
 		}
 		else
 		{
-			new[i] = str[i];
+			new[ft_strlen(new)] = str[i];
 		}
 		i++;
 	}
 	return (new);
 }
 
-static char	*handle_dollars(char **split, t_minishell *minishell)
+static int	handle_dollars(char **split, t_minishell *minishell)
 {
-	char	*str;
+	int		i;
+	int   	j;
 	char	*tmp;
 
-	int (i) = -1;
-	str = ft_strdup("");
-	if (!str)
-		return (NULL);
+	i = -1;
+	j = 0;
 	while (split[++i])
 	{
-		if (split[i][0] == '\'')
-		{
-			str = ft_strjoin(str, split[i]);
-			if (!str)
-				return (NULL);
-		}
-		else
-		{
-			int ret = count_dollars(split[i]);
-			while (ret > 0)
-			{
-				tmp = find_and_replace(split[i], minishell);
-				if (!tmp)
-					return (NULL);
-				str = ft_strjoin(str, tmp);
-				if (split[i + 1])
-				{
-					str = ft_strjoin(str, " ");
-					if (!str)
-						return (NULL);
-				}
-				ret--;
-			}
-		}
+		tmp = find_and_replace(split[i], minishell);
+		if (!tmp)
+			return (0);
+		free(split[i]);
+		split[i] = ft_strdup(tmp);
+		free(tmp);
+		if (!split[i])
+			return (0);
 	}
-	return (str);
+	return (1);
 }
 
 int	washer(t_minishell *minishell)
@@ -124,7 +173,9 @@ int	washer(t_minishell *minishell)
 	if (!split)
 		return (0);
 	free(minishell->line);
-	minishell->line = handle_dollars(split, minishell);
+	if (!handle_dollars(split, minishell))
+		return (clear_tab(split),0);
+	minishell->line = join_tab(split);
 	clear_tab(split);
 	if (!minishell->line)
 		return (0);
