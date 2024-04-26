@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/25 19:48:43 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/26 18:06:20 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,23 @@ void					minishell_execve(t_minishell *minishell);
 // redirection
 int						redirection(t_minishell *minishell);
 int						init_files(t_minishell *minishell);
+
+//file 
+
+int						handle_files(t_minishell *minishell);
 void					free_and_close(t_minishell *minishell);
+
+//replace
+int						count_replace(char *str, t_minishell *minishell);
+
+//qhote.c
+
+char	*find_and_replace(char *str, t_minishell *minishell);
+
+//parse.c
+
+void	parse(char *cmd, int ret, char c);
+void	parse_redirection(char *cmd);
 
 // utils
 void					clear_tab(char **tab);

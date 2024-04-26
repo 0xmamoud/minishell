@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
+#    By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/04/25 16:12:18 by mkane            ###   ########.fr        #
+#    Updated: 2024/04/26 18:07:56 by tbarret          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,10 @@ SRC=\
 	${PARSING_DIR}/tokenizer.c\
 	${PARSING_DIR}/expender.c\
 	${PARSING_DIR}/redirection.c\
+	${PARSING_DIR}/file.c\
 	${PARSING_DIR}/replace.c\
+	${PARSING_DIR}/quote.c\
+	${PARSING_DIR}/parse.c\
 	${BULTINS_DIR}/echo.c\
 	${BULTINS_DIR}/env.c\
 	${BULTINS_DIR}/exit.c\
