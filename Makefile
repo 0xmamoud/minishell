@@ -6,7 +6,7 @@
 #    By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/04/27 16:38:29 by tbarret          ###   ########.fr        #
+#    Updated: 2024/04/27 17:37:10 by tbarret          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC=\
 	${PARSING_DIR}/expender.c\
 	${PARSING_DIR}/redirection.c\
 	${PARSING_DIR}/file_query.c\
+	${PARSING_DIR}/heredoc.c\
 	${PARSING_DIR}/replace.c\
 	${PARSING_DIR}/quote_handler.c\
 	${PARSING_DIR}/washer2.c\

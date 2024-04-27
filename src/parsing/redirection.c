@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:49:23 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/27 17:18:20 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/27 18:15:09 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,14 @@ static int	init_input(t_minishell *minishell)
 		minishell->in.fd = open(minishell->in.file, O_RDONLY);
 	else if (minishell->in.type == HEREDOC)
 	{
-		//heredoc func 
+		ft_here_doc(&minishell->in.file);
+		minishell->in.fd = open(minishell->in.file, O_RDONLY);
+		if (minishell->in.fd == -1)
+		{
+			ft_putstr_fd("No such file or directory\n", 2);
+			return (ft_exit(1, 0, 0));
+		
+		}
 	}
 	if (minishell->in.fd == -1)
 	{
