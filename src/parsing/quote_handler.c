@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 17:59:50 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/27 16:01:54 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/27 18:36:31 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char	*find_and_replace(char *str, t_minishell *minishell)
 			handle_env_vars(str, new, minishell, &i);
 		else 
 		{
-			printf("--- %c\n", str[i]);
 			if (str[i] == '\"')
 			{
 				quote = i;
