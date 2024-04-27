@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:54:22 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/26 23:23:36 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/27 19:10:06 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,19 @@ void	cmd_lstclear(t_cmd **cmd)
 		free(*cmd);
 		*cmd = tmp;
 	}
+}
+
+int	cmd_lstsize(t_cmd *cmd)
+{
+	int		i;
+	t_cmd	*tmp;
+
+	i = 0;
+	tmp = cmd;
+	while (tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	return (i);
 }

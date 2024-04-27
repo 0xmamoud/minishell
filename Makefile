@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+         #
+#    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/04/27 17:37:10 by tbarret          ###   ########.fr        #
+#    Updated: 2024/04/27 23:52:17 by mkane            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ PARSING_DIR = src/parsing
 REDIRECTION_DIR = src/redirection
 BULTINS_DIR = src/bultins
 UTILS_DIR = utils
+PIPE_DIR = src/pipe
 OBJ_DIR = obj
 
 HEADER = includes
@@ -49,6 +50,8 @@ SRC=\
 	${BULTINS_DIR}/exec.c\
 	${BULTINS_DIR}/control.c \
 	${BULTINS_DIR}/status.c \
+	${PIPE_DIR}/pipe.c\
+	${PIPE_DIR}/setup_pipe.c\
 	${UTILS_DIR}/clear.c\
 	${UTILS_DIR}/create_env.c\
 	${UTILS_DIR}/ft_join.c\
@@ -57,11 +60,12 @@ SRC=\
 	${UTILS_DIR}/lst_env.c\
 	${UTILS_DIR}/lst_token.c\
 	${UTILS_DIR}/lst_cmd.c\
+	${UTILS_DIR}/lst_pipe.c\
 	${UTILS_DIR}/token_utils.c\
 
 OBJ = $(addprefix ${OBJ_DIR}/,$(notdir ${SRC:.c=.o}))
 
-vpath %.c $(SRC_DIR) $(PARSING_DIR) $(UTILS_DIR) $(REDIRECTION_DIR) $(BULTINS_DIR)
+vpath %.c $(SRC_DIR) $(PARSING_DIR) $(UTILS_DIR) $(REDIRECTION_DIR) $(BULTINS_DIR) $(PIPE_DIR)
 
 all: ${NAME}
 
