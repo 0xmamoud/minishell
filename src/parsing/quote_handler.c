@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 17:59:50 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/26 20:19:01 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/27 16:01:54 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	*find_and_replace(char *str, t_minishell *minishell)
 	{
 		if (str[i] == '\'')
 		{
-			new[ft_strlen(new)] = str[i];
 			i++;
 			handle_quoted_chars(str, new, &i);
 		}
@@ -42,6 +41,7 @@ char	*find_and_replace(char *str, t_minishell *minishell)
 			handle_env_vars(str, new, minishell, &i);
 		else 
 		{
+			printf("--- %c\n", str[i]);
 			if (str[i] == '\"')
 			{
 				quote = i;
@@ -71,7 +71,6 @@ static void	handle_quoted_chars(char *str, char *new, int *i)
 		new[ft_strlen(new)] = str[*i];
 		(*i)++;
 	}
-	(*i)--;
 }
 
 static void	handle_env_vars(char *str, char *new,
