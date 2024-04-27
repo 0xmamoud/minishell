@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
+#    By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/04/26 23:22:05 by mkane            ###   ########.fr        #
+#    Updated: 2024/04/27 16:38:29 by tbarret          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,11 +66,11 @@ all: ${NAME}
 
 ${OBJ_DIR}/%.o: %.c
 	@mkdir -p ${OBJ_DIR}
-	@$(CC) ${CFLAGS} -c $< -o $@
+	@$(CC) ${CFLAGS} -I ${HEADER} -c $< -o $@
 
 ${NAME}: ${OBJ}
 	@make -C includes/libft
-	${CC} ${CFLAGS} ${RLFLAGS} ${OBJ} -I ${HEADER} -o ${NAME} -L includes/libft -lft
+	${CC} ${CFLAGS} ${RLFLAGS} ${OBJ} -o ${NAME} -L includes/libft -lft
 
 val: $(NAME)
 	valgrind $(VAL_FLAGS) ./$(NAME)

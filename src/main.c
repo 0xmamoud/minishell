@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/26 23:26:02 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/27 17:12:03 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	main(int ac, char **av, char **envp)
 	t_minishell	minishell;
 
 	init(ac, av, &minishell, envp);
+	get_status(0, 0);
 	signal(SIGINT, control_c_parent);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
@@ -53,8 +54,7 @@ int	main(int ac, char **av, char **envp)
 		add_history(minishell.line);
 		if (strcmp(minishell.line, "$?") == 0)
 		{
-			printf("%d\n", minishell.status);
-			ft_exit(&minishell, 127, 0, 0);
+			ft_printf("%d\n", get_status(127, 1));
 			free(minishell.line);
 			continue ;
 		}

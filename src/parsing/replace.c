@@ -6,11 +6,11 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:30:16 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/26 18:31:53 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/27 16:36:58 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static int	count_env_chars(char *str, t_minishell *minishell, int i);
 static int	count_quoted_chars(char *str, int start);

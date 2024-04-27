@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:37:33 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/26 23:58:41 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/27 17:14:19 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	unset(t_minishell *minishell)
 		return (free_and_close(minishell));
 	if (ft_strcmp(str, "") == 0)
 		return (free(str), free_and_close(minishell));
-	// ft_exit(minishell, 1, 0, 0);
 	env_lstdelnode(&minishell->env, cmds->cmd);
 	free(str);
 	free_and_close(minishell);

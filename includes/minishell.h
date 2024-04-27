@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/26 23:09:42 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/27 17:07:33 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ void					control_c_parent(int signal);
 void					control_c_child(int signal);
 void					control_back_slash_child(int signal);
 void					control_back_slash_parent(int signal);
-int						ft_exit(t_minishell *minishell, int status, int r, int e);
+int						ft_exit(int status, int r, int e);
+int						get_status(int status, int get);
 
 #endif

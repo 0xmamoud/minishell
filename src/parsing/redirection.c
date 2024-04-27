@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:49:23 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/26 17:07:01 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/27 17:18:20 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,16 @@ int	init_files(t_minishell *minishell)
 static int	init_input(t_minishell *minishell)
 {
 	minishell->in.saved_stdin = dup(STDIN_FILENO);
-	if (minishell->in.type == REDIR_IN || minishell->in.type == HEREDOC)
+	if (minishell->in.type == REDIR_IN)
 		minishell->in.fd = open(minishell->in.file, O_RDONLY);
+	else if (minishell->in.type == HEREDOC)
+	{
+		//heredoc func 
+	}
 	if (minishell->in.fd == -1)
 	{
 		ft_putstr_fd("No such file or directory\n", 2);
-		return (ft_exit(minishell, 1, 0, 0));
+		return (ft_exit(1, 0, 0));
 	}
 	if (dup2(minishell->in.fd, STDIN_FILENO) < 0)
 		return (0);
@@ -72,7 +76,7 @@ static int	init_output(t_minishell *minishell)
 	if (minishell->out.fd == -1)
 	{
 		ft_putstr_fd(": No such file or directory\n", 2);
-		return (ft_exit(minishell, 1, 0, 0));
+		return (ft_exit(1, 0, 0));
 	}
 	if (dup2(minishell->out.fd, STDOUT_FILENO) < 0)
 		return (0);

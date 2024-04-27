@@ -3,19 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   status.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 10:19:42 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/25 16:04:57 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/27 17:11:39 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_exit(t_minishell *minishell, int status, int r, int e)
+int	ft_exit(int status, int r, int e)
 {
-	minishell->status = status;
+	get_status(status, 0);
 	if (e)
 		exit(status);
 	return (r);
+}
+
+int get_status(int status, int get)
+{
+	static int	save_status;
+	int 		ret;
+	if (get)
+	{
+		ret = save_status;
+		save_status = status;
+		return (ret);
+	}
+	save_status = status;
+	return (save_status);
 }
