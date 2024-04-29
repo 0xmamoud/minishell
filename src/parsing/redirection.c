@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:49:23 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/27 18:47:26 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/27 18:15:09 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static int	init_input(t_minishell *minishell)
 		{
 			ft_putstr_fd("No such file or directory\n", 2);
 			return (ft_exit(1, 0, 0));
+		
 		}
 	}
 	if (minishell->in.fd == -1)

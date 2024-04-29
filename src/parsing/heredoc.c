@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:18:26 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/27 18:49:36 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/27 17:56:12 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 void	ft_here_doc(char **delimiter)
 {
 	char	*line;
-
-	char *(fd_name) = ft_strjoin(ft_strdup("here_doc."), *delimiter);
-	int (fd) = open(fd_name, O_CREAT | O_RDWR | O_TRUNC, 0777);
+	int		fd;
+	char *fd_name;
+	
+	fd_name = ft_strjoin(ft_strdup("here_doc."), *delimiter);
+	fd = open(fd_name, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (fd == -1)
 		return ;
 	while (1)
@@ -37,5 +39,5 @@ void	ft_here_doc(char **delimiter)
 	get_status(0, 0);
 	close(fd);
 	free(*delimiter);
-	*delimiter = fd_name;
+	*delimiter = fd_name; 
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 17:59:50 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/27 19:04:32 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/27 18:36:31 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 static void	handle_quoted_chars(char *str, char *new, int *i);
 static void	handle_env_vars(char *str, char *new,
 				t_minishell *minishell, int *i);
-static void	handle_double_quotes(t_minishell *minishell,
-				char *str, char *new, int *i);
 
+
+// 
 char	*find_and_replace(char *str, t_minishell *minishell)
 {
 	char	*new;
 	int		i;
 	int		len;
+	int		quote;
 
 	len = count_replace(str, minishell);
 	new = ft_calloc(len + 1, sizeof(char));
@@ -38,35 +39,28 @@ char	*find_and_replace(char *str, t_minishell *minishell)
 		}
 		else if (str[i] == '$')
 			handle_env_vars(str, new, minishell, &i);
-		else
-			handle_double_quotes(minishell, str, new, &i);
+		else 
+		{
+			if (str[i] == '\"')
+			{
+				quote = i;
+				i++;
+				while (str[i] && str[i] != '\"')
+				{
+					if (str[i] == '$')
+						handle_env_vars(str, new, minishell, &i);
+					else
+						new[ft_strlen(new)] = str[i];
+					i++;
+				}
+				if (str[i] != '\"')
+					i = quote;
+			} else if (str[i] != '\"')
+				new[ft_strlen(new)] = str[i];
+		}
 		i++;
 	}
 	return (new);
-}
-
-static void	handle_double_quotes(t_minishell *minishell, char *str,
-				char *new, int *i)
-{
-	int	quote;
-
-	if (str[*i] == '\"')
-	{
-		quote = *i;
-		(*i)++;
-		while (str[*i] && str[*i] != '\"')
-		{
-			if (str[*i] == '$')
-				handle_env_vars(str, new, minishell, i);
-			else
-				new[ft_strlen(new)] = str[*i];
-			(*i)++;
-		}
-		if (str[*i] != '\"')
-			*i = quote;
-	}
-	else if (str[*i] != '\"')
-		new[ft_strlen(new)] = str[*i];
 }
 
 static void	handle_quoted_chars(char *str, char *new, int *i)

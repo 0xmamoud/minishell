@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:34:06 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/27 22:46:30 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/29 17:14:32 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	find_pipe(t_minishell *minishell);
 static int	find_builtins(t_minishell *minishell);
+
 
 static int	init_cmds(t_minishell *minishell)
 {
@@ -38,11 +39,14 @@ static int	init_cmds(t_minishell *minishell)
 void	expender(t_minishell *minishell)
 {
 	if (find_pipe(minishell))
-		return (minishell_pipe(minishell));
-	if (!redirection(minishell))
 		return ;
+	if (!redirection(minishell))
+	{
+		ft_exit(1, 0, 0);
+		return ;
+	}
 	if (!init_files(minishell))
-		return (free_and_close(minishell));
+		return (ft_exit(1, 0, 0), free_and_close(minishell));
 	if (!init_cmds(minishell))
 		return (free_and_close(minishell));
 	if (find_builtins(minishell) == ECHO)
@@ -59,7 +63,6 @@ void	expender(t_minishell *minishell)
 		return (env(minishell));
 	if (find_builtins(minishell) == EXIT)
 		return (exit_minishell(minishell));
-	free_and_close(minishell);
 	minishell_execve(minishell);
 }
 
