@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:34:06 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/29 20:19:14 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/29 22:08:28 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static int	init_cmds(t_minishell *minishell)
 		}
 		token = token->next;
 	}
+	if (!minishell->cmd)
+		return (0);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:05:13 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/29 20:22:52 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/29 22:30:25 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,21 @@ void	minishell_execve(t_minishell *minishell)
 	signal(SIGQUIT, control_back_slash_child);
 	if (pid == 0)
 	{
-		if (!excecute(minishell))
-		{
-			free_and_close(minishell);
-			token_lstclear(&minishell->token);
-			cmd_lstclear(&minishell->cmd);
-			env_lstclear(&minishell->env);
-			free(minishell->line);
-			ft_exit(1, 1, 1);
-		}
-	}
-	else {
-		waitpid(pid, &status, 0);
+		excecute(minishell);
 		free_and_close(minishell);
-		if (WIFEXITED(status))
-			minishell->status = WEXITSTATUS(status);
-		signal(SIGINT, control_c_parent);
-		signal(SIGQUIT, SIG_IGN);
+		token_lstclear(&minishell->token);
+		cmd_lstclear(&minishell->cmd);
+		env_lstclear(&minishell->env);
+		free(minishell->line);
+		ft_exit(1, 1, 1);
+
 	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		minishell->status = WEXITSTATUS(status);
+	signal(SIGINT, control_c_parent);
+	signal(SIGQUIT, SIG_IGN);
+	free_and_close(minishell);
 }
 
 static int	excecute(t_minishell *minishell)
@@ -60,7 +57,7 @@ static int	excecute(t_minishell *minishell)
 		return (0);
 	cmd = get_cmd(minishell);
 	if (!cmd)
-		return (clear_tab(env),0);
+		return (clear_tab(env), 0);
 	path = get_path(minishell, cmd[0]);
 	if (!path)
 	{

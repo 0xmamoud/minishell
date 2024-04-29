@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:18:26 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/27 18:49:36 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/29 22:06:46 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_here_doc(char **delimiter)
 
 	char *(fd_name) = ft_strjoin(ft_strdup("here_doc."), *delimiter);
 	int (fd) = open(fd_name, O_CREAT | O_RDWR | O_TRUNC, 0777);
-	if (fd == -1)
+	if (fd < 0)
 		return ;
 	while (1)
 	{
@@ -34,8 +34,8 @@ void	ft_here_doc(char **delimiter)
 		write(fd, "\n", 1);
 		free(line);
 	}
-	get_status(0, 0);
 	close(fd);
 	free(*delimiter);
 	*delimiter = fd_name;
+	get_status(0, 0);
 }
