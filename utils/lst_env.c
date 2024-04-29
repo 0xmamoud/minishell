@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 18:25:29 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/22 18:05:40 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/29 18:13:02 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	env_lstdelnode(t_env **env, char *name)
 	if (!*env)
 		return ;
 	tmp = *env;
-	if (!ft_strncmp(tmp->name, name, ft_strlen(tmp->name)))
+	if (!ft_strcmp(tmp->name, name))
 	{
 		*env = (*env)->next;
 		free(tmp->name);
@@ -82,7 +82,7 @@ void	env_lstdelnode(t_env **env, char *name)
 		free(tmp);
 		return ;
 	}
-	while (tmp && ft_strncmp(tmp->name, name, ft_strlen(tmp->name)) != 0)
+	while (tmp && ft_strcmp(tmp->name, name) != 0)
 	{
 		prev = tmp;
 		tmp = tmp->next;
