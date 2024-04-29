@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expender.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:34:06 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/27 18:24:57 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/27 22:46:30 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int	find_pipe(t_minishell *minishell);
 static int	find_builtins(t_minishell *minishell);
-
 
 static int	init_cmds(t_minishell *minishell)
 {
@@ -39,35 +38,29 @@ static int	init_cmds(t_minishell *minishell)
 void	expender(t_minishell *minishell)
 {
 	if (find_pipe(minishell))
-	{
-		printf("pipe\n");
+		return (minishell_pipe(minishell));
+	if (!redirection(minishell))
 		return ;
-	}
-	else if (find_builtins(minishell) != -1)
-	{
-		if (!redirection(minishell))
-			return ;
-		if (!init_files(minishell))
-			return (free_and_close(minishell));
-		if (!init_cmds(minishell))
-			return (free_and_close(minishell));
-		if (find_builtins(minishell) == ECHO)
-			return (echo(minishell));
-		if (find_builtins(minishell) == CD)
-			return (cd(minishell));
-		if (find_builtins(minishell) == PWD)
-			return (pwd(minishell));
-		if (find_builtins(minishell) == EXPORT)
-			return (export(minishell));
-		if (find_builtins(minishell) == UNSET)
-			return (unset(minishell));
-		if (find_builtins(minishell) == ENV)
-			return (env(minishell));
-		if (find_builtins(minishell) == EXIT)
-			return (exit_minishell(minishell));
-	}
-	else
-		minishell_execve(minishell);
+	if (!init_files(minishell))
+		return (free_and_close(minishell));
+	if (!init_cmds(minishell))
+		return (free_and_close(minishell));
+	if (find_builtins(minishell) == ECHO)
+		return (echo(minishell));
+	if (find_builtins(minishell) == CD)
+		return (cd(minishell));
+	if (find_builtins(minishell) == PWD)
+		return (pwd(minishell));
+	if (find_builtins(minishell) == EXPORT)
+		return (export(minishell));
+	if (find_builtins(minishell) == UNSET)
+		return (unset(minishell));
+	if (find_builtins(minishell) == ENV)
+		return (env(minishell));
+	if (find_builtins(minishell) == EXIT)
+		return (exit_minishell(minishell));
+	free_and_close(minishell);
+	minishell_execve(minishell);
 }
 
 static int	find_pipe(t_minishell *minishell)

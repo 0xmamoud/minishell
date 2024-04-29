@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:05:13 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/27 18:19:34 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/27 19:12:31 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,6 @@ void	minishell_execve(t_minishell *minishell)
 	signal(SIGQUIT, control_back_slash_child);
 	if (pid == 0)
 	{
-		if (!redirection(minishell))
-			ft_exit(1, 1, 1);
-		if (!init_files(minishell))
-		{
-			free_and_close(minishell);
-			ft_exit(121, 1, 1);
-		}
 		if (!excecute(minishell))
 		{
 			free_and_close(minishell);
@@ -48,6 +41,7 @@ void	minishell_execve(t_minishell *minishell)
 	}
 	else {
 		waitpid(pid, &status, 0);
+		free_and_close(minishell);
 		if (WIFEXITED(status))
 			minishell->status = WEXITSTATUS(status);
 		signal(SIGINT, control_c_parent);
@@ -86,25 +80,23 @@ static int	excecute(t_minishell *minishell)
 
 static char	**get_cmd(t_minishell *minishell)
 {
-	t_token	*token;
+	t_cmd	*cmds;
 	char	**cmd;
 	int		i;
 
-	token = minishell->token;
-	i = 0;
-	cmd = (char **)malloc(sizeof(char *) * (cmd_len(minishell) + 1));
+	cmds = minishell->cmd;
+	i = cmd_lstsize(cmds);
+	cmd = ft_calloc(i + 1, sizeof(char *));
 	if (!cmd)
 		return (NULL);
-	while (token)
+	i = 0;
+	while (cmds)
 	{
-		if (token->type == COMMAND)
-		{
-			cmd[i] = ft_strdup(token->cmd);
-			if (!cmd[i])
-				return (clear_tab(cmd), NULL);
-			i++;
-		}
-		token = token->next;
+		cmd[i] = ft_strdup(cmds->cmd);
+		if (!cmd[i])
+			return (clear_tab(cmd), NULL);
+		i++;
+		cmds = cmds->next;
 	}
 	cmd[i] = NULL;
 	return (cmd);

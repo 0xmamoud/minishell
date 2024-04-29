@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/27 17:12:03 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/27 23:34:33 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	init(int ac, char **av, t_minishell *minishell, char **envp)
 	minishell->token = NULL;
 	minishell->line = NULL;
 	minishell->status = 0;
+	minishell->pipe.cmds = NULL;
 	if (!create_env(envp, minishell))
 	{
 		ft_putstr_fd("Error: failed to create env\n", 2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/27 17:45:41 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/04/27 23:49:51 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,17 +89,20 @@ typedef struct s_echo
 	t_redirection		out;
 }						t_echo;
 
+typedef struct s_pipe_cmds
+{
+	char				*cmd;
+	int					index;
+	t_redirection		in;
+	t_redirection		out;
+	struct s_pipe_cmds	*next;
+}						t_pipe_cmds;
+
 typedef struct s_pipe
 {
 	pid_t				pid;
 	int					fd[2];
-	int					fd_in;
-	int					fd_out;
-	int					fd_append;
-	int					here_doc;
-	int					len_cmd;
-	int					loop_index;
-	int					start;
+	t_pipe_cmds			*cmds;
 }						t_pipe;
 
 typedef struct s_minishell
@@ -131,6 +134,11 @@ void					export(t_minishell *minishell);
 void					pwd(t_minishell *minishell);
 void					cd(t_minishell *minishell);
 void					minishell_execve(t_minishell *minishell);
+
+// pipe
+void					minishell_pipe(t_minishell *minishell);
+int						init_pipe(t_minishell *minishell);
+int						pipe_redirection(t_minishell *minishell);
 
 // redirection
 int						redirection(t_minishell *minishell);
@@ -178,6 +186,12 @@ t_cmd					*cmd_lstnew(char *cmd);
 t_cmd					*cmd_lstlast(t_cmd *cmd);
 void					cmd_lstadd_back(t_cmd **cmd, t_cmd *new);
 void					cmd_lstclear(t_cmd **cmd);
+int						cmd_lstsize(t_cmd *cmd);
+
+t_pipe_cmds				*pipe_lstnew(char *cmd, int index);
+t_pipe_cmds				*pipe_lstlast(t_pipe_cmds *pipe);
+void					pipe_lstadd_back(t_pipe_cmds **pipe, t_pipe_cmds *new);
+void					pipe_lstclear(t_pipe_cmds **pipe);
 
 // control
 void					control_c_parent(int signal);
