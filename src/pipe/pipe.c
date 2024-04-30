@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:44 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/30 23:22:46 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/30 23:53:00 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int	setup_commands(t_minishell *minishell, char **args)
 	t_cmd	*new;
 	int		i;
 
+	new = NULL;
 	i = 0;
 	while (args[i])
 	{
@@ -160,6 +161,7 @@ void	minishell_pipe(t_minishell *minishell)
 	int		status;
 
 	i = 0;
+	minishell->pipe.prev_fd = -1;
 	if (!init_pipe(minishell))
 		return (pipe_lstclear(&minishell->pipe.cmds));
 	if (!pipe_redirection(minishell))
@@ -168,7 +170,6 @@ void	minishell_pipe(t_minishell *minishell)
 		return (pipe_lstclear(&minishell->pipe.cmds));
 	minishell->pipe.len_pid = pipe_lstlast(minishell->pipe.cmds)->index + 1;
 	minishell->pipe.pid = malloc(sizeof(pid_t) * minishell->pipe.len_pid);
-	minishell->pipe.prev_fd = -1;
 	pipe_loop(minishell);
 	while (i < minishell->pipe.len_pid)
 	{
