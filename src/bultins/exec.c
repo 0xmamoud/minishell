@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:05:13 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/29 22:30:25 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/30 20:04:22 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@ static char		*get_access(char **env_path, char *cmd);
 static char		*get_path(t_minishell *minishell, char *cmd);
 static int		excecute(t_minishell *minishell);
 
-void	minishell_execve(t_minishell *minishell)
+int	minishell_execve(t_minishell *minishell)
 {
 	pid_t	pid;
-	int		status;
 
 	pid = fork();
 	if (pid == -1)
-		return (ft_putstr_fd("Fork error\n", 2));
+		return (ft_putstr_fd("Fork error\n", 2), ft_exit(1, 0, 0));
 	signal(SIGINT, control_c_child);
 	signal(SIGQUIT, control_back_slash_child);
 	if (pid == 0)
@@ -38,12 +37,13 @@ void	minishell_execve(t_minishell *minishell)
 		ft_exit(1, 1, 1);
 
 	}
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		minishell->status = WEXITSTATUS(status);
+	// waitpid(pid, &status, 0);
+	// if (WIFEXITED(status))
+	// 	minishell->status = WEXITSTATUS(status);
 	signal(SIGINT, control_c_parent);
 	signal(SIGQUIT, SIG_IGN);
 	free_and_close(minishell);
+	return ((int)pid);
 }
 
 static int	excecute(t_minishell *minishell)

@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/27 23:49:51 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/30 20:01:03 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_echo
 typedef struct s_pipe_cmds
 {
 	char				*cmd;
+	t_builtin			type;
 	int					index;
 	t_redirection		in;
 	t_redirection		out;
@@ -133,12 +134,13 @@ void					unset(t_minishell *minishell);
 void					export(t_minishell *minishell);
 void					pwd(t_minishell *minishell);
 void					cd(t_minishell *minishell);
-void					minishell_execve(t_minishell *minishell);
+int						minishell_execve(t_minishell *minishell);
 
 // pipe
 void					minishell_pipe(t_minishell *minishell);
 int						init_pipe(t_minishell *minishell);
 int						pipe_redirection(t_minishell *minishell);
+int						pipe_types(t_minishell *minishell);
 
 // redirection
 int						redirection(t_minishell *minishell);

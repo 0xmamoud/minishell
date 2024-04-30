@@ -6,7 +6,7 @@
 #    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/04/29 22:40:24 by mkane            ###   ########.fr        #
+#    Updated: 2024/04/30 20:10:55 by mkane            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ SRC=\
 	${BULTINS_DIR}/status.c \
 	${PIPE_DIR}/pipe.c\
 	${PIPE_DIR}/setup_pipe.c\
+	${PIPE_DIR}/pipe_types.c\
 	${UTILS_DIR}/clear.c\
 	${UTILS_DIR}/create_env.c\
 	${UTILS_DIR}/ft_join.c\
