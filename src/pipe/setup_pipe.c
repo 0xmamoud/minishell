@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 22:51:42 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/30 19:11:01 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/30 20:51:46 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	sub_pipe_redirection(t_token *token, t_pipe_cmds **pipe);
 static int	get_file_infos(char *filename, t_pipe_cmds **pipe,
 				t_type_redirection type);
+static void	pipe_update_index(t_minishell *minishell);
 
 int	init_pipe(t_minishell *minishell)
 {
@@ -39,6 +40,7 @@ int	init_pipe(t_minishell *minishell)
 		if (token)
 			token = token->next;
 	}
+	pipe_update_index(minishell);
 	free(cmd);
 	return (1);
 }
@@ -117,4 +119,19 @@ static int	get_file_infos(char *filename, t_pipe_cmds **pipe,
 		(*pipe)->out.type = type;
 	}
 	return (1);
+}
+
+static void	pipe_update_index(t_minishell *minishell)
+{
+	t_pipe_cmds	*cmds;
+	int			index;
+
+	cmds = minishell->pipe.cmds;
+	index = 0;
+	while (cmds)
+	{
+		cmds->index = index;
+		index++;
+		cmds = cmds->next;
+	}
 }

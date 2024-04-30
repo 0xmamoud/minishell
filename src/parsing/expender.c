@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:34:06 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/30 20:05:50 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/30 20:44:02 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ void	expender(t_minishell *minishell)
 			
 	*/
 
-	int status;
-
 	if (find_pipe(minishell))
 		return (minishell_pipe(minishell));
 	if (!redirection(minishell))
@@ -94,9 +92,7 @@ void	expender(t_minishell *minishell)
 		return (env(minishell));
 	if (find_builtins(minishell) == EXIT)
 		return (exit_minishell(minishell));
-	waitpid(minishell_execve(minishell), &status, 0);
-	if (WIFEXITED(status))
-        minishell->status = WEXITSTATUS(status);
+	minishell_execve(minishell);
 }
 
 

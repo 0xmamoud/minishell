@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/29 21:10:33 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/30 23:13:52 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	init(int ac, char **av, t_minishell *minishell, char **envp)
 	minishell->line = NULL;
 	minishell->status = 0;
 	minishell->pipe.cmds = NULL;
+	// minishell->pipe.prev_fd = -1;
 	if (!create_env(envp, minishell))
 	{
 		ft_putstr_fd("Error: failed to create env\n", 2);

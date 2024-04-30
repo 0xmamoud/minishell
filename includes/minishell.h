@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/30 20:01:03 by mkane            ###   ########.fr       */
+/*   Updated: 2024/04/30 22:35:50 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,10 @@ typedef struct s_pipe_cmds
 
 typedef struct s_pipe
 {
-	pid_t				pid;
+	pid_t				*pid;
+	int					len_pid;
 	int					fd[2];
+	int					prev_fd;
 	t_pipe_cmds			*cmds;
 }						t_pipe;
 
@@ -134,7 +136,8 @@ void					unset(t_minishell *minishell);
 void					export(t_minishell *minishell);
 void					pwd(t_minishell *minishell);
 void					cd(t_minishell *minishell);
-int						minishell_execve(t_minishell *minishell);
+void						minishell_execve(t_minishell *minishell);
+int						excecute(t_minishell *minishell);
 
 // pipe
 void					minishell_pipe(t_minishell *minishell);

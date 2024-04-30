@@ -6,7 +6,7 @@
 #    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/04/30 20:10:55 by mkane            ###   ########.fr        #
+#    Updated: 2024/04/30 23:26:26 by mkane            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ RLFLAGS = -lreadline
 RM = rm -rf
 
 VAL_HIDE    := readline.hide
-VAL_FLAGS    := --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=$(VAL_HIDE)
+VAL_FLAGS    := --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=$(VAL_HIDE)
 
 SRC=\
 	${SRC_DIR}/main.c\
