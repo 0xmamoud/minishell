@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/01 20:58:26 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/02 00:38:11 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	washer(t_minishell *minishell)
 	parse(minishell->line, count_quotes(minishell->line, '\"') / 2, '\"');
 	parse(minishell->line, count_quotes(minishell->line, '\'') / 2, '\'');
 	parse_redirection(minishell->line);
+	split = NULL;
 	split = ft_split(minishell->line, ' ');
 	if (!split)
 		return (0);

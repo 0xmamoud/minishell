@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:11:19 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/26 17:05:12 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/02 00:35:56 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	create_token(t_minishell *minishell, char *str)
 	int		i;
 	t_token	*new;
 
+	new = NULL;
 	cmds = split_cmd(str);
 	if (!cmds)
 		return (0);
