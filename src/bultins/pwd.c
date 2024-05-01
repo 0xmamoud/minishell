@@ -3,24 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:37:17 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/27 17:10:22 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/01 21:43:30 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	pwd(t_minishell *minishell)
+void	pwd(void)
 {
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (free_and_close(minishell));
+	{
+		ft_exit(1, 0, 0);
+		return ;
+	}
 	ft_printf("%s\n", pwd);
 	ft_exit(0, 0, 0);
 	free(pwd);
-	free_and_close(minishell);
 }

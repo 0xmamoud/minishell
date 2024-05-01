@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/30 22:35:50 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/01 21:43:56 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,8 @@ void					exit_minishell(t_minishell *minishell);
 void					env(t_minishell *minishell);
 void					unset(t_minishell *minishell);
 void					export(t_minishell *minishell);
-void					pwd(t_minishell *minishell);
-void					cd(t_minishell *minishell);
+void					pwd(void);
+int						cd(t_minishell *minishell);
 void						minishell_execve(t_minishell *minishell);
 int						excecute(t_minishell *minishell);
 

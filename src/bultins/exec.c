@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:05:13 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/30 22:35:26 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/01 21:31:13 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	minishell_execve(t_minishell *minishell)
 		minishell->status = WEXITSTATUS(status);
 	signal(SIGINT, control_c_parent);
 	signal(SIGQUIT, SIG_IGN);
-	free_and_close(minishell);
 }
 
 int	excecute(t_minishell *minishell)

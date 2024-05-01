@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   washer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/26 18:34:22 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/01 20:58:26 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	washer(t_minishell *minishell)
 	if (!split)
 		return (0);
 	free(minishell->line);
+	minishell->line = NULL;
 	if (!handle_dollars(split, minishell))
 		return (clear_tab(split), 0);
 	minishell->line = join_tab(split);

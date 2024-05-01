@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:34:06 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/30 20:44:02 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/01 21:44:09 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,22 @@ void	expender(t_minishell *minishell)
 	if (!init_cmds(minishell))
 		return (free_and_close(minishell));
 	if (find_builtins(minishell) == ECHO)
-		return (echo(minishell));
-	if (find_builtins(minishell) == CD)
-		return (cd(minishell));
-	if (find_builtins(minishell) == PWD)
-		return (pwd(minishell));
-	if (find_builtins(minishell) == EXPORT)
-		return (export(minishell));
-	if (find_builtins(minishell) == UNSET)
-		return (unset(minishell));
-	if (find_builtins(minishell) == ENV)
-		return (env(minishell));
-	if (find_builtins(minishell) == EXIT)
-		return (exit_minishell(minishell));
-	minishell_execve(minishell);
+		echo(minishell);
+	else if (find_builtins(minishell) == CD)
+		cd(minishell);
+	else if (find_builtins(minishell) == PWD)
+		pwd();
+	else if (find_builtins(minishell) == EXPORT)
+		export(minishell);
+	else if (find_builtins(minishell) == UNSET)
+		unset(minishell);
+	else if (find_builtins(minishell) == ENV)
+		env(minishell);
+	else if (find_builtins(minishell) == EXIT)
+		exit_minishell(minishell);
+	else
+		minishell_execve(minishell);
+	free_and_close(minishell);
 }
 
 

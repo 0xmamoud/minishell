@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:58:35 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/30 21:12:04 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/01 22:52:59 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,27 @@ void	free_and_close(t_minishell *minishell)
 		close(minishell->in.fd);
 		if (minishell->in.type == HEREDOC)
 			unlink(minishell->in.file);
+		minishell->in.fd = -1;
+		minishell->in.type = -1;
 	}
 	if (minishell->out.fd != -1)
 	{
 		dup2(minishell->out.saved_stdout, STDOUT_FILENO);
 		close(minishell->out.saved_stdout);
 		close(minishell->out.fd);
+		minishell->out.fd = -1;
+		minishell->out.type = -1;
 	}
 	if ((int)minishell->in.type != -1)
+	{
 		free(minishell->in.file);
+		minishell->in.file = NULL;
+	}
 	if ((int)minishell->out.type != -1)
+	{
 		free(minishell->out.file);
+		minishell->out.file = NULL;
+	}
 }
 
 static int	get_file(t_minishell *minishell, char *file,

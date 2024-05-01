@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 18:15:19 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/27 19:36:11 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/01 21:34:22 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,13 @@ void	export(t_minishell *minishell)
 	cmds = cmds->next;
 	new = NULL;
 	if (!cmds)
-		return (print_export(minishell), free_and_close(minishell));
+		return (print_export(minishell));
 	while (cmds)
 	{
 		if (!while_export(minishell, cmds, new))
 			return ;
 		cmds = cmds->next;
 	}
-	free_and_close(minishell);
 }
 
 static int	while_export(t_minishell *minishell, t_cmd *cmds, t_env *new)
@@ -41,19 +40,19 @@ static int	while_export(t_minishell *minishell, t_cmd *cmds, t_env *new)
 	if (!is_all_alpha(cmds->cmd))
 	{
 		ft_printf("export: `%s': not a valid identifier\n", cmds->cmd);
-		return (ft_exit(1, 0, 0), free_and_close(minishell), 0);
+		return (ft_exit(1, 0, 0), 0);
 	}
 	env_lstdelnode(&minishell->env, cmds->cmd);
 	if (ft_strchr(cmds->cmd, '='))
 	{
 		if (!add_with_value(minishell, cmds))
-			return (free_and_close(minishell), 0);
+			return (0);
 	}
 	else
 	{
 		new = env_lstnew(cmds->cmd, "");
 		if (!new)
-			return (free_and_close(minishell), 0);
+			return (0);
 		env_lstadd_back(&minishell->env, new);
 	}
 	return (1);
