@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:44 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/01 23:22:40 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/02 00:10:12 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,36 +32,52 @@ static int	setup_commands(t_minishell *minishell, char **args)
 	return (1);
 }
 
-// static int	pipe_init_redirection(t_pipe_cmds **cmds)
-// {
-// 	if ((*cmds)->in.type == HEREDOC)
-// 		ft_here_doc(&(*cmds)->in.file);
-// 	if ((*cmds)->in.type == REDIR_IN || (*cmds)->in.type == HEREDOC)
-// 	{
-// 		(*cmds)->in.fd = open((*cmds)->in.file, O_RDONLY);
-// 		if ((*cmds)->in.fd == -1)
-// 		{
-// 			ft_putstr_fd("No such file or directory\n", 2);
-// 			return (ft_exit(1, 0, 0));
-// 		}
-// 	}
-// 	if ((*cmds)->out.type == REDIR_OUT || (*cmds)->out.type == REDIR_OUT_APPEND)
-// 	{
-// 		if ((*cmds)->out.type == REDIR_OUT)
-// 			(*cmds)->out.fd = open((*cmds)->out.file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-// 		else
-// 			(*cmds)->out.fd = open((*cmds)->out.file, O_WRONLY | O_CREAT | O_APPEND, 0777);
-// 		if ((*cmds)->out.fd == -1)
-// 		{
-// 			ft_putstr_fd("No such file or directory\n", 2);
-// 			close((*cmds)->in.fd);
-// 			if ((*cmds)->in.type == HEREDOC)
-// 				unlink((*cmds)->in.file);
-// 			return (ft_exit(1, 0, 0));
-// 		}
-// 	}
-// 	return (1);
-// }
+static int	pipe_init_redirection(t_pipe_cmds **cmds)
+{
+	if ((*cmds)->in.type == HEREDOC)
+		ft_here_doc(&(*cmds)->in.file);
+	if ((*cmds)->in.type == REDIR_IN || (*cmds)->in.type == HEREDOC)
+	{
+		(*cmds)->in.fd = open((*cmds)->in.file, O_RDONLY);
+		if ((*cmds)->in.fd == -1)
+		{
+			ft_putstr_fd("No such file or directory\n", 2);
+			return (ft_exit(1, 0, 0));
+		}
+	}
+	if ((*cmds)->out.type == REDIR_OUT || (*cmds)->out.type == REDIR_OUT_APPEND)
+	{
+		if ((*cmds)->out.type == REDIR_OUT)
+			(*cmds)->out.fd = open((*cmds)->out.file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		else
+			(*cmds)->out.fd = open((*cmds)->out.file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		if ((*cmds)->out.fd == -1)
+		{
+			ft_putstr_fd("No such file or directory\n", 2);
+			close((*cmds)->in.fd);
+			if ((*cmds)->in.type == HEREDOC)
+				unlink((*cmds)->in.file);
+			return (ft_exit(1, 0, 0));
+		}
+	}
+	return (1);
+}
+
+static	void	free_pipe_redirection(t_pipe_cmds **cmds)
+{
+	if ((*cmds)->in.fd != -1)
+	{
+		close((*cmds)->in.fd);
+		if ((*cmds)->in.type == HEREDOC)
+			unlink((*cmds)->in.file);
+		free((*cmds)->in.file);
+	}
+	if ((*cmds)->out.fd != -1)
+	{
+		close((*cmds)->out.fd);
+		free((*cmds)->out.file);
+	}
+}
 
 static void	pipe_expend_bultin(t_minishell *minishell, t_pipe_cmds *cmds)
 {
@@ -93,11 +109,11 @@ static void	pipe_child_process(t_minishell *minishell, t_pipe_cmds **cmds)
 		dup2(minishell->pipe.fd[1], STDOUT_FILENO);
 	close(minishell->pipe.fd[0]);
 	close(minishell->pipe.fd[1]);
-	// if (!pipe_init_redirection(cmds))
-	// {
-	// 	ft_exit(1, 0, 0);
-	// 	return ;
-	// }
+	if (!pipe_init_redirection(cmds))
+	{
+		ft_exit(1, 0, 0);
+		return ;
+	}
 	pipe_expend_bultin(minishell, *cmds);
 }
 
@@ -113,10 +129,10 @@ static int	pipe_process(t_minishell *minishell, t_pipe_cmds **cmds)
 	if (minishell->pipe.pid[(*cmds)->index] == 0)
 	{
 		pipe_child_process(minishell, cmds);
+		free_pipe_redirection(cmds);
 		if (minishell->pipe.prev_fd != -1)
 			close(minishell->pipe.prev_fd);
 		token_lstclear(&minishell->token);
-		free_and_close(minishell);
 		pipe_lstclear(&minishell->pipe.cmds);
 		cmd_lstclear(&minishell->cmd);
 		env_lstclear(&minishell->env);
@@ -169,6 +185,12 @@ void	minishell_pipe(t_minishell *minishell)
 
 	i = 0;
 	(void)status;
+	minishell->in.fd = -1;
+	minishell->out.fd = -1;
+	minishell->in.type = -1;
+	minishell->out.type = -1;
+	minishell->in.file = NULL;
+	minishell->out.file = NULL;
 	minishell->pipe.prev_fd = -1;
 	if (!init_pipe(minishell))
 		return (pipe_lstclear(&minishell->pipe.cmds));
