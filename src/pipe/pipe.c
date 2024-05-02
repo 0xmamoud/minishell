@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:44 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/02 19:59:22 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/03 00:41:56 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ static int	setup_commands(t_minishell *minishell, char **args)
 
 static int	pipe_init_redirection(t_pipe_cmds **cmds, t_minishell *minishell)
 {
-	if ((*cmds)->in.type == HEREDOC)
-		ft_here_doc(&(*cmds)->in.file, minishell);
+	(void)minishell;
 	if ((*cmds)->in.type == REDIR_IN || (*cmds)->in.type == HEREDOC)
 	{
 		(*cmds)->in.fd = open((*cmds)->in.file, O_RDONLY);
@@ -75,14 +74,12 @@ static int	pipe_init_redirection(t_pipe_cmds **cmds, t_minishell *minishell)
 
 static	void	free_pipe_redirection(t_pipe_cmds **cmds)
 {
-	if ((*cmds)->in.fd != -1)
+	if ((*cmds)->in.fd != -1 || (*cmds)->in.file)
 	{
 		close((*cmds)->in.fd);
-		if ((*cmds)->in.type == HEREDOC)
-			unlink((*cmds)->in.file);
 		free((*cmds)->in.file);
 	}
-	if ((*cmds)->out.fd != -1)
+	if ((*cmds)->out.fd != -1 || (*cmds)->out.file)
 	{
 		close((*cmds)->out.fd);
 		free((*cmds)->out.file);
@@ -138,6 +135,8 @@ static int	pipe_process(t_minishell *minishell, t_pipe_cmds **cmds)
 	signal(SIGQUIT, control_back_slash_child);
 	if (minishell->pipe.pid[(*cmds)->index] == 0)
 	{
+		if ((*cmds)->in.type == HEREDOC)
+			ft_here_doc(&(*cmds)->in.file, minishell);
 		pipe_child_process(minishell, cmds);
 		free_pipe_redirection(cmds);
 		if (minishell->pipe.prev_fd != -1)

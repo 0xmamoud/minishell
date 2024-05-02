@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:18:26 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/02 21:36:09 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/03 00:14:02 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	ft_here_doc(char **delimiter, t_minishell *minishell)
 	int		status;
 	char	*line;
 
-	(void)minishell;
-	char *(fd_name) = ft_strjoin(ft_strdup("here_doc."), *delimiter);
+	char *(fd_name) = ft_join("here_doc.", *delimiter);
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid < 0)
@@ -47,29 +46,25 @@ void	ft_here_doc(char **delimiter, t_minishell *minishell)
 			free(line);
 		}
 		close(fd);
-		// free(*delimiter);
-		// *delimiter = fd_name;
-		// env_lstclear(&minishell->env);
-		// pipe_lstclear(&minishell->pipe.cmds);
-		// cmd_lstclear(&minishell->cmd);
-		// token_lstclear(&minishell->token);
-		// free(minishell->line);
-		// if (minishell->pipe.pid)
-		// 	free(minishell->pipe.pid);
-		// if (minishell->in.saved_stdin != -1)
-		// 	close(minishell->in.saved_stdin);
-		// if (minishell->out.saved_stdout != -1)
-		// 	close(minishell->out.saved_stdout);
-		// if (minishell->in.fd != -1)
-		// 	close(minishell->in.fd);
-		// if (minishell->out.fd != -1)
-		// 	close(minishell->out.fd);
-		// if (minishell->pipe.prev_fd != -1)
-		// 	close(minishell->pipe.prev_fd);
-		// if (minishell->in.file)
-		// 	free(minishell->in.file);
-		// if (minishell->out.file)
-		// 	free(minishell->out.file);
+		free(*delimiter);
+		*delimiter = fd_name;
+		env_lstclear(&minishell->env);
+		pipe_lstclear(&minishell->pipe.cmds);
+		cmd_lstclear(&minishell->cmd);
+		pipe_lstclear(&minishell->pipe.cmds);
+		token_lstclear(&minishell->token);
+		free(minishell->line);
+		if (minishell->in.saved_stdin != -1)
+			close(minishell->in.saved_stdin);
+		if (minishell->out.saved_stdout != -1)
+			close(minishell->out.saved_stdout);
+		if (minishell->in.fd != -1)
+			close(minishell->in.fd);
+		if (minishell->out.fd != -1)
+			close(minishell->out.fd);
+		free(minishell->in.file);
+		if (minishell->out.file)
+			free(minishell->out.file);
 		exit(0);
 
 	}
@@ -77,7 +72,9 @@ void	ft_here_doc(char **delimiter, t_minishell *minishell)
 	if (WIFEXITED(status))
 		get_status(WEXITSTATUS(status), 0);
 	free(*delimiter);
-	*delimiter = fd_name;
+	*delimiter = NULL;
+	*delimiter = ft_strdup(fd_name);
+	free(fd_name);
 	signal(SIGINT, control_c_parent);
 	signal(SIGQUIT, SIG_IGN);
 }
