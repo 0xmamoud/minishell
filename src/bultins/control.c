@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   control.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:50:33 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/02 19:40:05 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/02 20:56:15 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ void	control_c_child(int signal)
 {
 	(void)signal;
 	ft_putstr_fd("\n", 1);
-	printf("dwdwedwedwedewedwe");
 	get_status(130, 0);
+	exit(130);
 }
+
+
 
 void	control_back_slash_child(int signal)
 {

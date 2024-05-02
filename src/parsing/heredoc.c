@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:18:26 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/02 20:17:54 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/02 20:53:18 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	ft_here_doc(char **delimiter, t_minishell *minishell)
 	pid = fork();
 	if (pid < 0)
 		return ;
+	signal(SIGINT, control_c_child);
+	signal(SIGQUIT, control_back_slash_child);
 	if (pid == 0)
 	{
 		int (fd) = open(fd_name, O_CREAT | O_RDWR | O_TRUNC, 0777);
@@ -76,9 +78,11 @@ void	ft_here_doc(char **delimiter, t_minishell *minishell)
 		exit(0);
 
 	}
+	signal(SIGINT, control_c_parent);
+	signal(SIGQUIT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		get_status(WEXITSTATUS(status), 0);
-	free(delimiter);
+	free(*delimiter);
 	*delimiter = fd_name;
 }
