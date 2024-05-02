@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/02 19:56:33 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/02 21:16:55 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ void					pipe_lstclear(t_pipe_cmds **pipe);
 // control
 void					control_c_parent(int signal);
 void					control_c_child(int signal);
+void					control_c_heredoc(int signal);
 void					control_back_slash_child(int signal);
 void					control_back_slash_parent(int signal);
 int						ft_exit(int status, int r, int e);

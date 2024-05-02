@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   control.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:50:33 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/02 20:56:15 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/02 21:30:46 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,14 @@ void	control_c_child(int signal)
 	(void)signal;
 	ft_putstr_fd("\n", 1);
 	get_status(130, 0);
-	exit(130);
 }
 
+void control_c_heredoc(int signal)
+{
+	(void)signal;
+	ft_putstr_fd("\n", 1);
+	exit(130);
+}
 
 
 void	control_back_slash_child(int signal)
