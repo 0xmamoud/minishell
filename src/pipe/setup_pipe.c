@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 22:51:42 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/02 00:11:15 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/02 18:05:19 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static int	sub_pipe_redirection(t_token *token, t_pipe_cmds **pipe)
 	}
 	if (token->cmd[0] == '<' && token->cmd[1] == '<')
 	{
+		printf("heredoc\n");
 		if (!get_file_infos(token->cmd, pipe, HEREDOC))
 			return (0);
 	}

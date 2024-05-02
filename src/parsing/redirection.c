@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:49:23 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/29 22:32:02 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/02 19:57:09 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	init_input(t_minishell *minishell)
 		minishell->in.fd = open(minishell->in.file, O_RDONLY);
 	else if (minishell->in.type == HEREDOC)
 	{
-		ft_here_doc(&minishell->in.file);
+		ft_here_doc(&minishell->in.file, minishell);
 		minishell->in.fd = open(minishell->in.file, O_RDONLY);
 		if (minishell->in.fd == -1)
 		{
