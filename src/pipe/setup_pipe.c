@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 22:51:42 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/02 18:05:19 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/04 00:18:59 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,14 @@ int	pipe_redirection(t_minishell *minishell)
 		pipe->out.file = NULL;
 		pipe->in.type = -1;
 		pipe->out.type = -1;
+		minishell->in.fd = -1;
+		minishell->out.fd = -1;
+		minishell->in.file = NULL;
+		minishell->out.file = NULL;
+		minishell->in.type = -1;
+		minishell->out.type = -1;
+		minishell->in.saved_stdin = -1;
+		minishell->out.saved_stdout = -1;
 		while (token && token->type != PIPE)
 		{
 			if (token->type == REDIRECTION)
@@ -84,7 +92,6 @@ static int	sub_pipe_redirection(t_token *token, t_pipe_cmds **pipe)
 	}
 	if (token->cmd[0] == '<' && token->cmd[1] == '<')
 	{
-		printf("heredoc\n");
 		if (!get_file_infos(token->cmd, pipe, HEREDOC))
 			return (0);
 	}

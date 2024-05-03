@@ -1,6 +1,0 @@
-#    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #$
-#    Updated: 2024/05/02 23:01:44 by mkane            ###   ########.fr        #$
-	@make -C includes/libft$
-	@make -C includes/libft clean$
-	@make -C includes/libft fclean$
-bonus: all$

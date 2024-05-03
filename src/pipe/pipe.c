@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:44 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/03 00:41:56 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/04 00:29:40 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,13 @@ static int	setup_commands(t_minishell *minishell, char **args)
 		i++;
 	}
 	if (!minishell->cmd)
-		return (0);
+	{
+		new = cmd_lstnew("");
+		if (!new)
+			return (0);
+		cmd_lstadd_back(&minishell->cmd, new);
+		return (1);
+	}
 	return (1);
 }
 
@@ -45,6 +51,7 @@ static int	pipe_init_redirection(t_pipe_cmds **cmds, t_minishell *minishell)
 		}
 		if (dup2((*cmds)->in.fd, STDIN_FILENO) == -1)
 			return (ft_exit(1, 0, 0));
+		close((*cmds)->in.fd);
 	}
 	if ((*cmds)->out.type == REDIR_OUT || (*cmds)->out.type == REDIR_OUT_APPEND)
 	{
@@ -55,36 +62,36 @@ static int	pipe_init_redirection(t_pipe_cmds **cmds, t_minishell *minishell)
 		if ((*cmds)->out.fd == -1)
 		{
 			ft_putstr_fd("No such file or directory\n", 2);
-			close((*cmds)->in.fd);
 			if ((*cmds)->in.type == HEREDOC)
 				unlink((*cmds)->in.file);
 			return (ft_exit(1, 0, 0));
 		}
 		if (dup2((*cmds)->out.fd, STDOUT_FILENO) == -1)
 		{
-			close((*cmds)->in.fd);
 			if ((*cmds)->in.type == HEREDOC)
 				unlink((*cmds)->in.file);
 			close((*cmds)->out.fd);
 			return (ft_exit(1, 0, 0));
 		}
+		close((*cmds)->out.fd);
 	}
 	return (1);
 }
 
-static	void	free_pipe_redirection(t_pipe_cmds **cmds)
-{
-	if ((*cmds)->in.fd != -1 || (*cmds)->in.file)
-	{
-		close((*cmds)->in.fd);
-		free((*cmds)->in.file);
-	}
-	if ((*cmds)->out.fd != -1 || (*cmds)->out.file)
-	{
-		close((*cmds)->out.fd);
-		free((*cmds)->out.file);
-	}
-}
+// static	void	free_pipe_redirection(t_pipe_cmds **cmds)
+// {
+// 	if ((*cmds)->in.fd != -1 || (*cmds)->in.file)
+// 	{
+// 		if ((*cmds)->in.fd != -1)
+// 			close((*cmds)->in.fd);
+// 		free((*cmds)->in.file);
+// 	}
+// 	if ((*cmds)->out.fd != -1 || (*cmds)->out.file)
+// 	{
+// 		close((*cmds)->out.fd);
+// 		free((*cmds)->out.file);
+// 	}
+// }
 
 static void	pipe_expend_bultin(t_minishell *minishell, t_pipe_cmds *cmds)
 {
@@ -135,15 +142,14 @@ static int	pipe_process(t_minishell *minishell, t_pipe_cmds **cmds)
 	signal(SIGQUIT, control_back_slash_child);
 	if (minishell->pipe.pid[(*cmds)->index] == 0)
 	{
-		if ((*cmds)->in.type == HEREDOC)
-			ft_here_doc(&(*cmds)->in.file, minishell);
-		pipe_child_process(minishell, cmds);
-		free_pipe_redirection(cmds);
+		if ((*cmds)->cmd[0] != '\0')
+			pipe_child_process(minishell, cmds);
+		// free_pipe_redirection(cmds);
 		if (minishell->pipe.prev_fd != -1)
 			close(minishell->pipe.prev_fd);
-		token_lstclear(&minishell->token);
 		pipe_lstclear(&minishell->pipe.cmds);
 		cmd_lstclear(&minishell->cmd);
+		token_lstclear(&minishell->token);
 		env_lstclear(&minishell->env);
 		free(minishell->pipe.pid);
 		free(minishell->line);
@@ -186,6 +192,21 @@ static int	pipe_loop(t_minishell *minishell)
 	return (1);
 }
 
+static void pipi_open_heredocs(t_minishell *minishell)
+{
+	t_pipe_cmds	*cmds;
+
+	cmds = minishell->pipe.cmds;
+	while (cmds)
+	{
+		if (cmds->in.type == HEREDOC)
+		{
+			ft_here_doc(&cmds->in.file, minishell);
+		}
+		cmds = cmds->next;
+	}
+}
+
 
 void	minishell_pipe(t_minishell *minishell)
 {
@@ -207,6 +228,7 @@ void	minishell_pipe(t_minishell *minishell)
 		return (pipe_lstclear(&minishell->pipe.cmds));
 	if (!pipe_types(minishell))
 		return (pipe_lstclear(&minishell->pipe.cmds));
+	pipi_open_heredocs(minishell);
 	minishell->pipe.len_pid = pipe_lstlast(minishell->pipe.cmds)->index + 1;
 	minishell->pipe.pid = malloc(sizeof(pid_t) * minishell->pipe.len_pid);
 	pipe_loop(minishell);

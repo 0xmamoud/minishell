@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 19:10:46 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/30 20:10:09 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/03 22:53:44 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ int	pipe_types(t_minishell *minishell)
 		args = ft_split(cmds->cmd, ' ');
 		if (!args)
 			return (0);
-		cmds->type = get_cmd_type(args[0]);
+		if (cmds->cmd[0] == '\0')
+			cmds->type = BUILTIN_COUNT;
+		else
+			cmds->type = get_cmd_type(args[0]);
 		clear_tab(args);
 		cmds = cmds->next;
 	}
