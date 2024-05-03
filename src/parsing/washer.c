@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/02 18:00:07 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/03 12:26:48 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,46 @@ static int	count_quotes(char *cmd, char c);
 static char	*join_tab(char **tab);
 static int	handle_dollars(char **split, t_minishell *minishell);
 
+
+static int verify_quotes(const char *str) {
+    int in_single_quote;
+    int in_double_quote;
+    int i;
+
+	i = 0;
+	in_double_quote = 0;
+	in_single_quote = 0;
+    while (str[i] != '\0') {
+        if (str[i] == '\'' && !in_double_quote) {
+            in_single_quote = !in_single_quote;
+        } else if (str[i] == '\"' && !in_single_quote) {
+            in_double_quote = !in_double_quote;
+        }
+        i++;
+    }
+
+    if (in_single_quote || in_double_quote)
+        return (0);
+
+    return (1);
+}
+
+
 int	washer(t_minishell *minishell)
 {
 	char	**split;
 
 	if (!checker(minishell->line))
 		return (0);
-	if (count_quotes(minishell->line, '\'') % 2 != 0
-		|| count_quotes(minishell->line, '\"') % 2 != 0)
+	// if (count_quotes(minishell->line, '\'') % 2 != 0
+	// 	|| count_quotes(minishell->line, '\"') % 2 != 0)
+	// 	return (0);
+	if (!verify_quotes(minishell->line))
 		return (0);
 	parse(minishell->line, count_quotes(minishell->line, '\"') / 2, '\"');
 	parse(minishell->line, count_quotes(minishell->line, '\'') / 2, '\'');
 	parse_redirection(minishell->line);
+	//printf("line: %s\n", minishell->line);
 	split = NULL;
 	split = ft_split(minishell->line, ' ');
 	if (!split)
@@ -52,7 +80,7 @@ static int	checker(char *cmd)
 	while (cmd[i])
 	{
 		if (cmd[i] == ';' || cmd[i] == '\\' || cmd[i] == '(' || cmd[i] == ')'
-			|| cmd[i] == '*' || (cmd[i] == '|' && cmd[i + 1] == '|')
+			|| (cmd[i] == '|' && cmd[i + 1] == '|')
 			|| (cmd[i] == '&' && cmd[i + 1] == '&'))
 			return (0);
 		i++;

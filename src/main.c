@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/04/30 23:13:52 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/03 12:16:36 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,6 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		add_history(minishell.line);
-		if (strcmp(minishell.line, "$?") == 0)
-		{
-			ft_printf("%d\n", get_status(127, 1));
-			free(minishell.line);
-			continue ;
-		}
 		if (!washer(&minishell))
 		{
 			printf("Error: failed to create token\n");
