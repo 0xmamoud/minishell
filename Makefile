@@ -6,7 +6,7 @@
 #    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/05/04 20:22:34 by mkane            ###   ########.fr        #
+#    Updated: 2024/05/04 23:52:40 by mkane            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,6 +63,7 @@ SRC=\
 	${UTILS_DIR}/lst_cmd.c\
 	${UTILS_DIR}/lst_pipe.c\
 	${UTILS_DIR}/token_utils.c\
+	${UTILS_DIR}/ft_print_error.c\
 
 OBJ = $(addprefix ${OBJ_DIR}/,$(notdir ${SRC:.c=.o}))
 

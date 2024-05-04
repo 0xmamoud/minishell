@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 18:15:19 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/01 21:34:22 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/05 00:40:03 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	while_export(t_minishell *minishell, t_cmd *cmds, t_env *new)
 {
 	if (!is_all_alpha(cmds->cmd))
 	{
-		ft_printf("export: `%s': not a valid identifier\n", cmds->cmd);
+		ft_print_error("export: ", cmds->cmd, "is not a valid identifier\n");
 		return (ft_exit(1, 0, 0), 0);
 	}
 	env_lstdelnode(&minishell->env, cmds->cmd);
@@ -63,9 +63,12 @@ static	int	is_all_alpha(char *str)
 	int	i;
 
 	i = 0;
+	if (!ft_isalpha(str[i]) && str[i] != '_')
+		return (0);
+	i++;
 	while (str[i] && str[i] != '=')
 	{
-		if (!ft_isalpha(str[i]))
+		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '_')
 			return (0);
 		i++;
 	}

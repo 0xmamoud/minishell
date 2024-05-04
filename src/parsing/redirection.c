@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:49:23 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/04 21:03:31 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/05 00:41:38 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,7 @@ static int	init_input(t_minishell *minishell)
 	minishell->in.fd = open(minishell->in.file, O_RDONLY);
 	if (minishell->in.fd == -1)
 	{
-		if (access(minishell->in.file, F_OK) == -1)
-			ft_putstr_fd(": No such file or directory\n", 2);
-		else
-			ft_putstr_fd(": Permission denied\n", 2);
+		perror(minishell->in.file);
 		if (minishell->in.type == HEREDOC)
 			unlink(minishell->in.file);
 		return (ft_exit(1, 0, 0));
@@ -83,7 +80,7 @@ static int	init_output(t_minishell *minishell)
 				O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (minishell->out.fd == -1)
 	{
-		ft_putstr_fd(": No such file or directory\n", 2);
+		perror(minishell->out.file);
 		if (minishell->in.file && minishell->in.type == HEREDOC)
 			unlink(minishell->in.file);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/02 21:16:55 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/05 00:22:10 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,8 @@ t_pipe_cmds				*pipe_lstlast(t_pipe_cmds *pipe);
 void					pipe_lstadd_back(t_pipe_cmds **pipe, t_pipe_cmds *new);
 void					pipe_lstclear(t_pipe_cmds **pipe);
 
+void					ft_print_error(char *cmd, char *str, char *str2);
+
 // control
 void					control_c_parent(int signal);
 void					control_c_child(int signal);
@@ -209,6 +211,6 @@ int						get_status(int status, int get);
 
 //heredoc
 
-void	ft_here_doc(char **delimiter, t_minishell *minishell);
+void					ft_here_doc(char **delimiter, t_minishell *minishell);
 
 #endif

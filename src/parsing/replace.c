@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:30:16 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/03 12:11:13 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/05 00:42:00 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ static int	count_env_chars(char *str, t_minishell *minishell, int i)
 		}
 		else
 			tmp = find_env(minishell->env, str + j);
-		//tmp = find_env(minishell->env, str + j);
 		str[i] = c;
 		if (tmp)
 		{
