@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:00:32 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/02 00:22:16 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/04 21:49:44 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	echo(t_minishell *minishell)
 
 	cmd = minishell->cmd;
 	cmd = cmd->next;
+	minishell->echo.option = 0;
 	while (cmd && find_option(cmd->cmd, minishell))
 		cmd = cmd->next;
 	str = get_string(cmd);

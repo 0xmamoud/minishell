@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 20:26:19 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/04 00:30:32 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/04 21:24:30 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,17 +92,11 @@ void	pipe_lstclear(t_pipe_cmds **pipe)
 		if ((*pipe)->in.file)
 		{
 			if ((*pipe)->in.type == HEREDOC)
-			{
 				unlink((*pipe)->in.file);
-			}
 			free((*pipe)->in.file);
 		}
 		if ((*pipe)->out.file)
-		{
 			free((*pipe)->out.file);
-			if ((*pipe)->out.fd != -1)
-				close((*pipe)->out.fd);
-		}
 		free_pipe(pipe);
 	}
 }

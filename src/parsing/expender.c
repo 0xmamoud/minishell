@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:34:06 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/02 20:43:50 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/04 20:31:03 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,37 +39,6 @@ static int	init_cmds(t_minishell *minishell)
 
 void	expender(t_minishell *minishell)
 {
-
-	// if nbcmd == 1 && cmd == BUILTIN {}
-	// function exec builtin
-	//  redirection
-		// exec builtin
-		// return
-	// else
-	/*
-		while (i < nbcmd)
-		{
-			pipe(fd)
-			pid[i] = fork()
-			if (pid == 0)
-			{
-				redirection pipe
-				redirection file
-				execve
-			}
-			else
-			{
-				le bail de pipe
-			}
-		}
-
-		while (i < nbcmd)
-			waitppid(pid[i], &status, 0)
-			if (WIFEXITED(status))
-				minishell->status = WEXITSTATUS(status);
-			
-	*/
-
 	if (find_pipe(minishell))
 		return (minishell_pipe(minishell));
 	if (!redirection(minishell))

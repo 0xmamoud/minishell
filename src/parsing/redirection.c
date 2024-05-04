@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:49:23 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/02 19:57:09 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/04 21:03:31 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,53 +38,58 @@ int	redirection(t_minishell *minishell)
 
 int	init_files(t_minishell *minishell)
 {
-	if ((int)minishell->in.type != -1 && init_input(minishell) == 0)
-		return (0);
-	if ((int)minishell->out.type != -1 && init_output(minishell) == 0)
-		return (0);
+	if (minishell->in.file)
+	{
+		if (!init_input(minishell))
+			return (0);
+	}
+	if (minishell->out.file)
+	{
+		if (!init_output(minishell))
+			return (0);
+	}
 	return (1);
 }
 
 static int	init_input(t_minishell *minishell)
 {
-	minishell->in.saved_stdin = dup(STDIN_FILENO);
-	if (minishell->in.type == REDIR_IN)
-		minishell->in.fd = open(minishell->in.file, O_RDONLY);
-	else if (minishell->in.type == HEREDOC)
-	{
+	if (minishell->in.type == HEREDOC)
 		ft_here_doc(&minishell->in.file, minishell);
-		minishell->in.fd = open(minishell->in.file, O_RDONLY);
-		if (minishell->in.fd == -1)
-		{
-			ft_putstr_fd("No such file or directory\n", 2);
-			return (ft_exit(1, 0, 0));
-		}
-	}
+	minishell->in.fd = open(minishell->in.file, O_RDONLY);
 	if (minishell->in.fd == -1)
 	{
-		ft_putstr_fd("No such file or directory\n", 2);
+		if (access(minishell->in.file, F_OK) == -1)
+			ft_putstr_fd(": No such file or directory\n", 2);
+		else
+			ft_putstr_fd(": Permission denied\n", 2);
+		if (minishell->in.type == HEREDOC)
+			unlink(minishell->in.file);
 		return (ft_exit(1, 0, 0));
 	}
+	minishell->in.saved_stdin = dup(STDIN_FILENO);
 	if (dup2(minishell->in.fd, STDIN_FILENO) < 0)
 		return (0);
+	close(minishell->in.fd);
 	return (1);
 }
 
 static int	init_output(t_minishell *minishell)
 {
-	minishell->out.saved_stdout = dup(STDOUT_FILENO);
 	if (minishell->out.type == REDIR_OUT)
 		minishell->out.fd = open(minishell->out.file,
 				O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (minishell->out.type == REDIR_OUT_APPEND)
+	else
 		minishell->out.fd = open(minishell->out.file,
 				O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (minishell->out.fd == -1)
 	{
 		ft_putstr_fd(": No such file or directory\n", 2);
-		return (ft_exit(1, 0, 0));
+		if (minishell->in.file && minishell->in.type == HEREDOC)
+			unlink(minishell->in.file);
 	}
+	minishell->out.saved_stdout = dup(STDOUT_FILENO);
 	if (dup2(minishell->out.fd, STDOUT_FILENO) < 0)
 		return (0);
+	close(minishell->out.fd);
 	return (1);
 }

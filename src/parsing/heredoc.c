@@ -6,11 +6,28 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:18:26 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/03 00:14:02 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/04 23:28:54 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	clear_heredoc_pipe(t_pipe_cmds **pipe)
+{
+	t_pipe_cmds	*tmp;
+
+	while (*pipe)
+	{
+		if ((*pipe)->in.file)
+			free((*pipe)->in.file);
+		if ((*pipe)->out.file)
+			free((*pipe)->out.file);
+		tmp = *pipe;
+		*pipe = (*pipe)->next;
+		free(tmp->cmd);
+		free(tmp);
+	}
+}
 
 
 void	ft_here_doc(char **delimiter, t_minishell *minishell)
@@ -49,9 +66,8 @@ void	ft_here_doc(char **delimiter, t_minishell *minishell)
 		free(*delimiter);
 		*delimiter = fd_name;
 		env_lstclear(&minishell->env);
-		pipe_lstclear(&minishell->pipe.cmds);
+		clear_heredoc_pipe(&minishell->pipe.cmds);
 		cmd_lstclear(&minishell->cmd);
-		pipe_lstclear(&minishell->pipe.cmds);
 		token_lstclear(&minishell->token);
 		free(minishell->line);
 		if (minishell->in.saved_stdin != -1)

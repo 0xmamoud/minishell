@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:44 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/04 00:29:40 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/04 23:24:04 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,22 @@ static int	setup_commands(t_minishell *minishell, char **args)
 static int	pipe_init_redirection(t_pipe_cmds **cmds, t_minishell *minishell)
 {
 	(void)minishell;
-	if ((*cmds)->in.type == REDIR_IN || (*cmds)->in.type == HEREDOC)
+	if ((*cmds)->in.file)
 	{
 		(*cmds)->in.fd = open((*cmds)->in.file, O_RDONLY);
 		if ((*cmds)->in.fd == -1)
 		{
-			ft_putstr_fd("No such file or directory\n", 2);
+			if (access((*cmds)->in.file, F_OK) == -1)
+				ft_putstr_fd("No such file or directory\n", 2);
+			else
+				ft_putstr_fd("Permission denied\n", 2);
 			return (ft_exit(1, 0, 0));
 		}
 		if (dup2((*cmds)->in.fd, STDIN_FILENO) == -1)
 			return (ft_exit(1, 0, 0));
 		close((*cmds)->in.fd);
 	}
-	if ((*cmds)->out.type == REDIR_OUT || (*cmds)->out.type == REDIR_OUT_APPEND)
+	if ((*cmds)->out.file)
 	{
 		if ((*cmds)->out.type == REDIR_OUT)
 			(*cmds)->out.fd = open((*cmds)->out.file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
@@ -61,20 +64,50 @@ static int	pipe_init_redirection(t_pipe_cmds **cmds, t_minishell *minishell)
 			(*cmds)->out.fd = open((*cmds)->out.file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 		if ((*cmds)->out.fd == -1)
 		{
-			ft_putstr_fd("No such file or directory\n", 2);
-			if ((*cmds)->in.type == HEREDOC)
-				unlink((*cmds)->in.file);
+			ft_putstr_fd("Permission denied\n", 2);
+			if ((*cmds)->in.fd != -1)
+				close((*cmds)->in.fd);
 			return (ft_exit(1, 0, 0));
 		}
 		if (dup2((*cmds)->out.fd, STDOUT_FILENO) == -1)
-		{
-			if ((*cmds)->in.type == HEREDOC)
-				unlink((*cmds)->in.file);
-			close((*cmds)->out.fd);
 			return (ft_exit(1, 0, 0));
-		}
 		close((*cmds)->out.fd);
 	}
+
+	// if ((*cmds)->in.type == REDIR_IN || (*cmds)->in.type == HEREDOC)
+	// {
+	// 	(*cmds)->in.fd = open((*cmds)->in.file, O_RDONLY);
+	// 	if ((*cmds)->in.fd == -1)
+	// 	{
+	// 		ft_putstr_fd("No such file or directory\n", 2);
+	// 		return (ft_exit(1, 0, 0));
+	// 	}
+	// 	if (dup2((*cmds)->in.fd, STDIN_FILENO) == -1)
+	// 		return (ft_exit(1, 0, 0));
+	// 	close((*cmds)->in.fd);
+	// }
+	// if ((*cmds)->out.type == REDIR_OUT || (*cmds)->out.type == REDIR_OUT_APPEND)
+	// {
+	// 	if ((*cmds)->out.type == REDIR_OUT)
+	// 		(*cmds)->out.fd = open((*cmds)->out.file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	// 	else
+	// 		(*cmds)->out.fd = open((*cmds)->out.file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	// 	if ((*cmds)->out.fd == -1)
+	// 	{
+	// 		ft_putstr_fd("No such file or directory\n", 2);
+	// 		if ((*cmds)->in.type == HEREDOC)
+	// 			unlink((*cmds)->in.file);
+	// 		return (ft_exit(1, 0, 0));
+	// 	}
+	// 	if (dup2((*cmds)->out.fd, STDOUT_FILENO) == -1)
+	// 	{
+	// 		if ((*cmds)->in.type == HEREDOC)
+	// 			unlink((*cmds)->in.file);
+	// 		close((*cmds)->out.fd);
+	// 		return (ft_exit(1, 0, 0));
+	// 	}
+	// 	close((*cmds)->out.fd);
+	// }
 	return (1);
 }
 
@@ -121,6 +154,8 @@ static void	pipe_child_process(t_minishell *minishell, t_pipe_cmds **cmds)
 		dup2(minishell->pipe.prev_fd, STDIN_FILENO);
 	if ((*cmds)->index != minishell->pipe.len_pid - 1)
 		dup2(minishell->pipe.fd[1], STDOUT_FILENO);
+	if (minishell->pipe.prev_fd != -1)
+		close(minishell->pipe.prev_fd);
 	close(minishell->pipe.fd[0]);
 	close(minishell->pipe.fd[1]);
 	if (!pipe_init_redirection(cmds, minishell))
