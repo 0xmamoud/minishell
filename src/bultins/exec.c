@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:05:13 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/06 22:56:18 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/06 23:54:24 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,35 +63,23 @@ int	excecute(t_minishell *minishell)
 		clear_tab(env);
 		return (ft_putstr_fd("Command not found\n", 2), ft_exit(127, 0, 0));
 	}
-	int i = 0;
-	int	count = 0;
-	while (cmd[0][i])
+	execve(path, cmd, env);
+	if (access(path, X_OK) == -1)
 	{
-		if (cmd[0][i] == '.')
-			count++;
-		i++;
-	}
-	if (execve(path, cmd, env) == -1)
-	{
-		clear_tab(cmd);
-		free(path);
-		clear_tab(env);
-	}
-	if (count >= 2)
-	{
-		ft_putstr_fd("No such file or directory deded \n", 2);
-		ft_exit(127, 0, 0);
-	}
-	if (access(path, X_OK) == -1 || count >= 2)
-	{
-		ft_putstr_fd("Permission denied\n", 2);
-		ft_exit(126, 0, 0);
+		ft_putstr_fd("No such file or directory\n", 2);
+		if (access(path, F_OK) == -1)
+			ft_exit(127, 0, 0);
+		else
+			ft_exit(126, 0, 0);
 	}
 	else
 	{
 		ft_putstr_fd("Command not found\n", 2);
-		ft_exit(errno, 0, 0);
+		ft_exit(126, 0, 0);
 	}
+	clear_tab(cmd);
+	free(path);
+	clear_tab(env);
 	return (0);
 }
 

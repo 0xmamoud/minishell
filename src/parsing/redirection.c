@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:49:23 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/05 00:41:38 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/07 00:17:44 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ static int	init_output(t_minishell *minishell)
 		perror(minishell->out.file);
 		if (minishell->in.file && minishell->in.type == HEREDOC)
 			unlink(minishell->in.file);
+		return (ft_exit(1, 0, 0));
 	}
 	minishell->out.saved_stdout = dup(STDOUT_FILENO);
 	if (dup2(minishell->out.fd, STDOUT_FILENO) < 0)
