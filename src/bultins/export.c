@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 18:15:19 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/05 00:40:03 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/06 18:48:11 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	while_export(t_minishell *minishell, t_cmd *cmds, t_env *new)
 	if (!is_all_alpha(cmds->cmd))
 	{
 		ft_print_error("export: ", cmds->cmd, "is not a valid identifier\n");
-		return (ft_exit(1, 0, 0), 0);
+		return (get_status(1, 0), 0);
 	}
 	env_lstdelnode(&minishell->env, cmds->cmd);
 	if (ft_strchr(cmds->cmd, '='))

@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 17:59:50 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/03 12:11:23 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/06 18:52:44 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void	handle_env_vars(char *str, char *new,
 	str[*i] = '\0';
 	if (str[j] == '?')
 	{
-		tmp = ft_itoa(get_status(0, 0));
+		tmp = ft_itoa(get_status(0, 3));
 		j++;
 		while (str[j] && (ft_isalnum(str[j]) || str[j] == '_' || str[j] == '?'))
 		{

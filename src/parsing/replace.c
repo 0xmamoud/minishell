@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:30:16 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/05 00:42:00 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/06 18:52:19 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	count_env_chars(char *str, t_minishell *minishell, int i)
 		str[i] = '\0';
 		if (str[j] == '?')
 		{
-			tmp = ft_itoa(get_status(0, 0));
+			tmp = ft_itoa(get_status(0, 3));
 			j++;
 			while (str[j] && (ft_isalnum(str[j]) || str[j] == '_' || str[j] == '?'))
 			{

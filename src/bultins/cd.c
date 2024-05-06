@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:52:30 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/05 00:26:32 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/06 18:56:46 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	cd(t_minishell *minishell)
 	if (chdir(path) == -1)
 	{
 		ft_print_error("cd: ", token->cmd, "No such file or directory\n");
-		return (free(path), ft_exit(1, 0, 0));
+		return (free(path), ft_exit(0, 0, 0));
 	}
 	return (free(path), ft_exit(0, 0, 0), 1);
 }
