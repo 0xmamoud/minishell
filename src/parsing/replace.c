@@ -6,12 +6,13 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:30:16 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/06 18:52:19 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/06 20:53:11 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// oqwj
 static int	count_env_chars(char *str, t_minishell *minishell, int i);
 static int	count_quoted_chars(char *str, int start);
 
