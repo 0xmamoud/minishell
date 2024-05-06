@@ -6,13 +6,13 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/03 12:26:48 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/06 21:49:21 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	checker(char *cmd);
+// static int	checker(char *cmd);
 static int	count_quotes(char *cmd, char c);
 static char	*join_tab(char **tab);
 static int	handle_dollars(char **split, t_minishell *minishell);
@@ -46,17 +46,13 @@ int	washer(t_minishell *minishell)
 {
 	char	**split;
 
-	if (!checker(minishell->line))
-		return (0);
-	// if (count_quotes(minishell->line, '\'') % 2 != 0
-	// 	|| count_quotes(minishell->line, '\"') % 2 != 0)
+	// if (!checker(minishell->line))
 	// 	return (0);
 	if (!verify_quotes(minishell->line))
 		return (0);
 	parse(minishell->line, count_quotes(minishell->line, '\"') / 2, '\"');
 	parse(minishell->line, count_quotes(minishell->line, '\'') / 2, '\'');
 	parse_redirection(minishell->line);
-	//printf("line: %s\n", minishell->line);
 	split = NULL;
 	split = ft_split(minishell->line, ' ');
 	if (!split)
@@ -72,21 +68,21 @@ int	washer(t_minishell *minishell)
 	return (1);
 }
 
-static int	checker(char *cmd)
-{
-	int	i;
+// static int	checker(char *cmd)
+// {
+// 	int	i;
 
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i] == ';' || cmd[i] == '\\' || cmd[i] == '(' || cmd[i] == ')'
-			|| (cmd[i] == '|' && cmd[i + 1] == '|')
-			|| (cmd[i] == '&' && cmd[i + 1] == '&'))
-			return (0);
-		i++;
-	}
-	return (1);
-}
+// 	i = 0;
+// 	while (cmd[i])
+// 	{
+// 		if (cmd[i] == ';' || cmd[i] == '\\' || cmd[i] == '(' || cmd[i] == ')'
+// 			|| (cmd[i] == '|' && cmd[i + 1] == '|')
+// 			|| (cmd[i] == '&' && cmd[i + 1] == '&'))
+// 			return (0);
+// 		i++;
+// 	}
+// 	return (1);
+// }
 
 static int	count_quotes(char *cmd, char c)
 {

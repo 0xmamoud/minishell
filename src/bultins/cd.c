@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:52:30 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/06 18:56:46 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/06 22:03:05 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,20 @@
 int	cd(t_minishell *minishell)
 {
 	char	*path;
+	char	*oldpwd;
 
+	if (cmd_lstsize(minishell->cmd) > 2)
+	{
+		ft_print_error("cd: ", NULL, "too many arguments\n");
+		return (ft_exit(1, 0, 0));
+	}
 	char *(pwd) = getcwd(NULL, 0);
 	if (!pwd)
 		return (ft_exit(1, 0, 0));
 	t_cmd *(token) = minishell->cmd;
 	token = token->next;
+	if (ft_strcmp(token->cmd, pwd) == 0)
+		return (free(pwd), ft_exit(0, 0, 0), 1);
 	if (!token)
 	{
 		path = find_env(minishell->env, "HOME");
@@ -36,7 +44,19 @@ int	cd(t_minishell *minishell)
 	if (chdir(path) == -1)
 	{
 		ft_print_error("cd: ", token->cmd, "No such file or directory\n");
-		return (free(path), ft_exit(0, 0, 0));
+		return (free(path), ft_exit(1, 0, 0));
 	}
+	oldpwd = find_env(minishell->env, "PWD");
+	if (!oldpwd)
+		return (free(path), ft_exit(1, 0, 0));
+	free(path);
+	path = getcwd(NULL, 0);
+	if (!path)
+		return (free(oldpwd), ft_exit(1, 0, 0));
+	env_lstdelnode(&minishell->env, "OLDPWD");
+	env_lstdelnode(&minishell->env, "PWD");
+	env_lstadd_back(&minishell->env, env_lstnew("OLDPWD", oldpwd));
+	env_lstadd_back(&minishell->env, env_lstnew("PWD", path));
+	free(oldpwd);
 	return (free(path), ft_exit(0, 0, 0), 1);
 }

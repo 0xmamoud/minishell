@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:44 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/05 00:42:59 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/06 22:12:07 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,7 +219,7 @@ void	minishell_pipe(t_minishell *minishell)
 	{
 		waitpid(minishell->pipe.pid[i], &status, 0);
 		if (WIFEXITED(status))
-			minishell->status = WEXITSTATUS(status);
+			get_status(WEXITSTATUS(status), 0);
 		i++;
 	}
 	signal(SIGINT, control_c_parent);

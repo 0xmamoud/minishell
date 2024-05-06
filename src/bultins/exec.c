@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:05:13 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/01 21:31:13 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/06 22:56:18 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void	minishell_execve(t_minishell *minishell)
 		cmd_lstclear(&minishell->cmd);
 		env_lstclear(&minishell->env);
 		free(minishell->line);
-		ft_exit(1, 1, 1);
+		exit(get_status(0, 3));
 
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		minishell->status = WEXITSTATUS(status);
+		get_status(WEXITSTATUS(status), 0);
 	signal(SIGINT, control_c_parent);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -63,14 +63,36 @@ int	excecute(t_minishell *minishell)
 		clear_tab(env);
 		return (ft_putstr_fd("Command not found\n", 2), ft_exit(127, 0, 0));
 	}
+	int i = 0;
+	int	count = 0;
+	while (cmd[0][i])
+	{
+		if (cmd[0][i] == '.')
+			count++;
+		i++;
+	}
 	if (execve(path, cmd, env) == -1)
 	{
 		clear_tab(cmd);
 		free(path);
 		clear_tab(env);
-		return (ft_putstr_fd("Command not found\n", 2), ft_exit(127, 0, 0));
 	}
-	return (1);
+	if (count >= 2)
+	{
+		ft_putstr_fd("No such file or directory deded \n", 2);
+		ft_exit(127, 0, 0);
+	}
+	if (access(path, X_OK) == -1 || count >= 2)
+	{
+		ft_putstr_fd("Permission denied\n", 2);
+		ft_exit(126, 0, 0);
+	}
+	else
+	{
+		ft_putstr_fd("Command not found\n", 2);
+		ft_exit(errno, 0, 0);
+	}
+	return (0);
 }
 
 static char	**get_cmd(t_minishell *minishell)
