@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:49:23 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/07 13:28:01 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/07 20:51:26 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	init_input(t_minishell *minishell)
 		perror(minishell->in.file);
 		if (minishell->in.type == HEREDOC)
 			unlink(minishell->in.file);
-		return (ft_exit(1, 0, 0));
+		return (ft_exit(errno, 0, 0));
 	}
 	minishell->in.saved_stdin = dup(STDIN_FILENO);
 	if (dup2(minishell->in.fd, STDIN_FILENO) < 0)
@@ -83,7 +83,7 @@ static int	init_output(t_minishell *minishell)
 		perror(minishell->out.file);
 		if (minishell->in.file && minishell->in.type == HEREDOC)
 			unlink(minishell->in.file);
-		return (ft_exit(1, 0, 0));
+		return (ft_exit(errno, 0, 0));
 	}
 	minishell->out.saved_stdout = dup(STDOUT_FILENO);
 	if (dup2(minishell->out.fd, STDOUT_FILENO) < 0)

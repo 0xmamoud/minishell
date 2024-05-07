@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/06 21:49:21 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	washer(t_minishell *minishell)
 // 	i = 0;
 // 	while (cmd[i])
 // 	{
-// 		if (cmd[i] == ';' || cmd[i] == '\\' || cmd[i] == '(' || cmd[i] == ')'
+// 		if (cmd[i] == 6 || cmd[i] == '\\' || cmd[i] == '(' || cmd[i] == ')'
 // 			|| (cmd[i] == '|' && cmd[i + 1] == '|')
 // 			|| (cmd[i] == '&' && cmd[i + 1] == '&'))
 // 			return (0);

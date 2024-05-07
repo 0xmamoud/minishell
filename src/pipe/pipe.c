@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:44 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/07 13:56:17 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ static int	pipe_process(t_minishell *minishell, t_pipe_cmds **cmds)
 	signal(SIGQUIT, control_back_slash_child);
 	if (minishell->pipe.pid[(*cmds)->index] == 0)
 	{
+		//printf("CMD: %s\n", (*cmds)->cmd);
 		if ((*cmds)->cmd[0] != '\0')
 			pipe_child_process(minishell, cmds);
 		if (minishell->pipe.prev_fd != -1)
@@ -136,7 +137,7 @@ static int	pipe_process(t_minishell *minishell, t_pipe_cmds **cmds)
 		env_lstclear(&minishell->env);
 		free(minishell->pipe.pid);
 		free(minishell->line);
-		ft_exit(0, 1, 1);
+		ft_exit(get_status(0, 3), 1, 1);
 	}
 	else
 	{

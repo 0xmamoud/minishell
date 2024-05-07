@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 18:05:30 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/06 21:42:04 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	parse(char *cmd, int ret, char c)
 		while (j < i && cmd[j])
 		{
 			if (cmd[j] == ' ')
-				cmd[j] = ';';
+				cmd[j] = 6;
 			j++;
 		}
 		if (j == i)
@@ -46,20 +46,17 @@ void	parse_redirection(char *cmd)
 	i = 0;
 	while (cmd[i])
 	{
-		if (cmd[i] == '<' && cmd[i + 1] == '<' && cmd[i + 2] == ' ')
+		if (cmd[i] == '>' || cmd[i] == '<')
 		{
 			i++;
-			cmd[i + 1] = ';';
+			if (cmd[i] == '>' || cmd[i] == '<')
+				i++;
+			while (cmd[i] == ' ')
+			{
+				cmd[i] = 6;
+				i++;
+			}
 		}
-		else if (cmd[i] == '<' && cmd[i + 1] == ' ')
-			cmd[i + 1] = ';';
-		else if (cmd[i] == '>' && cmd[i + 1] == '>' && cmd[i + 2] == ' ')
-		{
-			i++;
-			cmd[i + 1] = ';';
-		}
-		else if (cmd[i] == '>' && cmd[i + 1] == ' ')
-			cmd[i + 1] = ';';
 		i++;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_query.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:58:35 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/04 21:06:55 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/07 21:03:35 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static int	get_file(t_minishell *minishell, char *file,
 	i = 1;
 	while (file[i] && (file[i] == ' ' || file[i] == '>' || file[i] == '<'))
 		i++;
+	printf("file = %s\n", &file[i]);
 	if (type == REDIR_IN || type == HEREDOC)
 	{
 		if (minishell->in.file)

@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:11:19 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/06 21:42:04 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/07 21:02:56 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	create_token(t_minishell *minishell, char *str)
 	while (cmds[i])
 	{
 		new = token_lstnew(cmds[i], token_type(cmds[i]));
+		// printf("new->content = %s\n", new->cmd);
 		if (!new)
 		{
 			clear_tab(cmds);
@@ -56,7 +57,7 @@ static char	**split_cmd(char *str)
 		j = 0;
 		while (cmd[i][j])
 		{
-			if (cmd[i][j] == ';')
+			if (cmd[i][j] == 6)
 				cmd[i][j] = ' ';
 			j++;
 		}
