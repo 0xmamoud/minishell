@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 17:59:50 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/06 18:52:44 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/07 11:11:16 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@ static void	handle_env_vars(char *str, char *new,
 				t_minishell *minishell, int *i);
 static void	handle_double_quotes(t_minishell *minishell,
 				char *str, char *new, int *i);
+static int 	after_dollars(char a)
+{
+	if (a == '\'' || a == '\"' || !a)
+		return (0);
+	return (1);
+}
 
 char	*find_and_replace(char *str, t_minishell *minishell)
 {
@@ -36,7 +42,7 @@ char	*find_and_replace(char *str, t_minishell *minishell)
 			i++;
 			handle_quoted_chars(str, new, &i);
 		}
-		else if (str[i] == '$')
+		else if (str[i] == '$' && after_dollars(str[i + 1]))
 			handle_env_vars(str, new, minishell, &i);
 		else
 			handle_double_quotes(minishell, str, new, &i);
@@ -56,7 +62,7 @@ static void	handle_double_quotes(t_minishell *minishell, char *str,
 		(*i)++;
 		while (str[*i] && str[*i] != '\"')
 		{
-			if (str[*i] == '$')
+			if (str[*i] == '$' && after_dollars(str[*i + 1]))
 				handle_env_vars(str, new, minishell, i);
 			else
 				new[ft_strlen(new)] = str[*i];

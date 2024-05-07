@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:00:32 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/04 21:49:44 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/07 13:19:08 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	echo(t_minishell *minishell)
 	str = get_string(cmd);
 	if (!str)
 	{
-		ft_exit(1, 0, 0);
+		ft_exit(0, 0, 0);
 		return ;
 	}
 	printf("%s", str);

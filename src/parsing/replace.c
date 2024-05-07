@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:30:16 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/06 20:53:11 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/07 11:10:32 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 // oqwj
 static int	count_env_chars(char *str, t_minishell *minishell, int i);
 static int	count_quoted_chars(char *str, int start);
+static int 	after_dollars(char a)
+{
+	if (a == '\'' || a == '\"' || !a)
+		return (0);
+	return (1);
+}
+
+
 
 int	count_replace(char *str, t_minishell *minishell)
 {
@@ -31,7 +39,7 @@ int	count_replace(char *str, t_minishell *minishell)
 			while (str[i] && str[i] != '\'')
 				i++;
 		}
-		else if (str[i] == '$')
+		else if (str[i] == '$' && after_dollars(str[i + 1]))
 			len += count_env_chars(str, minishell, i);
 		else
 			len++;
@@ -65,7 +73,7 @@ static int	count_env_chars(char *str, t_minishell *minishell, int i)
 	len = 0;
 	while (str[i] && str[i] != '$')
 		i++;
-	if (str[i] == '$')
+	if (str[i] == '$'  && after_dollars(str[i + 1]))
 	{
 		i++;
 		j = i;
