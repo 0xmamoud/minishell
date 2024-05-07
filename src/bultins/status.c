@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 10:19:42 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/06 18:52:52 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/07 17:47:51 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int	ft_exit(int status, int r, int e)
 {
+	// printf("status = %d\n", status);
+	// printf("r = %d\n", r);
+	// printf("e = %d\n", e);
 	get_status(status, 0);
 	if (e)
 		exit(status);
