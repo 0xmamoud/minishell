@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 22:51:42 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/04 00:18:59 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/08 00:13:20 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ int	pipe_redirection(t_minishell *minishell)
 			if (token->type == REDIRECTION)
 			{
 				if (!sub_pipe_redirection(token, &pipe))
-					return (0);
+				{
+					while (token && token->next->type != PIPE)
+						token = token->next;
+				}
 			}
 			token = token->next;
 		}
@@ -111,26 +114,45 @@ static int	sub_pipe_redirection(t_token *token, t_pipe_cmds **pipe)
 static int	get_file_infos(char *filename, t_pipe_cmds **pipe,
 		t_type_redirection type)
 {
+	int	fd;
 	int (i) = 1;
 	while (filename[i] == ' ' || filename[i] == '>' || filename[i] == '<')
 		i++;
 	if (type == REDIR_IN || type == HEREDOC)
 	{
 		if ((*pipe)->in.file)
+		{
 			free((*pipe)->in.file);
+			(*pipe)->in.file = NULL;
+		}
+		(*pipe)->in.type = type;
 		(*pipe)->in.file = ft_strdup(&filename[i]);
 		if (!(*pipe)->in.file)
 			return (0);
-		(*pipe)->in.type = type;
+		if (type == REDIR_IN)
+		{
+			if (access(&filename[i], F_OK) == -1)
+				return (0);
+		}
 	}
 	else if (type == REDIR_OUT || type == REDIR_OUT_APPEND)
 	{
 		if ((*pipe)->out.file)
+		{
 			free((*pipe)->out.file);
+			(*pipe)->out.file = NULL;
+		}
+		(*pipe)->out.type = type;
 		(*pipe)->out.file = ft_strdup(&filename[i]);
 		if (!(*pipe)->out.file)
 			return (0);
-		(*pipe)->out.type = type;
+		if (type == REDIR_OUT)
+			fd = open(&filename[i], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		else
+			fd = open(&filename[i], O_WRONLY | O_CREAT | O_APPEND, 0777);
+		if (fd == -1)
+			return (0);
+		close(fd);
 	}
 	return (1);
 }

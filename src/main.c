@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/07 20:47:45 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/07 22:14:38 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int	main(int ac, char **av, char **envp)
 		token_lstclear(&minishell.token);
 		cmd_lstclear(&minishell.cmd);
 		pipe_lstclear(&minishell.pipe.cmds);
-		free(minishell.line);
+		if (minishell.line)
+			free(minishell.line);
 	}
 	env_lstclear(&minishell.env);
 	return (0);

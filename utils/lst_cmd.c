@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 19:54:22 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/07 22:12:44 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	cmd_lstclear(t_cmd **cmd)
 	while (*cmd)
 	{
 		tmp = (*cmd)->next;
-		free((*cmd)->cmd);
+		if ((*cmd)->cmd)
+			free((*cmd)->cmd);
 		free(*cmd);
 		*cmd = tmp;
 	}

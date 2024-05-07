@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 20:26:19 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/07 22:14:23 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ static void	free_pipe(t_pipe_cmds **pipe)
 	if (*pipe)
 	{
 		tmp = (*pipe)->next;
-		free((*pipe)->cmd);
+		if ((*pipe)->cmd)
+			free((*pipe)->cmd);
 		free(*pipe);
 		*pipe = tmp;
 	}
@@ -93,7 +94,8 @@ void	pipe_lstclear(t_pipe_cmds **pipe)
 		{
 			if ((*pipe)->in.type == HEREDOC)
 				unlink((*pipe)->in.file);
-			free((*pipe)->in.file);
+			if ((*pipe)->in.file)
+				free((*pipe)->in.file);
 		}
 		if ((*pipe)->out.file)
 			free((*pipe)->out.file);

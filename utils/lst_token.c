@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:12:38 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/23 18:21:34 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/07 22:12:21 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	token_lstclear(t_token **token)
 	while (*token)
 	{
 		tmp = (*token)->next;
-		free((*token)->cmd);
+		if ((*token)->cmd)
+			free((*token)->cmd);
 		free(*token);
 		*token = tmp;
 	}

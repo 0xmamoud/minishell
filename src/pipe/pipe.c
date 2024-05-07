@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:44 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/07 23:34:47 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,12 +208,12 @@ void	minishell_pipe(t_minishell *minishell)
 	minishell->pipe.prev_fd = -1;
 	if (!init_pipe(minishell))
 		return (pipe_lstclear(&minishell->pipe.cmds));
+	minishell->pipe.len_pid = pipe_lstlast(minishell->pipe.cmds)->index + 1;
 	if (!pipe_redirection(minishell))
 		return (pipe_lstclear(&minishell->pipe.cmds));
 	if (!pipe_types(minishell))
 		return (pipe_lstclear(&minishell->pipe.cmds));
 	pipi_open_heredocs(minishell);
-	minishell->pipe.len_pid = pipe_lstlast(minishell->pipe.cmds)->index + 1;
 	minishell->pipe.pid = malloc(sizeof(pid_t) * minishell->pipe.len_pid);
 	pipe_loop(minishell);
 	while (i < minishell->pipe.len_pid)
