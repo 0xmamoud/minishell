@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:43:45 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/08 18:54:28 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static int	fake_env(t_minishell *minishell)
 	t_env	*one;
 	t_env	*two;
 	t_env	*three;
-	t_env	*four;
+	// t_env	*four;
 
 	one = env_lstnew("PWD", "/home/mkane");
 	if (!one)
@@ -105,10 +105,10 @@ static int	fake_env(t_minishell *minishell)
 	if (!three)
 		return (0);
 	env_lstadd_back(&minishell->env, three);
-	four = env_lstnew("PATH",
-			"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
-	if (!four)
-		return (0);
-	env_lstadd_back(&minishell->env, four);
+	// four = env_lstnew("PATH",
+	// 		"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+	// if (!four)
+	// 	return (0);
+	// env_lstadd_back(&minishell->env, four);
 	return (1);
 }

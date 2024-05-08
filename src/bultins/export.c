@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 18:15:19 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/08 18:45:49 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static int	while_export(t_minishell *minishell, t_cmd *cmds, t_env *new)
 		ft_print_error("export: ", cmds->cmd, "is not a valid identifier\n");
 		return (get_status(1, 0), 0);
 	}
-	env_lstdelnode(&minishell->env, cmds->cmd);
 	if (ft_strchr(cmds->cmd, '='))
 	{
 		if (!add_with_value(minishell, cmds))
@@ -98,7 +97,11 @@ static int	add_with_value(t_minishell *minishell, t_cmd *cmds)
 	split = ft_split(cmds->cmd, '=');
 	if (!split)
 		return (0);
-	new = env_lstnew(split[0], split[1]);
+	env_lstdelnode(&minishell->env, split[0]);
+	if (!split[1])
+		new = env_lstnew(split[0], "");
+	else
+		new = env_lstnew(split[0], split[1]);
 	if (!new)
 		return (0);
 	env_lstadd_back(&minishell->env, new);
