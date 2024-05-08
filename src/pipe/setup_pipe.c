@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 22:51:42 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/08 00:13:20 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/08 20:48:26 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,12 @@ int	pipe_redirection(t_minishell *minishell)
 			{
 				if (!sub_pipe_redirection(token, &pipe))
 				{
-					while (token && token->next->type != PIPE)
+					while (token && token->next && token->next->type != PIPE)
 						token = token->next;
 				}
 			}
-			token = token->next;
+			if (token)
+				token = token->next;
 		}
 		if (token && token->type == PIPE)
 			token = token->next;

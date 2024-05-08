@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   washer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/08 20:59:01 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static int verify_quotes(const char *str) {
 
     return (1);
 }
-
 
 int	washer(t_minishell *minishell)
 {
