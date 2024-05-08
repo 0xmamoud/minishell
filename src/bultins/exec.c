@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:05:13 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/08 18:14:01 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	minishell_execve(t_minishell *minishell)
 		cmd_lstclear(&minishell->cmd);
 		env_lstclear(&minishell->env);
 		free(minishell->line);
+		rl_clear_history();
 		exit(get_status(0, 3));
 
 	}
