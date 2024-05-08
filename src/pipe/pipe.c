@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:44 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/07 23:34:47 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/08 18:14:13 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ static int	pipe_process(t_minishell *minishell, t_pipe_cmds **cmds)
 		env_lstclear(&minishell->env);
 		free(minishell->pipe.pid);
 		free(minishell->line);
+		rl_clear_history();
 		ft_exit(get_status(0, 3), 1, 1);
 	}
 	else

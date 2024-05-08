@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:02:42 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/08 18:12:14 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	exit_minishell(t_minishell *minishell)
 	free_and_close(minishell);
 	pipe_lstclear(&minishell->pipe.cmds);
 	env_lstclear(&minishell->env);
+	rl_clear_history();
 	// printf("EXIT CODE: %d\n", status);
 	ft_exit(status, 0, 1);
 }
