@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:50:33 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/09 19:54:34 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/09 20:49:54 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	control_c_child(int signal)
 void control_c_heredoc(int signal)
 {
 	(void)signal;
+	close(0);
 	get_status(130, 0);
 }
 

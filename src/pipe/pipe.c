@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:44 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/09 17:03:48 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/09 21:10:10 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,8 @@ static void pipi_open_heredocs(t_minishell *minishell)
 		{
 			ft_here_doc(&cmds->in.file, minishell);
 		}
+		if (get_status(0, 3) == 130)
+			return ;
 		cmds = cmds->next;
 	}
 }
@@ -216,6 +218,15 @@ void	minishell_pipe(t_minishell *minishell)
 		return (ft_exit(1, 0, 0), pipe_lstclear(&minishell->pipe.cmds));
 	pipi_open_heredocs(minishell);
 	minishell->pipe.pid = malloc(sizeof(pid_t) * minishell->pipe.len_pid);
+	if (get_status(0, 3) == 130)
+	{
+		pipe_lstclear(&minishell->pipe.cmds);
+		if (minishell->pipe.prev_fd != -1)
+		close(minishell->pipe.prev_fd);
+		free(minishell->pipe.pid);
+		return ;
+	
+	}
 	if (!pipe_loop(minishell))
 	{
 		if (minishell->pipe.prev_fd != -1)

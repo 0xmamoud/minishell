@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/09 18:50:44 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/09 20:40:56 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ static char *add_space_before_and_after_operator(char *str) {
 	int i;
 	int j;
 
-	new_str = ft_calloc(ft_strlen(str) * 2 + 1, sizeof(char));
+	new_str = ft_calloc((ft_strlen(str) * 4), sizeof(char));
 	if (!new_str)
 		return (NULL);
 	i = 0;
 	j = 0;
 	while (str[i] != '\0') {
-		if (ft_menumaxibestof(str[i]) && !ft_menumaxibestof(str[i - 1])) {
+		if (ft_menumaxibestof(str[i]) && i > 0 && !ft_menumaxibestof(str[i - 1])) {
 		//if (str[i] != ' ' && str[i] != '<' && str[i] != '>' && str[i + 1] == '<' && str[i + 1] == '>') {
 			new_str[j] = ' ';
 			j++;

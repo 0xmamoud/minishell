@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 17:07:40 by kane              #+#    #+#             */
-/*   Updated: 2023/12/20 23:29:33 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/09 20:47:48 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,18 @@
 #include "libft.h"
 #include <stdio.h>
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, int clr)
 {
 	static t_lst	*lst;
 	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE == 0)
 		return (NULL);
+	if (clr == 1)
+	{
+		ft_free_lst(lst);
+		return (NULL);
+	}
 	line = NULL;
 	ft_read_fd(fd, &lst);
 	if (!lst)

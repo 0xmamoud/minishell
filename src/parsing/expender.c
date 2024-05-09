@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:34:06 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/09 15:32:44 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/09 20:59:50 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static int	init_cmds(t_minishell *minishell)
 
 void	expender(t_minishell *minishell)
 {
+	get_status(0, 0);
 	if (find_pipe(minishell))
 		return (minishell_pipe(minishell));
 	if (!redirection(minishell))

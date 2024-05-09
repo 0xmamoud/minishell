@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 17:03:36 by kane              #+#    #+#             */
-/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/09 20:48:12 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_lst
 	char			*content;
 	struct s_lst	*next;
 }	t_lst;
-char	*get_next_line(int fd);
+char	*get_next_line(int fd, int clr);
 void	ft_read_fd(int fd, t_lst **lst);
 void	ft_lstadd(t_lst **lst, char *buf, int read_bytes);
 void	ft_clean_lst(t_lst **lst);

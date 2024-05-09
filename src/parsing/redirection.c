@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:49:23 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/07 22:33:39 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/09 20:55:45 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	init_files(t_minishell *minishell)
 		if (!init_output(minishell))
 			return (0);
 	}
+	if (get_status(0, 3) == 130)
+		return (0);
 	return (1);
 }
 
