@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   washer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/08 20:59:01 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/09 18:50:44 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,45 @@ static int verify_quotes(const char *str) {
     return (1);
 }
 
+static int ft_menumaxibestof(char c)
+{
+	if (c == '|' || c == '<' || c == '>')
+		return (1);
+	return (0);
+}
+
+
+static char *add_space_before_and_after_operator(char *str) {
+	char *new_str;
+	int i;
+	int j;
+
+	new_str = ft_calloc(ft_strlen(str) * 2 + 1, sizeof(char));
+	if (!new_str)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (str[i] != '\0') {
+		if (ft_menumaxibestof(str[i]) && !ft_menumaxibestof(str[i - 1])) {
+		//if (str[i] != ' ' && str[i] != '<' && str[i] != '>' && str[i + 1] == '<' && str[i + 1] == '>') {
+			new_str[j] = ' ';
+			j++;
+			new_str[j] = str[i];
+			if (str[i] == '|')
+			{
+				j++;
+				new_str[j] = ' ';
+			}
+		} else {
+			new_str[j] = str[i];
+		}
+		i++;
+		j++;
+	}
+	free(str);
+	return (new_str);
+}
+
 int	washer(t_minishell *minishell)
 {
 	char	**split;
@@ -51,7 +90,9 @@ int	washer(t_minishell *minishell)
 		return (0);
 	parse(minishell->line, count_quotes(minishell->line, '\"') / 2, '\"');
 	parse(minishell->line, count_quotes(minishell->line, '\'') / 2, '\'');
+	minishell->line = add_space_before_and_after_operator(minishell->line);
 	parse_redirection(minishell->line);
+	// printf("line: %s\n", minishell->line);
 	split = NULL;
 	split = ft_split(minishell->line, ' ');
 	if (!split)

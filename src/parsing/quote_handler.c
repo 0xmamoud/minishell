@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 17:59:50 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/09 18:50:44 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	handle_double_quotes(t_minishell *minishell,
 				char *str, char *new, int *i);
 static int 	after_dollars(char a)
 {
-	if (a == '\'' || a == '\"' || !a)
+	if (a == '\'' || a == '\"' || a == 6 || !a)
 		return (0);
 	return (1);
 }
@@ -109,8 +109,7 @@ static void	handle_env_vars(char *str, char *new,
 			free(tmp2);
 			j++;
 		}
-	}
-	else
+	} else
 		tmp = find_env(minishell->env, str + j);
 	str[*i] = c;
 	if (tmp)

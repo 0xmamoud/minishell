@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:44 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/08 20:44:07 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/09 17:03:48 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,15 +208,23 @@ void	minishell_pipe(t_minishell *minishell)
 	minishell->out.file = NULL;
 	minishell->pipe.prev_fd = -1;
 	if (!init_pipe(minishell))
-		return (pipe_lstclear(&minishell->pipe.cmds));
+		return (ft_exit(1, 0, 0), pipe_lstclear(&minishell->pipe.cmds));
 	minishell->pipe.len_pid = pipe_lstlast(minishell->pipe.cmds)->index + 1;
 	if (!pipe_redirection(minishell))
 		return (pipe_lstclear(&minishell->pipe.cmds));
 	if (!pipe_types(minishell))
-		return (pipe_lstclear(&minishell->pipe.cmds));
+		return (ft_exit(1, 0, 0), pipe_lstclear(&minishell->pipe.cmds));
 	pipi_open_heredocs(minishell);
 	minishell->pipe.pid = malloc(sizeof(pid_t) * minishell->pipe.len_pid);
-	pipe_loop(minishell);
+	if (!pipe_loop(minishell))
+	{
+		if (minishell->pipe.prev_fd != -1)
+		close(minishell->pipe.prev_fd);
+		free(minishell->pipe.pid);
+		pipe_lstclear(&minishell->pipe.cmds);
+		ft_exit(1, 0, 0);
+		return ;
+	}
 	while (i < minishell->pipe.len_pid)
 	{
 		waitpid(minishell->pipe.pid[i], &status, 0);

@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:05:13 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/08 18:14:01 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/09 19:25:03 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ void	minishell_execve(t_minishell *minishell)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		get_status(WEXITSTATUS(status), 0);
+	if (get_status(0, 3) == 131)
+		ft_putstr_fd("Quit\n", 1);
+	if (get_status(0, 3) == 130)
+		ft_putstr_fd("\n", 1);
 	signal(SIGINT, control_c_parent);
 	signal(SIGQUIT, SIG_IGN);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:11:19 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/08 21:46:30 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/09 18:50:44 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,19 @@ int	create_token(t_minishell *minishell, char *str)
 			clear_tab(cmds);
 			return (0);
 		}
-		// printf("new->content = %s\n", new->cmd);
 		token_lstadd_back(&minishell->token, new);
 		i++;
 	}
 	clear_tab(cmds);
 	return (1);
 }
+
+// static int ft_menumaxibestof(char c)
+// {
+// 	if (c == 6 || c == 15 || c == 16 || c== 17 || c == ' ' || c == '<' || c == '>')
+// 		return (1);
+// 	return (0);
+// }
 
 // static char *untruc(char *str, char *c, char a)
 // {
@@ -53,26 +59,56 @@ int	create_token(t_minishell *minishell, char *str)
 // 	r = ft_strdup("");
 // 	while (str[i])
 // 	{
-// 		if (str[i + 1] && str[i - 1] && str[i - 1] != ' ' && str[i] == a && str[i + 1] != ' ')
+// 		if (str[i + 1] && str[i - 1] && !ft_menumaxibestof(str[i - 1]) && !ft_menumaxibestof(str[i + 1]))
 // 		{
 // 			split = ft_split(str, a);
 // 			while (split[j])
 // 			{
 // 				r = ft_strjoin(r, split[j]);
 // 				if (split[j + 1])
-// 					r = ft_strjoin(r, '6');
+// 					r = ft_strjoin(r, c);
 // 				j++;
 // 			}
 // 			clear_tab(split);
 // 		}
 // 		i++;
 // 	}
-// 	if (ft_strcmp(r, ""))
+// 	if (ft_strlen(r) == 0)
 // 	{
 // 		free(r);
 // 		r = ft_strdup(str);
 // 	}
 // 	return (r);
+// }
+
+// static void print_tab(char **tab)
+// {
+// 	int i = 0;
+// 	while (tab[i])
+// 	{
+// 		printf("tab[%d] = %s\n", i, tab[i]);
+// 		i++;
+// 	}
+// }
+
+// static char *join_tab(char **tab, char *c)
+// {
+// 	char *str;
+// 	int i;
+
+// 	str = NULL;
+// 	str = ft_strdup("");
+// 	i = 0;
+// 	if (!str)
+// 		return (NULL);
+// 	while (tab[i])
+// 	{
+// 		str = ft_strjoin(str, tab[i]);
+// 		if (tab[i + 1])
+// 			str = ft_strjoin(str, c);
+// 		i++;
+// 	}
+// 	return (str);
 // }
 
 // static char	**add_space(char **split)
@@ -83,39 +119,49 @@ int	create_token(t_minishell *minishell, char *str)
 // 	i = 0;
 // 	while (split[i])
 // 	{
-// 		tmp = untruc(split[i], "6|6", '|');
+// 		tmp = untruc(split[i], " | ", '|');
+// 		tmp = untruc(tmp, " < ", '<');
+// 		tmp = untruc(tmp, " > ", '>');
 // 		free(split[i]);
 // 		split[i] = ft_strdup(tmp);
 // 		free(tmp);
 // 		i++;
 // 	}
-	
 // 	return (split);
 // }
+
 
 static char	**split_cmd(char *str)
 {
 	char	**cmd;
-	char *tmp;
 	int		i;
 	int		j;
 
 	i = 0;
 	cmd = ft_split(str, ' ');
-	add_space(cmd);
+	// cmd = ft_split(join_tab(add_space(cmd), " "), ' ');
 	if (!cmd)
 		return (NULL);
+	// print_tab(cmd);
 	while (cmd[i])
 	{
 		j = 0;
 		while (cmd[i][j])
 		{
+			if (cmd[i][j] == 15)
+				cmd[i][j] = '|';
+			if (cmd[i][j] == 16)
+				cmd[i][j] = '<';
+			if (cmd[i][j] == 17)
+				cmd[i][j] = '>';
 			if (cmd[i][j] == 6)
 				cmd[i][j] = ' ';
 			j++;
 		}
+		// printf("cmd[%d] = %s\n", i, cmd[i]);
 		i++;
 	}
+	
 	return (cmd);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/04/27 19:08:23 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/09 17:38:09 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,47 @@ int	is_pipe(char *str)
 {
 	if (!str)
 		return (0);
-	if (ft_strncmp(str, "|", 1) == 0)
+	if (ft_strcmp(str, "|") == 0)
 		return (1);
 	return (0);
 }
 
 int	is_redirection(char *str)
 {
+	int	i;
+
 	if (!str)
 		return (0);
-	if (str[0] == '>' && str[1] == '>')
+	else if ((str[0] == '>' && str[1] == '>') || (str[0] == '<' && str[1] == '<'))
+	{
+		i = 2;
+		while (str[i] && str[i] == ' ')
+			i++;
+		if (str[i] == '\0')
+			return (1);
+		while (str[i])
+		{
+			if (str[i] == '|' || str[i] == '<' || str[i] == '>')
+				return (0);
+			i++;
+		}
 		return (1);
-	if (str[0] == '>' && str[1] != '>')
+	}
+	else if ((str[0] == '>' && str[1] != '>') || (str[0] == '<' && str[1] != '<'))
+	{
+		i = 1;
+		while (str[i] && str[i] == ' ')
+			i++;
+		if (str[i] == '\0')
+			return (1);
+		while (str[i])
+		{
+			if (str[i] == '|' || str[i] == '<' || str[i] == '>')
+				return (0);
+			i++;
+		}
 		return (1);
-	if (str[0] == '<' && str[1] != '<')
-		return (1);
-	if (str[0] == '<' && str[1] == '<')
-		return (1);
+	}
 	return (0);
 }
 

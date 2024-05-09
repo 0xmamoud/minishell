@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:50:33 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/09 19:54:34 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,19 @@ void	control_c_parent(int signal)
 void	control_c_child(int signal)
 {
 	(void)signal;
-	ft_putstr_fd("\n", 1);
 	get_status(130, 0);
 }
 
 void control_c_heredoc(int signal)
 {
 	(void)signal;
-	ft_putstr_fd("\n", 1);
-	exit(130);
+	get_status(130, 0);
 }
 
 
 void	control_back_slash_child(int signal)
 {
 	(void)signal;
-	ft_putstr_fd("Quit\n", 1);
 	get_status(131, 0);
 }
 

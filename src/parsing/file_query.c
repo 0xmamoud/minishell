@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_query.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:58:35 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/07 23:18:04 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/09 19:06:43 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,12 @@ static int	get_file(t_minishell *minishell, char *file,
 			free(minishell->in.file);
 			minishell->in.file = NULL;
 		}
+		minishell->in.file = strdup(&file[i]);
+		if (!minishell->in.file)
+			return (0);
+		minishell->in.type = type;
+		if (ft_strcmp(&file[i], "") == 0 || ft_strcmp(&file[i], " ") == 0 || ft_strcmp(&file[i], "*") == 0)
+			return (ft_exit(1, 0, 0));
 		if (type == REDIR_IN)
 		{
 			if (access(&file[i], F_OK) == -1)
@@ -89,10 +95,6 @@ static int	get_file(t_minishell *minishell, char *file,
 				return (ft_exit(1, 0, 0));
 			}
 		}
-		minishell->in.file = strdup(&file[i]);
-		if (!minishell->in.file)
-			return (0);
-		minishell->in.type = type;
 	}
 	else
 	{
@@ -101,6 +103,12 @@ static int	get_file(t_minishell *minishell, char *file,
 			free(minishell->out.file);
 			minishell->out.file = NULL;
 		}
+		if (ft_strcmp(&file[i], "") == 0 || ft_strcmp(&file[i], " ") == 0 || ft_strcmp(&file[i], "*") == 0)
+			return (ft_exit(1, 0, 0));
+		minishell->out.file = strdup(&file[i]);
+		if (!minishell->out.file)
+			return (0);
+		minishell->out.type = type;
 		if (type == REDIR_OUT)
 			fd = open(&file[i], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		else
@@ -111,10 +119,6 @@ static int	get_file(t_minishell *minishell, char *file,
 			return (ft_exit(1, 0, 0));
 		}
 		close(fd);
-		minishell->out.file = strdup(&file[i]);
-		if (!minishell->out.file)
-			return (0);
-		minishell->out.type = type;
 	}
 	return (1);
 }
