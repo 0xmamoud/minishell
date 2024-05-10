@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   control.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:50:33 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/09 20:49:54 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/10 21:02:03 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	control_c_child(int signal)
 	get_status(130, 0);
 }
 
-void control_c_heredoc(int signal)
+void	control_c_heredoc(int signal)
 {
 	(void)signal;
 	close(0);
