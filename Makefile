@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+         #
+#    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr        #
+#    Updated: 2024/05/10 20:54:06 by mkane            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ CFLAGS = -Wall -Wextra -Werror -g3
 RLFLAGS = -lreadline
 RM = rm -rf
 
-VAL_HIDE    := readline.hide
+VAL_HIDE    := /home/mkane/Documents/common-core/minishell/readline.hide
 VAL_FLAGS    := --leak-check=full --show-leak-kinds=all --track-fds=yes  --trace-children=yes --suppressions=$(VAL_HIDE)
 
 SRC=\

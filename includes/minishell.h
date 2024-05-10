@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/07 20:49:53 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/10 20:51:35 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <unistd.h>
 # include <signal.h>
 # include <errno.h>
-#include <dirent.h>
+# include <dirent.h>
 
 typedef enum e_token_type
 {
@@ -138,7 +138,7 @@ void					unset(t_minishell *minishell);
 void					export(t_minishell *minishell);
 void					pwd(void);
 int						cd(t_minishell *minishell);
-void						minishell_execve(t_minishell *minishell);
+void					minishell_execve(t_minishell *minishell);
 int						excecute(t_minishell *minishell);
 
 // pipe
@@ -161,12 +161,12 @@ int						count_replace(char *str, t_minishell *minishell);
 
 //qhote.c
 
-char	*find_and_replace(char *str, t_minishell *minishell);
+char					*find_and_replace(char *str, t_minishell *minishell);
 
 //parse.c
 
-void	parse(char *cmd, int ret, char c);
-void	parse_redirection(char *cmd);
+void					parse(char *cmd, int ret, char c);
+void					parse_redirection(char *cmd);
 
 // utils
 void					clear_tab(char **tab);
