@@ -6,7 +6,7 @@
 #    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/05/10 20:54:06 by mkane            ###   ########.fr        #
+#    Updated: 2024/05/10 22:56:18 by mkane            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRC=\
 	${BULTINS_DIR}/cd.c\
 	${BULTINS_DIR}/unset.c\
 	${BULTINS_DIR}/exec.c\
+	${BULTINS_DIR}/exec_path_handler.c\
 	${BULTINS_DIR}/control.c \
 	${BULTINS_DIR}/status.c \
 	${PIPE_DIR}/pipe.c\

@@ -6,7 +6,7 @@
 /*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/10 20:51:35 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/10 22:54:47 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ void					pwd(void);
 int						cd(t_minishell *minishell);
 void					minishell_execve(t_minishell *minishell);
 int						excecute(t_minishell *minishell);
+char					*get_path(t_minishell *minishell, char *cmd);
 
 // pipe
 void					minishell_pipe(t_minishell *minishell);

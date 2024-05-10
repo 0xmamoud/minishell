@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 22:05:13 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/09 19:25:03 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/10 23:04:14 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static char		**get_cmd(t_minishell *minishell);
-static char		*get_access(char **env_path, char *cmd);
-static char		*get_path(t_minishell *minishell, char *cmd);
+static void		clear_execve(t_minishell *minishell);
+static void		print_fail_error(char *path);
 
 void	minishell_execve(t_minishell *minishell)
 {
@@ -29,14 +29,7 @@ void	minishell_execve(t_minishell *minishell)
 	if (pid == 0)
 	{
 		excecute(minishell);
-		free_and_close(minishell);
-		token_lstclear(&minishell->token);
-		cmd_lstclear(&minishell->cmd);
-		env_lstclear(&minishell->env);
-		free(minishell->line);
-		rl_clear_history();
-		exit(get_status(0, 3));
-
+		clear_execve(minishell);
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
@@ -63,12 +56,29 @@ int	excecute(t_minishell *minishell)
 		return (clear_tab(env), 0);
 	path = get_path(minishell, cmd[0]);
 	if (!path)
-	{
-		clear_tab(cmd);
-		clear_tab(env);
-		return (ft_putstr_fd("Command not found\n", 2), ft_exit(127, 0, 0));
-	}
+		return (ft_putstr_fd("Command not found\n", 2), clear_tab(cmd),
+			clear_tab(env), ft_exit(127, 0, 0));
 	execve(path, cmd, env);
+	print_fail_error(path);
+	clear_tab(cmd);
+	free(path);
+	clear_tab(env);
+	return (0);
+}
+
+static void	clear_execve(t_minishell *minishell)
+{
+	free_and_close(minishell);
+	token_lstclear(&minishell->token);
+	cmd_lstclear(&minishell->cmd);
+	env_lstclear(&minishell->env);
+	free(minishell->line);
+	rl_clear_history();
+	exit(get_status(0, 3));
+}
+
+static	void	print_fail_error(char *path)
+{
 	if (access(path, X_OK) == -1)
 	{
 		ft_putstr_fd("No such file or directory\n", 2);
@@ -82,10 +92,6 @@ int	excecute(t_minishell *minishell)
 		ft_putstr_fd("Command not found\n", 2);
 		ft_exit(126, 0, 0);
 	}
-	clear_tab(cmd);
-	free(path);
-	clear_tab(env);
-	return (0);
 }
 
 static char	**get_cmd(t_minishell *minishell)
@@ -112,65 +118,3 @@ static char	**get_cmd(t_minishell *minishell)
 	return (cmd);
 }
 
-static char	*get_path(t_minishell *minishell, char *cmd)
-{
-	char	*env_path;
-	char	*path;
-	char	**split_env;
-	int		i;
-
-	if (ft_strchr(cmd, '/') != NULL)
-	{
-		path = ft_strdup(cmd);
-		if (!path)
-			return (NULL);
-		return (path);
-	}
-	env_path = find_env(minishell->env, "PATH");
-	if (!env_path)
-		return (NULL);
-	if (ft_strncmp(env_path, "", ft_strlen(env_path)) == 0)
-		return (free(env_path), NULL);
-	split_env = ft_split(env_path, ':');
-	if (!split_env)
-		return (free(env_path), NULL);
-	free(env_path);
-	i = 0;
-	while (split_env[i])
-	{
-		split_env[i] = ft_strjoin(split_env[i], "/");
-		if (!split_env[i])
-			return (clear_tab(split_env), NULL);
-		i++;
-	}
-	path = get_access(split_env, cmd);
-	clear_tab(split_env);
-	return (path);
-}
-
-static char	*get_access(char **env_path, char *cmd)
-{
-	int		i;
-	char	*tmp;
-	char	*path;
-
-	i = 0;
-	while (env_path[i])
-	{
-		tmp = ft_strdup(env_path[i]);
-		if (!tmp)
-			return (NULL);
-		path = ft_strjoin(tmp, cmd);
-		if (!path)
-		{
-			if (tmp)
-				free(tmp);
-			return (NULL);
-		}
-		if (access(path, F_OK) == 0)
-			return (path);
-		free(path);
-		i++;
-	}
-	return (NULL);
-}

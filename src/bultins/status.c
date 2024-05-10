@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   status.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 10:19:42 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/07 19:32:29 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/10 21:08:30 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 int	ft_exit(int status, int r, int e)
 {
-	// printf("status = %d\n", status);
-	// printf("r = %d\n", r);
-	// printf("e = %d\n", e);
 	get_status(status, 0);
 	if (e)
 		exit(status);
