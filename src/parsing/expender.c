@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expender.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 13:34:06 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/09 20:59:50 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/10 17:29:02 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ void	expender(t_minishell *minishell)
 	else if (find_builtins(minishell) == EXIT)
 		exit_minishell(minishell);
 	else
+	{
 		minishell_execve(minishell);
+	}
 	free_and_close(minishell);
 }
 
@@ -105,6 +107,7 @@ static int	find_builtins(t_minishell *minishell)
 				return (minishell->builtin = ENV);
 			if (ft_strcmp(token->cmd, "exit") == 0)
 				return (minishell->builtin = EXIT);
+			return (minishell->builtin = BUILTIN_COUNT);
 		}
 		token = token->next;
 	}

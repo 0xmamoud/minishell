@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:43:44 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/09 21:10:10 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/10 19:13:15 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,7 @@ static int	pipe_process(t_minishell *minishell, t_pipe_cmds **cmds)
 	signal(SIGQUIT, control_back_slash_child);
 	if (minishell->pipe.pid[(*cmds)->index] == 0)
 	{
-		//printf("CMD: %s\n", (*cmds)->cmd);
-		if ((*cmds)->cmd[0] != '\0')
-			pipe_child_process(minishell, cmds);
+		pipe_child_process(minishell, cmds);
 		if (minishell->pipe.prev_fd != -1)
 			close(minishell->pipe.prev_fd);
 		pipe_lstclear(&minishell->pipe.cmds);
@@ -177,7 +175,7 @@ static int	pipe_loop(t_minishell *minishell)
 	return (1);
 }
 
-static void pipi_open_heredocs(t_minishell *minishell)
+static void pipe_open_heredocs(t_minishell *minishell)
 {
 	t_pipe_cmds	*cmds;
 
@@ -216,7 +214,7 @@ void	minishell_pipe(t_minishell *minishell)
 		return (pipe_lstclear(&minishell->pipe.cmds));
 	if (!pipe_types(minishell))
 		return (ft_exit(1, 0, 0), pipe_lstclear(&minishell->pipe.cmds));
-	pipi_open_heredocs(minishell);
+	pipe_open_heredocs(minishell);
 	minishell->pipe.pid = malloc(sizeof(pid_t) * minishell->pipe.len_pid);
 	if (get_status(0, 3) == 130)
 	{
@@ -230,7 +228,7 @@ void	minishell_pipe(t_minishell *minishell)
 	if (!pipe_loop(minishell))
 	{
 		if (minishell->pipe.prev_fd != -1)
-		close(minishell->pipe.prev_fd);
+			close(minishell->pipe.prev_fd);
 		free(minishell->pipe.pid);
 		pipe_lstclear(&minishell->pipe.cmds);
 		ft_exit(1, 0, 0);

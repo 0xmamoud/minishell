@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:18:26 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/09 22:30:26 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/10 17:53:21 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,24 @@ void	ft_here_doc(char **delimiter, t_minishell *minishell)
 	char	*line;
 
 	char *(fd_name) = ft_join("here_doc.", *delimiter);
+	if (!fd_name)
+		return ;
 	tmp = ft_strjoin(*delimiter, "\n");
+	if (!tmp)
+	{
+		free(fd_name);
+		return ;
+	}
 	*delimiter = tmp;
+	int (fd) = open(fd_name, O_CREAT | O_RDWR | O_TRUNC, 0777);
+	if (fd == -1)
+	{
+		free(*delimiter);
+		*delimiter = NULL;
+		*delimiter = ft_strdup(fd_name);
+		free(fd_name);
+		return ;
+	}
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid < 0)
@@ -105,10 +121,7 @@ void	ft_here_doc(char **delimiter, t_minishell *minishell)
 		minishell->in.saved_stdin = -1;
 		minishell->out.saved_stdout = -1;
 		signal(SIGINT, control_c_heredoc);
-		int (fd) = open(fd_name, O_CREAT | O_RDWR | O_TRUNC, 0777);
 		line = NULL;
-		if (fd < 0)
-			return ;
 		while (1)
 		{
 			line = get_next_line(0, 0);
@@ -149,6 +162,7 @@ void	ft_here_doc(char **delimiter, t_minishell *minishell)
 	if (WIFEXITED(status))
 		get_status(WEXITSTATUS(status), 0);
 	free(*delimiter);
+	close(fd);
 	*delimiter = NULL;
 	*delimiter = ft_strdup(fd_name);
 	free(fd_name);
