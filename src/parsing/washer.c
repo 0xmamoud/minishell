@@ -6,62 +6,48 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 18:17:03 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/09 20:40:56 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/11 17:29:02 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// static int	checker(char *cmd);
 static int	count_quotes(char *cmd, char c);
 static char	*join_tab(char **tab);
-static int	handle_dollars(char **split, t_minishell *minishell);
 
-
-static int verify_quotes(const char *str) {
-    int in_single_quote;
-    int in_double_quote;
-    int i;
+static int	verify_quotes(const char *str)
+{
+	int	in_single_quote;
+	int	in_double_quote;
+	int	i;
 
 	i = 0;
 	in_double_quote = 0;
 	in_single_quote = 0;
-    while (str[i] != '\0') {
-        if (str[i] == '\'' && !in_double_quote) {
-            in_single_quote = !in_single_quote;
-        } else if (str[i] == '\"' && !in_single_quote) {
-            in_double_quote = !in_double_quote;
-        }
-        i++;
-    }
-
-    if (in_single_quote || in_double_quote)
-        return (0);
-
-    return (1);
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\'' && !in_double_quote)
+			in_single_quote = !in_single_quote;
+		else if (str[i] == '\"' && !in_single_quote)
+			in_double_quote = !in_double_quote;
+		i++;
+	}
+	if (in_single_quote || in_double_quote)
+		return (0);
+	return (1);
 }
 
-static int ft_menumaxibestof(char c)
+static char	*add_space_before_and_after_operator(char *str)
 {
-	if (c == '|' || c == '<' || c == '>')
-		return (1);
-	return (0);
-}
-
-
-static char *add_space_before_and_after_operator(char *str) {
-	char *new_str;
-	int i;
-	int j;
-
-	new_str = ft_calloc((ft_strlen(str) * 4), sizeof(char));
+	char *(new_str) = ft_calloc((ft_strlen(str) * 4), sizeof(char));
 	if (!new_str)
 		return (NULL);
-	i = 0;
-	j = 0;
-	while (str[i] != '\0') {
-		if (ft_menumaxibestof(str[i]) && i > 0 && !ft_menumaxibestof(str[i - 1])) {
-		//if (str[i] != ' ' && str[i] != '<' && str[i] != '>' && str[i + 1] == '<' && str[i + 1] == '>') {
+	int (i) = 0;
+	int (j) = 0;
+	while (str[i] != '\0')
+	{
+		if (is_operator(str[i]) && i > 0 && !is_operator(str[i - 1]))
+		{
 			new_str[j] = ' ';
 			j++;
 			new_str[j] = str[i];
@@ -70,9 +56,9 @@ static char *add_space_before_and_after_operator(char *str) {
 				j++;
 				new_str[j] = ' ';
 			}
-		} else {
-			new_str[j] = str[i];
 		}
+		else
+			new_str[j] = str[i];
 		i++;
 		j++;
 	}
@@ -84,15 +70,12 @@ int	washer(t_minishell *minishell)
 {
 	char	**split;
 
-	// if (!checker(minishell->line))
-	// 	return (0);
 	if (!verify_quotes(minishell->line))
 		return (0);
 	parse(minishell->line, count_quotes(minishell->line, '\"') / 2, '\"');
 	parse(minishell->line, count_quotes(minishell->line, '\'') / 2, '\'');
 	minishell->line = add_space_before_and_after_operator(minishell->line);
 	parse_redirection(minishell->line);
-	// printf("line: %s\n", minishell->line);
 	split = NULL;
 	split = ft_split(minishell->line, ' ');
 	if (!split)
@@ -107,22 +90,6 @@ int	washer(t_minishell *minishell)
 		return (0);
 	return (1);
 }
-
-// static int	checker(char *cmd)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (cmd[i])
-// 	{
-// 		if (cmd[i] == 6 || cmd[i] == '\\' || cmd[i] == '(' || cmd[i] == ')'
-// 			|| (cmd[i] == '|' && cmd[i + 1] == '|')
-// 			|| (cmd[i] == '&' && cmd[i + 1] == '&'))
-// 			return (0);
-// 		i++;
-// 	}
-// 	return (1);
-// }
 
 static int	count_quotes(char *cmd, char c)
 {
@@ -164,26 +131,4 @@ static char	*join_tab(char **tab)
 		i++;
 	}
 	return (str);
-}
-
-static int	handle_dollars(char **split, t_minishell *minishell)
-{
-	int		i;
-	int		j;
-	char	*tmp;
-
-	i = -1;
-	j = 0;
-	while (split[++i])
-	{
-		tmp = find_and_replace(split[i], minishell);
-		if (!tmp)
-			return (0);
-		free(split[i]);
-		split[i] = ft_strdup(tmp);
-		free(tmp);
-		if (!split[i])
-			return (0);
-	}
-	return (1);
 }

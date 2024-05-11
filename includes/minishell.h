@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/10 22:54:47 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/11 17:28:48 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,5 +215,10 @@ int						get_status(int status, int get);
 //heredoc
 
 void					ft_here_doc(char **delimiter, t_minishell *minishell);
+
+//quote utils
+int						is_operator(char c);
+int						handle_dollars(char **split, t_minishell *minishell);
+
 
 #endif
