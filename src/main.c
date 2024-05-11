@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:37:49 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/09 16:57:07 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/11 19:58:37 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,40 @@ static void	init(int ac, char **av, t_minishell *minishell, char **envp)
 	minishell->line = NULL;
 	minishell->status = 0;
 	minishell->pipe.cmds = NULL;
-	// minishell->pipe.prev_fd = -1;
 	if (!create_env(envp, minishell))
 	{
 		ft_putstr_fd("Error: failed to create env\n", 2);
 		exit(1);
 	}
+}
+
+static void	reading(t_minishell *minishell)
+{
+	if (ft_strlen(minishell->line) == 0)
+	{
+		free(minishell->line);
+		return ;
+	}
+	add_history(minishell->line);
+	if (!washer(minishell))
+	{
+		printf("Error: failed to create token\n");
+		ft_exit(1, 0, 0);
+		free(minishell->line);
+		return ;
+	}
+	if (!create_token(minishell, minishell->line))
+	{
+		printf("Error: failed to create token\n");
+		free(minishell->line);
+		return ;
+	}
+	expender(minishell);
+	token_lstclear(&minishell->token);
+	cmd_lstclear(&minishell->cmd);
+	pipe_lstclear(&minishell->pipe.cmds);
+	if (minishell->line)
+		free(minishell->line);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -48,32 +76,7 @@ int	main(int ac, char **av, char **envp)
 			free(minishell.line);
 			break ;
 		}
-		if (ft_strlen(minishell.line) == 0)
-		{
-			free(minishell.line);
-			continue ;
-		}
-		add_history(minishell.line);
-		if (!washer(&minishell))
-		{
-			printf("Error: failed to create token\n");
-			ft_exit(1, 0, 0);
-			free(minishell.line);
-			continue ;
-		}
-		// printf("line: %s\n", minishell.line);
-		if (!create_token(&minishell, minishell.line))
-		{
-			printf("Error: failed to create token\n");
-			free(minishell.line);
-			continue ;
-		}
-		expender(&minishell);
-		token_lstclear(&minishell.token);
-		cmd_lstclear(&minishell.cmd);
-		pipe_lstclear(&minishell.pipe.cmds);
-		if (minishell.line)
-			free(minishell.line);
+		reading(&minishell);
 	}
 	rl_clear_history();
 	env_lstclear(&minishell.env);
