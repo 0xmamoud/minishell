@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
+#    By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/05/10 22:56:18 by mkane            ###   ########.fr        #
+#    Updated: 2024/05/11 16:57:00 by tbarret          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 SRC_DIR = src
 PARSING_DIR = src/parsing
 REDIRECTION_DIR = src/redirection
-BULTINS_DIR = src/bultins
+BULTINS_DIR = src/builtins
 UTILS_DIR = utils
 PIPE_DIR = src/pipe
 OBJ_DIR = obj
