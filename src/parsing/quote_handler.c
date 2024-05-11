@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 17:59:50 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/11 17:39:41 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/11 18:15:16 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,31 +78,11 @@ static void	handle_quoted_chars(char *str, char *new, int *i)
 	}
 }
 
-static void	handle_env_vars(char *str, char *new,
-				t_minishell *minishell, int *i)
+static void	handle_env_vars(char *str, char *new, t_minishell *minishell,
+	int *i)
 {
-	int		j;
-	char	c;
 	char	*tmp;
 
-	(*i)++;
-	j = *i;
-	while ((ft_isalpha(str[*i]) || str[*i] == '_' || str[*i] == '?'))
-		(*i)++;
-	c = str[*i];
-	str[*i] = '\0';
-	if (str[j] == '?')
-	{
-		tmp = ft_itoa(get_status(0, 3));
-		after_interrogation(str, &tmp, &j);
-	}
-	else
-		tmp = find_env(minishell->env, str + j);
-	str[*i] = c;
-	if (tmp)
-	{
-		ft_strlcat(new, tmp, ft_strlen(new) + ft_strlen(tmp) + 1);
-		free(tmp);
-	}
-	(*i)--;
+	tmp = get_env_value(str, minishell, i);
+	append_env_value(new, tmp);
 }

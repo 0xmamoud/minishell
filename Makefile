@@ -6,7 +6,7 @@
 #    By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/05/11 17:23:10 by tbarret          ###   ########.fr        #
+#    Updated: 2024/05/11 18:15:35 by tbarret          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRC=\
 	${PARSING_DIR}/replace.c\
 	${PARSING_DIR}/quote_handler.c\
 	${PARSING_DIR}/quote_utils.c\
+	${PARSING_DIR}/env_utils.c\
 	${PARSING_DIR}/washer2.c\
 	${BULTINS_DIR}/echo.c\
 	${BULTINS_DIR}/env.c\

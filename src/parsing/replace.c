@@ -6,23 +6,14 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:30:16 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/09 18:50:44 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/11 18:08:58 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// oqwj
 static int	count_env_chars(char *str, t_minishell *minishell, int i);
 static int	count_quoted_chars(char *str, int start);
-static int 	after_dollars(char a)
-{
-	if (a == '\'' || a == '\"' || a == 6 || !a)
-		return (0);
-	return (1);
-}
-
-
 
 int	count_replace(char *str, t_minishell *minishell)
 {
@@ -33,21 +24,15 @@ int	count_replace(char *str, t_minishell *minishell)
 	i = 0;
 	while (str[i])
 	{
-		// if (str[i + 2] && ((str[i] == '\'' && str[i + 2] == '\'') || (str[i] == '\"' && str[i + 2] == '\"')))
-		// {
-		// 	len += 3;
-		// 	i += 3;
-		// 	continue;
-		// }
 		if (str[i] == '\'')
 		{
 			len += count_quoted_chars(str, i + 1);
 			while (str[i] && str[i] != '\'')
 				i++;
 		}
-		else if (str[i] == '$' && after_dollars(str[i + 1])) {
+		else if (str[i] == '$' && after_dollars(str[i + 1]))
 			len += count_env_chars(str, minishell, i);
-		} else
+		else
 			len++;
 		i++;
 	}
@@ -102,7 +87,6 @@ static int	count_env_chars(char *str, t_minishell *minishell, int i)
 			}
 		} else
 			tmp = find_env(minishell->env, str + j);
-		
 		str[i] = c;
 		if (tmp)
 		{

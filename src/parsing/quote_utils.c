@@ -6,19 +6,18 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 14:38:09 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/11 17:39:53 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/11 18:09:56 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		after_dollars(char a)
+int	after_dollars(char a)
 {
 	if (a == '\'' || a == '\"' || a == 6 || !a)
 		return (0);
 	return (1);
 }
-
 
 void	after_interrogation(char *str, char **tmp, int *j)
 {
