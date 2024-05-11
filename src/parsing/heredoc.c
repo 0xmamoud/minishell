@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:18:26 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/10 17:53:21 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/11 17:39:18 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	clear_heredoc_pipe(t_pipe_cmds **pipe)
 	}
 }
 
-static int 	after_dollars(char a)
+static int 	after_dollars_heredoc(char a)
 {
 	if (a == '\'' || a == '\"' || a == ' ' || a == '\n' || !a)
 		return (0);
@@ -53,7 +53,7 @@ static void var_doc(t_minishell *minishell, char *line, int fd)
 		// 	ft_putstr_fd(&line[i], fd);
 		// 	break ;
 		// }
-		if (line[i] == '$' && after_dollars(line[i + 1]))
+		if (line[i] == '$' && after_dollars_heredoc(line[i + 1]))
 		{
 	
 			// if (!line[i + 1] || (line[i + 1] && line[i + 1] == ' ')) 

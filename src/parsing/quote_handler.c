@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 17:59:50 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/09 18:50:44 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/11 17:39:41 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,6 @@ static void	handle_env_vars(char *str, char *new,
 				t_minishell *minishell, int *i);
 static void	handle_double_quotes(t_minishell *minishell,
 				char *str, char *new, int *i);
-static int 	after_dollars(char a)
-{
-	if (a == '\'' || a == '\"' || a == 6 || !a)
-		return (0);
-	return (1);
-}
 
 char	*find_and_replace(char *str, t_minishell *minishell)
 {
@@ -100,16 +94,9 @@ static void	handle_env_vars(char *str, char *new,
 	if (str[j] == '?')
 	{
 		tmp = ft_itoa(get_status(0, 3));
-		j++;
-		while (str[j] && (ft_isalnum(str[j]) || str[j] == '_' || str[j] == '?'))
-		{
-			char *tmp2 = ft_calloc(2, sizeof(char));
-			tmp2[0] = str[j];
-			tmp = ft_strjoin(tmp, tmp2);
-			free(tmp2);
-			j++;
-		}
-	} else
+		after_interrogation(str, &tmp, &j);
+	}
+	else
 		tmp = find_env(minishell->env, str + j);
 	str[*i] = c;
 	if (tmp)

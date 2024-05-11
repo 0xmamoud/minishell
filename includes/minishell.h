@@ -6,7 +6,7 @@
 /*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/11 17:28:48 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/11 17:40:09 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,7 @@ void					ft_here_doc(char **delimiter, t_minishell *minishell);
 //quote utils
 int						is_operator(char c);
 int						handle_dollars(char **split, t_minishell *minishell);
-
+int						after_dollars(char a);
+void					after_interrogation(char *str, char **tmp, int *j);
 
 #endif
