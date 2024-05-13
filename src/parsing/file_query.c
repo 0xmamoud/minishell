@@ -3,16 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   file_query.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:58:35 by tbarret           #+#    #+#             */
-/*   Updated: 2024/05/11 18:11:41 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/13 17:25:13 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static int	get_file(t_minishell *minishell, char *file,
+				t_type_redirection type);
+static int	handle_infile(t_minishell *minishell, char *file,
+				t_type_redirection type);
+static int	handle_outfile(t_minishell *minishell, char *file,
 				t_type_redirection type);
 
 int	handle_files(t_minishell *minishell)
@@ -36,6 +40,83 @@ int	handle_files(t_minishell *minishell)
 		}
 		token = token->next;
 	}
+	return (1);
+}
+
+static int	get_file(t_minishell *minishell, char *file,
+		t_type_redirection type)
+{
+	int	i;
+
+	i = 1;
+	while (file[i] && (file[i] == ' ' || file[i] == '>' || file[i] == '<'))
+		i++;
+	if (type == REDIR_IN || type == HEREDOC)
+	{
+		if (!handle_infile(minishell, &file[i], type))
+			return (0);
+	}
+	else if (type == REDIR_OUT || type == REDIR_OUT_APPEND)
+	{
+		if (!handle_outfile(minishell, &file[i], type))
+			return (0);
+	}
+	return (1);
+}
+
+static int	handle_infile(t_minishell *minishell, char *file,
+	t_type_redirection type)
+{
+	if (minishell->in.file)
+	{
+		free(minishell->in.file);
+		minishell->in.file = NULL;
+	}
+	minishell->in.file = strdup(file);
+	if (!minishell->in.file)
+		return (0);
+	minishell->in.type = type;
+	if (ft_strcmp(file, "") == 0 || ft_strcmp(file, " ") == 0
+		|| ft_strcmp(file, "*") == 0)
+		return (ft_exit(1, 0, 0));
+	if (type == REDIR_IN)
+	{
+		if (access(file, F_OK) == -1)
+		{
+			perror(file);
+			return (ft_exit(1, 0, 0));
+		}
+	}
+	return (1);
+}
+
+static int	handle_outfile(t_minishell *minishell, char *file,
+	t_type_redirection type)
+{
+	int	fd;
+
+	if (minishell->out.file)
+	{
+		free(minishell->out.file);
+		minishell->out.file = NULL;
+	}
+	if (ft_strcmp(file, "") == 0 || ft_strcmp(file, " ") == 0
+		|| ft_strcmp(file, "*") == 0)
+		return (ft_exit(1, 0, 0));
+	minishell->out.file = strdup(file);
+	if (!minishell->out.file)
+		return (0);
+	minishell->out.type = type;
+	if (type == REDIR_OUT)
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	else
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	if (fd == -1)
+	{
+		perror(file);
+		return (ft_exit(1, 0, 0));
+	}
+	close(fd);
 	return (1);
 }
 
@@ -63,62 +144,4 @@ void	free_and_close(t_minishell *minishell)
 		if (minishell->out.file)
 			free(minishell->out.file);
 	}
-}
-
-static int	get_file(t_minishell *minishell, char *file,
-		t_type_redirection type)
-{
-	int	i;
-	int	fd;
-
-	i = 1;
-	while (file[i] && (file[i] == ' ' || file[i] == '>' || file[i] == '<'))
-		i++;
-	if (type == REDIR_IN || type == HEREDOC)
-	{
-		if (minishell->in.file)
-		{
-			free(minishell->in.file);
-			minishell->in.file = NULL;
-		}
-		minishell->in.file = strdup(&file[i]);
-		if (!minishell->in.file)
-			return (0);
-		minishell->in.type = type;
-		if (ft_strcmp(&file[i], "") == 0 || ft_strcmp(&file[i], " ") == 0 || ft_strcmp(&file[i], "*") == 0)
-			return (ft_exit(1, 0, 0));
-		if (type == REDIR_IN)
-		{
-			if (access(&file[i], F_OK) == -1)
-			{
-				perror(&file[i]);
-				return (ft_exit(1, 0, 0));
-			}
-		}
-	}
-	else
-	{
-		if (minishell->out.file)
-		{
-			free(minishell->out.file);
-			minishell->out.file = NULL;
-		}
-		if (ft_strcmp(&file[i], "") == 0 || ft_strcmp(&file[i], " ") == 0 || ft_strcmp(&file[i], "*") == 0)
-			return (ft_exit(1, 0, 0));
-		minishell->out.file = strdup(&file[i]);
-		if (!minishell->out.file)
-			return (0);
-		minishell->out.type = type;
-		if (type == REDIR_OUT)
-			fd = open(&file[i], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		else
-			fd = open(&file[i], O_WRONLY | O_CREAT | O_APPEND, 0777);
-		if (fd == -1)
-		{
-			perror(&file[i]);
-			return (ft_exit(1, 0, 0));
-		}
-		close(fd);
-	}
-	return (1);
 }

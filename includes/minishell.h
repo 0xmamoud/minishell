@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/11 18:14:31 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/13 17:24:57 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,6 @@ int						after_dollars(char a);
 void					after_interrogation(char *str, char **tmp, int *j);
 //env utils.c
 
-char	*get_env_value(char *str, t_minishell *minishell, int *i);
-void	append_env_value(char *new, char *tmp);
+char					*get_env_value(char *str, t_minishell *minishell, int *i);
+void					append_env_value(char *new, char *tmp);
 #endif
