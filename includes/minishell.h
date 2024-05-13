@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/13 17:24:57 by mkane            ###   ########.fr       */
+/*   Updated: 2024/05/13 17:50:04 by tbarret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,4 +225,8 @@ void					after_interrogation(char *str, char **tmp, int *j);
 
 char					*get_env_value(char *str, t_minishell *minishell, int *i);
 void					append_env_value(char *new, char *tmp);
+
+void	ft_heredoc_exit_free_minishell(t_minishell *minishell);
+void	ft_heredoc_clear_file(t_minishell *minishell);
+int		ft_open_heredoc_fd(char **delimiter, char *fd_name);
 #endif

@@ -6,7 +6,7 @@
 #    By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/05/11 18:15:35 by tbarret          ###   ########.fr        #
+#    Updated: 2024/05/13 17:51:23 by tbarret          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ CFLAGS = -Wall -Wextra -Werror -g3
 RLFLAGS = -lreadline
 RM = rm -rf
 
-VAL_HIDE    := /home/mkane/Documents/common-core/minishell/readline.hide
+VAL_HIDE    := readline.hide
 VAL_FLAGS    := --leak-check=full --show-leak-kinds=all --track-fds=yes  --trace-children=yes --suppressions=$(VAL_HIDE)
 
 SRC=\
@@ -37,6 +37,7 @@ SRC=\
 	${PARSING_DIR}/redirection.c\
 	${PARSING_DIR}/file_query.c\
 	${PARSING_DIR}/heredoc.c\
+	${PARSING_DIR}/heredoc_utils.c\
 	${PARSING_DIR}/replace.c\
 	${PARSING_DIR}/quote_handler.c\
 	${PARSING_DIR}/quote_utils.c\
