@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:14:51 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/13 17:50:04 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/13 21:39:43 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,15 @@ char					*get_path(t_minishell *minishell, char *cmd);
 
 // pipe
 void					minishell_pipe(t_minishell *minishell);
+int						pipe_process(t_minishell *minishell,
+							t_pipe_cmds **cmds);
 int						init_pipe(t_minishell *minishell);
 int						pipe_redirection(t_minishell *minishell);
+void					pipe_open_heredocs(t_minishell *minishell);
+int						pipe_infile_redirection(t_pipe_cmds **cmds);
+int						pipe_outfile_redirection(t_pipe_cmds **cmds);
+int						sub_pipe_redirection(t_token *token,
+							t_pipe_cmds **pipe);
 int						pipe_types(t_minishell *minishell);
 
 // redirection
@@ -223,10 +230,11 @@ int						after_dollars(char a);
 void					after_interrogation(char *str, char **tmp, int *j);
 //env utils.c
 
-char					*get_env_value(char *str, t_minishell *minishell, int *i);
+char					*get_env_value(char *str, t_minishell *minishell,
+							int *i);
 void					append_env_value(char *new, char *tmp);
 
-void	ft_heredoc_exit_free_minishell(t_minishell *minishell);
-void	ft_heredoc_clear_file(t_minishell *minishell);
-int		ft_open_heredoc_fd(char **delimiter, char *fd_name);
+void					ft_heredoc_exit_free_minishell(t_minishell *minishell);
+void					ft_heredoc_clear_file(t_minishell *minishell);
+int						ft_open_heredoc_fd(char **delimiter, char *fd_name);
 #endif

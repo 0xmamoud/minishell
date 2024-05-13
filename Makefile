@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+         #
+#    By: mkane <mkane@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/06 16:40:58 by tbarret           #+#    #+#              #
-#    Updated: 2024/05/13 17:51:23 by tbarret          ###   ########.fr        #
+#    Updated: 2024/05/13 21:34:17 by mkane            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,9 @@ SRC=\
 	${BULTINS_DIR}/status.c \
 	${PIPE_DIR}/pipe.c\
 	${PIPE_DIR}/setup_pipe.c\
+	${PIPE_DIR}/pipe_redirection_utils.c\
+	${PIPE_DIR}/pipe_process_redirection.c\
+	${PIPE_DIR}/pipe_process.c\
 	${PIPE_DIR}/pipe_types.c\
 	${UTILS_DIR}/clear.c\
 	${UTILS_DIR}/create_env.c\

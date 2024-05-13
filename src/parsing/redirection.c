@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbarret <tbarret@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkane <mkane@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 15:49:23 by mkane             #+#    #+#             */
-/*   Updated: 2024/05/09 20:55:45 by tbarret          ###   ########.fr       */
+/*   Updated: 2024/05/13 21:36:25 by mkane            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ static int	init_input(t_minishell *minishell)
 	}
 	minishell->in.saved_stdin = dup(STDIN_FILENO);
 	if (dup2(minishell->in.fd, STDIN_FILENO) < 0)
-		return (0);
+	{
+		perror(minishell->in.file);
+		return (ft_exit(errno, 0, 0));
+	}
 	close(minishell->in.fd);
 	return (1);
 }
@@ -91,7 +94,10 @@ static int	init_output(t_minishell *minishell)
 	}
 	minishell->out.saved_stdout = dup(STDOUT_FILENO);
 	if (dup2(minishell->out.fd, STDOUT_FILENO) < 0)
-		return (0);
+	{
+		perror(minishell->out.file);
+		return (ft_exit(errno, 0, 0));
+	}
 	close(minishell->out.fd);
 	return (1);
 }
